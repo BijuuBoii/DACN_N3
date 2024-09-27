@@ -11,10 +11,9 @@ body {
 }
 
 header {
-    background-color: #333;
+    background-color: #121111;
     padding: 10px 0;
 }
-
     header .logo img {
         height: 50px;
     }
@@ -68,7 +67,7 @@ header {
     }
 
 footer {
-    background-color: #333;
+    background-color: #121111;
     color: #fff;
     padding: 10px 0;
     text-align: center;
