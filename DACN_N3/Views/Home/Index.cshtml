@@ -1,33 +1,67 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 <section class="banner">
-    <div class="container">
-        <img src="banner.jpg" alt="Phim Nổi Bật">
-    </div>
+	<div class="container">
+		<img src="https://www.tallengestore.com/cdn/shop/products/Midway_2019_-_Hollywood_War_WW2_Original_Movie_Poster_f261718e-611c-4143-9a6c-9db2fa9bdf4d.jpg?v=1582782916" alt="Phim Nổi Bật">
+	</div>
 </section>
 
 <section class="movies">
     <div class="container">
         <h2>Phim Mới Nhất</h2>
-        <div class="movie-list">
-            <div class="movie-item">
-                <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" alt="Phim 1">
-            </div>
-            <div class="movie-item">
-                <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" alt="Phim 1">
-            </div>
-            <div class="movie-item">
-                <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" alt="Phim 1">
-            </div>
-            <div class="movie-item">
-                <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" alt="Phim 1">
-            </div>
-            <div class="movie-item">
-                <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" alt="Phim 1">
+        <div id="movieCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col">
+                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 1">
+                        </div>
+                        <div class="col">
+                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 2">
+                        </div>
+                        <div class="col">
+                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 3">
+                        </div>
+                        <div class="col">
+                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 4">
+                        </div>
+                        <div class="col">
+                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 5">
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col">
+                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 6">
+                        </div>
+                        <div class="col">
+                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 7">
+                        </div>
+                        <div class="col">
+                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 8">
+                        </div>
+                        <div class="col">
+                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 9">
+                        </div>
+                        <div class="col">
+                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 10">
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more items as needed -->
             </div>
 
-            <!-- Thêm các phim khác -->
+            <!-- Controls -->
+            <button class="carousel-control-prev" style="background-color:black; margin-left:-50px;width:50px;" style="margin-left:10px;;" type="button" data-bs-target="#movieCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" style="background-color:#3333; margin-right:-50px;width:50px;" type="button" data-bs-target="#movieCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </div>
 </section>
