@@ -12,10 +12,15 @@ namespace DACN_N3.Controllers
         {
             _logger = logger;
         }
-
+       
         public IActionResult Index()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult IndexXem()
+        {
+            return RedirectToAction("FilmDetails", "Home");
         }
 
         public IActionResult Privacy()

@@ -52,7 +52,8 @@ header {
 }
 
     .movies h2 {
-        text-align: center;
+        /*text-align: center;*/
+        color:white;
     }
 
 .movie-list {
