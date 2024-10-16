@@ -10,5 +10,25 @@ namespace DACN_N3.Areas.Admin.Controllers
         {
             return View();
         }
-    }
+
+		public IActionResult movies()
+		{
+			return View();
+		}
+
+		public IActionResult genres()
+		{
+			return View();
+		}
+
+		public IActionResult users()
+		{
+			return View();
+		}
+
+		public IActionResult settings()
+		{
+			return View();
+		}
+	}
 }
