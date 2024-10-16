@@ -386,3 +386,28 @@ footer {
                 color: #fff;
                 text-decoration: none;
             }
+
+
+/*admin*/
+.nav-ad {
+    color: white;
+    background-color: #121111;
+    width: 250px;
+    height: 500px;
+    margin: 0px;
+    margin-left: -11px;
+    margin-bottom: -15px;
+    padding: 0px;
+}
+    .nav-ad a{
+        text-decoration:none;
+        color:white;
+        
+    }
+        .nav-ad ul{
+            padding-top:20px;
+        }
+            .nav-ad li {
+                list-style-type: none;
+                height: 50px;
+            }
