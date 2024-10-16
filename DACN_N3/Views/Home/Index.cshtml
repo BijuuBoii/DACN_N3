@@ -14,14 +14,47 @@
 </section>
 
 <section class="movies">
+   
     <div class="container">
-        <h2>Phim Mới Nhất</h2>
+       
+        <div class="d-flex align-items-center">
+            <!-- Tiêu đề -->
+            <h2 class="me-3">Phim Mới Nhất</h2>
+            <!-- Button để mở modal -->
+            <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#myModalFullScreen">
+                Xem thêm
+            </button>
+        </div>
+        <!-- Modal với id mới -->
+        <div class="modal fade" id="myModalFullScreen" tabindex="-1" aria-labelledby="myModalFullScreenLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content" style="background:#212529; color:white;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalFullScreenLabel">Danh sách các phim mới</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-start">
+                            <div class="me-3">
+                                <img src="https://th.bing.com/th/id/OIP.RZ-MPYsnCyezHSRn2o26fwHaK5?w=119&h=180&c=7&r=0&o=5&pid=1.7" class="rounded" alt="Phim 1" onclick="window.location.href='Home/filmdetails'">
+                            </div>
+                            <div class="me-3">
+                                <img src="https://th.bing.com/th/id/OIP.RZ-MPYsnCyezHSRn2o26fwHaK5?w=119&h=180&c=7&r=0&o=5&pid=1.7" class="rounded" alt="Phim 1" onclick="window.location.href='Home/filmdetails'">
+                            </div>
+                            <div class="me-3">
+                                <img src="https://th.bing.com/th/id/OIP.RZ-MPYsnCyezHSRn2o26fwHaK5?w=119&h=180&c=7&r=0&o=5&pid=1.7" class="rounded" alt="Phim 1" onclick="window.location.href='Home/filmdetails'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="movieCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <div class="row">
                         <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 1">
+                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 1" onclick="window.location.href='Home/filmdetails'">
                         </div>
                         <div class="col">
                             <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 2">
