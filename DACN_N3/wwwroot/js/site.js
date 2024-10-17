@@ -30,3 +30,61 @@ signupBtn.addEventListener('click', (e) => {
 		}
 	});
 });
+
+
+
+// Function to add new seasons
+document.querySelectorAll('.movie-type').forEach(select => {
+    select.addEventListener('change', function () {
+        const row = this.closest('tr');
+        const movieLinks = row.querySelectorAll('.movie-link');
+        const seriesContent = row.querySelector('.series-content');
+
+        if (this.value === 'movie') {
+            // Show movie links, hide series section
+            movieLinks.forEach(link => link.style.display = 'table-cell');
+            seriesContent.style.display = 'none';
+        } else if (this.value === 'series') {
+            // Hide movie links, show series section
+            movieLinks.forEach(link => link.style.display = 'none');
+            seriesContent.style.display = 'block';
+        }
+    });
+});
+
+// Add Episode and Season functionality (similar as before)
+document.querySelectorAll('.add-episode-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        const episodeList = this.previousElementSibling;
+        const newEpisodeInput = document.createElement('input');
+        newEpisodeInput.type = 'url';
+        newEpisodeInput.placeholder = 'Episode Link';
+        episodeList.appendChild(newEpisodeInput);
+    });
+});
+
+document.querySelectorAll('.add-season-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        const seasonList = this.previousElementSibling;
+        const seasonCount = seasonList.querySelectorAll('.season').length + 1;
+        const newSeasonDiv = document.createElement('div');
+        newSeasonDiv.className = 'season';
+        newSeasonDiv.innerHTML = `
+            <h4>Season ${seasonCount}</h4>
+            <div class="episode-list">
+                <input type="url" placeholder="Episode Link">
+            </div>
+            <button class="add-episode-btn">Add Episode</button>
+        `;
+        seasonList.appendChild(newSeasonDiv);
+
+        // Attach event listener to the new episode button
+        newSeasonDiv.querySelector('.add-episode-btn').addEventListener('click', function () {
+            const episodeList = this.previousElementSibling;
+            const newEpisodeInput = document.createElement('input');
+            newEpisodeInput.type = 'url';
+            newEpisodeInput.placeholder = 'Episode Link';
+            episodeList.appendChild(newEpisodeInput);
+        });
+    });
+});

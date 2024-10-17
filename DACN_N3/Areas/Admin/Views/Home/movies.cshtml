@@ -2,5 +2,56 @@
 	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 <div class="main-content">
-<h1>Phim</h1>
+    <section id="movies">
+        <h2>Movies</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Movie Name</th>
+                    <th>Movie Info</th>
+                    <th>Type</th>
+                    <th>Movie Link</th>
+                    <th>Seasons / Episodes</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Movie Row -->
+                <tr>
+                    <td>
+                        <div class="image-wrapper">
+                            <img src="image.jpg" alt="Movie Image">
+                            <input type="file" accept="image/*">
+                        </div>
+                    </td>
+                    <td><input type="text" value="Movie Title"></td>
+                    <td><textarea>Some movie information...</textarea></td>
+                    <td>
+                        <select class="movie-type">
+                            <option value="movie">Movie</option>
+                            <option value="series">Series</option>
+                        </select>
+                    </td>
+                    <td class="movie-link"><input type="url" placeholder="Movie Link"></td>
+                    <td class="series-content" style="display: none;">
+                        <div class="season-list">
+                            <div class="season">
+                                <h4>Season 1</h4>
+                                <div class="episode-list">
+                                    <input type="url" placeholder="Episode Link">
+                                </div>
+                                <button class="add-episode-btn">Add Episode</button>
+                            </div>
+                        </div>
+                        <button class="add-season-btn">Add Season</button>
+                    </td>
+                    <td><button class="save-btn">Save</button></td>
+                </tr>
+                <!-- Additional rows as needed -->
+            </tbody>
+        </table>
+    </section>
+
+
 </div>
