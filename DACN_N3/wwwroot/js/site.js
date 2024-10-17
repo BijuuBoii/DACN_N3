@@ -34,25 +34,7 @@ signupBtn.addEventListener('click', (e) => {
 
 
 // Function to add new seasons
-document.querySelectorAll('.movie-type').forEach(select => {
-    select.addEventListener('change', function () {
-        const row = this.closest('tr');
-        const movieLinks = row.querySelectorAll('.movie-link');
-        const seriesContent = row.querySelector('.series-content');
-
-        if (this.value === 'movie') {
-            // Show movie links, hide series section
-            movieLinks.forEach(link => link.style.display = 'table-cell');
-            seriesContent.style.display = 'none';
-        } else if (this.value === 'series') {
-            // Hide movie links, show series section
-            movieLinks.forEach(link => link.style.display = 'none');
-            seriesContent.style.display = 'block';
-        }
-    });
-});
-
-// Add Episode and Season functionality (similar as before)
+// Function to add new episodes
 document.querySelectorAll('.add-episode-btn').forEach(button => {
     button.addEventListener('click', function () {
         const episodeList = this.previousElementSibling;
@@ -63,6 +45,7 @@ document.querySelectorAll('.add-episode-btn').forEach(button => {
     });
 });
 
+// Function to add new seasons
 document.querySelectorAll('.add-season-btn').forEach(button => {
     button.addEventListener('click', function () {
         const seasonList = this.previousElementSibling;
@@ -78,7 +61,7 @@ document.querySelectorAll('.add-season-btn').forEach(button => {
         `;
         seasonList.appendChild(newSeasonDiv);
 
-        // Attach event listener to the new episode button
+        // Add event listener for the new episode button
         newSeasonDiv.querySelector('.add-episode-btn').addEventListener('click', function () {
             const episodeList = this.previousElementSibling;
             const newEpisodeInput = document.createElement('input');
@@ -87,4 +70,27 @@ document.querySelectorAll('.add-season-btn').forEach(button => {
             episodeList.appendChild(newEpisodeInput);
         });
     });
+});
+
+//user
+// Xử lý nút Edit
+document.querySelectorAll('.edit-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        alert('Edit function here!');
+        // Add your edit logic here
+    });
+});
+
+// Xử lý nút Delete
+document.querySelectorAll('.delete-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        const row = this.closest('tr');
+        row.remove(); // Xóa dòng khách hàng này
+        alert('Customer deleted!');
+    });
+});
+
+//setting
+document.querySelector('.save-btn').addEventListener('click', function () {
+    alert('Settings saved successfully!');
 });

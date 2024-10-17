@@ -10,10 +10,9 @@
                     <th>Image</th>
                     <th>Movie Name</th>
                     <th>Movie Info</th>
-                    <th>Type</th>
                     <th>Movie Link</th>
-                    <th>Seasons / Episodes</th>
                     <th>Actions</th>
+                    <th>Show/Hide</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,27 +25,36 @@
                         </div>
                     </td>
                     <td><input type="text" value="Movie Title"></td>
-                    <td><textarea>Some movie information...</textarea></td>
                     <td>
-                        <select class="movie-type">
-                            <option value="movie">Movie</option>
-                            <option value="series">Series</option>
-                        </select>
+                        <p>Thể loại</p>
+                        <h5>kinh dị</h5>
+                        <textarea>Some movie information...</textarea>
                     </td>
-                    <td class="movie-link"><input type="url" placeholder="Movie Link"></td>
-                    <td class="series-content" style="display: none;">
+                    <td class="seasons">
+                        <!-- Seasons List -->
                         <div class="season-list">
                             <div class="season">
                                 <h4>Season 1</h4>
                                 <div class="episode-list">
-                                    <input type="url" placeholder="Episode Link">
+                                    <ol>
+                                        <li><input type="url" placeholder="Episode Link"></li>
+                                    </ol>
                                 </div>
                                 <button class="add-episode-btn">Add Episode</button>
                             </div>
                         </div>
                         <button class="add-season-btn">Add Season</button>
                     </td>
-                    <td><button class="save-btn">Save</button></td>
+                    <td style="display:flex;gap:10px;">
+                        <button class="save-btn">Save</button>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </td>
                 </tr>
                 <!-- Additional rows as needed -->
             </tbody>
