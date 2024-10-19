@@ -32,19 +32,30 @@
     }
 
     //Function to add new movies
-    function openAddMovieModal() {
-        document.getElementById('addMovieModal').style.display = 'flex';
-    }
+    document.querySelectorAll('.add-movie-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            document.getElementById('addMovieModal').style.display = 'flex';
+        });
+    });
+
+    document.querySelectorAll('.cancel-btn-movies').forEach(button => {
+        button.addEventListener('click', function () {
+            document.getElementById('addMovieModal').style.display = 'none';
+        });
+    });
+
+    document.querySelectorAll('.save-btn-movies').forEach(button => {
+        button.addEventListener('click', function () {
+            alert("Movie saved successfully!");
+            document.getElementById('addMovieModal').style.display = 'none';
+        });
+    });
 
     function closeAddMovieModal() {
         document.getElementById('addMovieModal').style.display = 'none';
     }
 
-    function saveMovie() {
-        // Code to save movie can be added here
-        alert("Movie saved successfully!");
-        closeAddMovieModal();
-    }
+
 
     let selectedCategories = [];
 
@@ -65,15 +76,7 @@
         console.log("Selected categories:", selectedCategories);
     }
 
-    function saveMovie() {
-        // Dùng selectedCategories để lấy danh sách thể loại đã chọn
-        console.log("Saving movie with categories:", selectedCategories);
-
-        // Thêm logic lưu thông tin phim vào đây (ví dụ gửi dữ liệu lên server)
-
-        alert("Movie saved successfully!");
-        closeAddMovieModal();
-    }
+    
 
     // Function to add new episodes
     document.querySelectorAll('.add-episode-btn').forEach(button => {
@@ -94,7 +97,7 @@
             const newSeasonDiv = document.createElement('div');
             newSeasonDiv.className = 'season';
             newSeasonDiv.innerHTML = `
-                <h4>Season ${seasonCount}</h4>
+                <h4>Mùa ${seasonCount}</h4>
                 <div class="episode-list">
                     <input type="url" placeholder="Episode Link">
                 </div>

@@ -1,4 +1,4 @@
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -137,13 +137,31 @@ header h1 {
     gap: 10px;
 }
 
-.save-btn, .cancel-btn {
+.save-btn-movies, .cancel-btn-movies {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
+.save-btn-movies {
+    background-color: #2ecc71;
+    color: #fff;
+}
+
+    .save-btn-movies:hover {
+        background-color: #27ae60;
+    }
+
+.cancel-btn-movies {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+    .cancel-btn-movies:hover {
+        background-color: #c0392b;
+    }
 
 .save-btn {
     background-color: #2ecc71;

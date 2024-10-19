@@ -3,20 +3,51 @@
 }
 <div class="main-content">
     <section id="movies">
-        <h2>Movies</h2>
+        <h2>Phim</h2>
 
         <!-- Button to add a new movie -->
-        <button class="add-movie-btn">Thêm Phim</button>
+        <button class="add-movie-btn" onclick="openAddMovieModal()">Thêm Phim</button>
+        <div id="addMovieModal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeAddMovieModal()">&times;</span>
+                <h2>Thêm Phim Mới</h2>
 
+                <form>
+                    <label for="movieImage">Movie Image:</label>
+                    <input type="file" id="movieImage" accept="image/*">
+
+                    <label for="movieTitle">Movie Name:</label>
+                    <input type="text" id="movieTitle" placeholder="Enter movie name">
+
+                    <label for="movieInfo">Movie Info:</label>
+                    <textarea id="movieInfo" placeholder="Enter movie info"></textarea>
+
+                    <label for="movieCategory">Thể loại:</label>
+                    <div class="category-list">
+                        <div class="category" onclick="selectCategory(this)">Hành động</div>
+                        <div class="category" onclick="selectCategory(this)">Kinh dị</div>
+                        <div class="category" onclick="selectCategory(this)">Hài</div>
+                        <div class="category" onclick="selectCategory(this)">Tình cảm</div>
+                        <div class="category" onclick="selectCategory(this)">Khoa học viễn tưởng</div>
+                    </div>
+
+
+                    <div class="modal-actions">
+                        <button type="button" class="save-btn-movies" onclick="saveMovie()">Save</button>
+                        <button type="button" class="cancel-btn-movies" onclick="closeAddMovieModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <table>
             <thead>
                 <tr>
-                    <th>Image</th>
-                    <th>Movie Name</th>
-                    <th>Movie Info</th>
-                    <th>Movie Link</th>
-                    <th>Actions</th>
-                    <th>Show/Hide</th>
+                    <th>Hình Ảnh</th>
+                    <th>Tên Phim</th>
+                    <th>Thông Tin Phim</th>
+                    <th>Link Phim</th>
+                    <th>Chức Năng</th>
+                    <th>Ẩn/Hiện</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,30 +59,30 @@
                             <input type="file" accept="image/*">
                         </div>
                     </td>
-                    <td><input type="text" value="Movie Title"></td>
+                    <td><input type="text" value="Tên Phim"></td>
                     <td>
                         <p>Thể loại</p>
                         <h5>kinh dị</h5>
-                        <textarea>Some movie information...</textarea>
+                        <textarea>Thông Tin Phim</textarea>
                     </td>
                     <td class="seasons">
                         <!-- Seasons List -->
                         <div class="season-list">
                             <div class="season">
-                                <h4>Season 1</h4>
+                                <h4>Mùa 1</h4>
                                 <div class="episode-list">
                                     <ol>
                                         <li><input type="url" placeholder="Episode Link"></li>
                                     </ol>
                                 </div>
-                                <button class="add-episode-btn">Add Episode</button>
+                                <button class="add-episode-btn">Thêm Tập</button>
                             </div>
                         </div>
-                        <button class="add-season-btn">Add Season</button>
+                        <button class="add-season-btn">Thêm Mùa</button>
                     </td>
                     <td style="display:flex;gap:10px;">
-                        <button class="save-btn">Save</button>
-                        <button class="delete-btn">Delete</button>
+                        <button class="save-btn-movies">Lưu</button>
+                        <button class="delete-btn">Xóa</button>
                     </td>
                     <td>
                         <label class="switch">
@@ -66,38 +97,8 @@
     </section>
 </div>
 
+
 <!-- Modal for Adding New Movie -->
-<div id="addMovieModal" style="display: none;">
-    <div class="modal-content">
-        <span class="close" onclick="closeAddMovieModal()">&times;</span>
-        <h2>Thêm Phim Mới</h2>
 
-        <form>
-            <label for="movieImage">Movie Image:</label>
-            <input type="file" id="movieImage" accept="image/*">
-
-            <label for="movieTitle">Movie Name:</label>
-            <input type="text" id="movieTitle" placeholder="Enter movie name">
-
-            <label for="movieInfo">Movie Info:</label>
-            <textarea id="movieInfo" placeholder="Enter movie info"></textarea>
-
-            <label for="movieCategory">Thể loại:</label>
-            <div class="category-list">
-                <div class="category" onclick="selectCategory(this)">Hành động</div>
-                <div class="category" onclick="selectCategory(this)">Kinh dị</div>
-                <div class="category" onclick="selectCategory(this)">Hài</div>
-                <div class="category" onclick="selectCategory(this)">Tình cảm</div>
-                <div class="category" onclick="selectCategory(this)">Khoa học viễn tưởng</div>
-            </div>
-
-
-            <div class="modal-actions">
-                <button type="button" class="save-btn" onclick="saveMovie()">Save</button>
-                <button type="button" class="cancel-btn" onclick="closeAddMovieModal()">Cancel</button>
-            </div>
-        </form>
-    </div>
-</div>
 
 
