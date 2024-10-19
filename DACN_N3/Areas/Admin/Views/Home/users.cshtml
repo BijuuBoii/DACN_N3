@@ -1,0 +1,32 @@
+﻿@{
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="main-content">
+    <section id="customers">
+        <h2>Customer Management</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Subscription Plan</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Customer Row -->
+                <tr>
+                    <td>JohnDoe</td>
+                    <td>johndoe@example.com</td>
+                    <td>Basic</td>
+                    <td>
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+                <!-- Additional rows as needed -->
+            </tbody>
+        </table>
+    </section>
+
+</div>

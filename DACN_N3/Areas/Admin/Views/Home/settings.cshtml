@@ -1,0 +1,85 @@
+﻿@{
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="main-content">
+    <section id="settings">
+        <h2>Settings</h2>
+
+        <!-- General Settings -->
+        <div class="setting-section">
+            <h3>General Settings</h3>
+            <label>Website Name:</label>
+            <input type="text" placeholder="Enter website name">
+
+            <label>Logo:</label>
+            <input type="file" accept="image/*">
+
+            <label>Contact Information:</label>
+            <textarea placeholder="Enter contact details"></textarea>
+
+            <label>Website Language:</label>
+            <select>
+                <option value="en">English</option>
+                <option value="vi">Vietnamese</option>
+                <!-- Other languages as needed -->
+            </select>
+        </div>
+
+        <!-- User Management Settings -->
+        <div class="setting-section">
+            <h3>User Management Settings</h3>
+            <label>User Roles:</label>
+            <input type="text" placeholder="Enter user roles">
+
+            <label>User Registration:</label>
+            <input type="checkbox" checked> Enable Registration
+
+            <label>Password Policies:</label>
+            <input type="text" placeholder="Enter password requirements">
+        </div>
+
+        <!-- Movie Management Settings -->
+        <div class="setting-section">
+            <h3>Movie Management Settings</h3>
+            <label>Content Approval:</label>
+            <input type="checkbox"> Require admin approval for new content
+
+            <label>Default Video Quality:</label>
+            <select>
+                <option value="480p">480p</option>
+                <option value="720p">720p</option>
+                <option value="1080p">1080p</option>
+            </select>
+        </div>
+
+        <!-- Notification Settings -->
+        <div class="setting-section">
+            <h3>Notification Settings</h3>
+            <label>Email Notifications:</label>
+            <input type="checkbox" checked> Enable
+
+            <label>Push Notifications:</label>
+            <input type="checkbox"> Enable
+        </div>
+
+        <!-- Payment Settings -->
+        <div class="setting-section">
+            <h3>Payment Settings</h3>
+            <label>Payment Methods:</label>
+            <input type="text" placeholder="Enter payment methods">
+
+            <label>Subscription Plans:</label>
+            <input type="text" placeholder="Enter subscription plans">
+
+            <label>Currency:</label>
+            <select>
+                <option value="USD">USD</option>
+                <option value="VND">VND</option>
+            </select>
+        </div>
+
+        <!-- Save Button -->
+        <button class="save-btn">Save All Settings</button>
+    </section>
+
+</div>
