@@ -1,0 +1,48 @@
+﻿@{
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="main-content">
+	<div id="addMovieModal">
+		<div class="modal-content">
+			
+			<h2>Thêm Phim Mới</h2>
+
+			<label for="movieImage">Movie Image:</label>
+			<input type="file" id="movieImage" accept="image/*">
+
+			<label for="movieTitle">Movie Name:</label>
+			<input type="text" id="movieTitle" placeholder="Enter movie name">
+
+			<label for="movieInfo">Movie Info:</label>
+			<textarea id="movieInfo" placeholder="Enter movie info"></textarea>
+
+			<label for="movieCategory">Thể loại:</label>
+			<section id="genres">
+				<h2>Chọn Thể Loại</h2>
+
+
+				<!-- Input để chọn thể loại -->
+				<div class="genre-select" >
+					<input type="text" id="genreInput" placeholder="Chọn thể loại" onfocus="showSuggestions()" oninput="filterSuggestions()">
+					<ul id="suggestions" class="suggestion-list">
+						<li onclick="selectGenre('Hành Động')">Hành Động</li>
+						<li onclick="selectGenre('Kinh Dị')">Kinh Dị</li>
+						<li onclick="selectGenre('Hài')">Hài</li>
+						<li onclick="selectGenre('Tình Cảm')">Tình Cảm</li>
+						<li onclick="selectGenre('Khoa Học Viễn Tưởng')">Khoa Học Viễn Tưởng</li>
+					</ul>
+				</div>
+				<br />
+				<button id="addGenreBtn" onclick="addNewGenre()">Thêm Thể Loại</button>
+				<!-- Khu vực để hiển thị các thể loại đã chọn -->
+				<div id="selectedGenres" class="selected-genres"></div>
+
+			</section>
+
+
+			<div class="modal-actions">
+				<button type="button" class="save-btn-movies" onclick="saveMovie()">Save</button>
+			</div>
+		</div>
+	</div>
+</div>

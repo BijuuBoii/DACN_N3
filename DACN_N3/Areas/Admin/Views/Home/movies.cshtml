@@ -6,39 +6,8 @@
         <h2>Phim</h2>
 
         <!-- Button to add a new movie -->
-        <button class="add-movie-btn" onclick="openAddMovieModal()">Thêm Phim</button>
-        <div id="addMovieModal" style="display: none;">
-            <div class="modal-content">
-                <span class="close" onclick="closeAddMovieModal()">&times;</span>
-                <h2>Thêm Phim Mới</h2>
-
-                <form>
-                    <label for="movieImage">Movie Image:</label>
-                    <input type="file" id="movieImage" accept="image/*">
-
-                    <label for="movieTitle">Movie Name:</label>
-                    <input type="text" id="movieTitle" placeholder="Enter movie name">
-
-                    <label for="movieInfo">Movie Info:</label>
-                    <textarea id="movieInfo" placeholder="Enter movie info"></textarea>
-
-                    <label for="movieCategory">Thể loại:</label>
-                    <div class="category-list">
-                        <div class="category" onclick="selectCategory(this)">Hành động</div>
-                        <div class="category" onclick="selectCategory(this)">Kinh dị</div>
-                        <div class="category" onclick="selectCategory(this)">Hài</div>
-                        <div class="category" onclick="selectCategory(this)">Tình cảm</div>
-                        <div class="category" onclick="selectCategory(this)">Khoa học viễn tưởng</div>
-                    </div>
-
-
-                    <div class="modal-actions">
-                        <button type="button" class="save-btn-movies" onclick="saveMovie()">Save</button>
-                        <button type="button" class="cancel-btn-movies" onclick="closeAddMovieModal()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <button class="add-movie-btn" ><a href="~/Admin/home/addMovies">Thêm Phim</a></button>
+        
         <table>
             <thead>
                 <tr>
@@ -68,15 +37,6 @@
                     <td class="seasons">
                         <!-- Seasons List -->
                         <div class="season-list">
-                            <div class="season">
-                                <h4>Mùa 1</h4>
-                                <div class="episode-list">
-                                    <ol>
-                                        <li><input type="url" placeholder="Episode Link"></li>
-                                    </ol>
-                                </div>
-                                <button class="add-episode-btn">Thêm Tập</button>
-                            </div>
                         </div>
                         <button class="add-season-btn">Thêm Mùa</button>
                     </td>

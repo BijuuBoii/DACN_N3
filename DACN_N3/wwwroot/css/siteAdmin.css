@@ -61,6 +61,7 @@ body {
     background-color: #ecf0f1;
     border-top-left-radius: 20px;
     transition: margin-left 0.3s;
+
 }
 
 header h1 {
@@ -546,3 +547,83 @@ input:checked + .slider {
     }
 }
 
+#genres h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.genre-select {
+    position: relative;
+    width: 300px;
+}
+
+#genreInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.suggestion-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ddd;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    background-color: #fff;
+    display: none;
+}
+
+    .suggestion-list li {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+        .suggestion-list li:hover {
+            background-color: #f0f0f0;
+        }
+
+.selected-genres {
+    margin-top: 20px;
+}
+
+.genre-tag {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 5px;
+    position: relative;
+}
+
+    .genre-tag .remove-btn {
+        background-color: transparent;
+        border: none;
+        color: white;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+        .genre-tag .remove-btn:hover {
+            color: #ff4d4d;
+        }
+
+/* Nút Thêm thể loại */
+#addGenreBtn {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    #addGenreBtn:hover {
+        background-color: #218838;
+    }
