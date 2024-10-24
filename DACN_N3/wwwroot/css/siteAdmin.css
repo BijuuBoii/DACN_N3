@@ -628,3 +628,20 @@ input:checked + .slider {
     #addGenreBtn:hover {
         background-color: #218838;
     }
+
+#genreList li {
+    display: inline-block;
+    gap: 20px;
+    background-color:#3333;
+    border-radius:5px;
+    padding:5px;
+    margin:5px;
+}
+
+.card-genre {
+    background-color: antiquewhite;
+    width: fit-content;
+    border-radius: 5px;
+    padding:10px;
+    margin:10px;
+}

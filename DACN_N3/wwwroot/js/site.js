@@ -42,6 +42,7 @@
     document.querySelectorAll('.save-btn-movies').forEach(button => {
         button.addEventListener('click', function () {
             alert("Movie saved successfully!");
+            window.location.href = '/Admin/home/Movies';
         });
     });
 
@@ -182,7 +183,7 @@ function addGenre() {
     if (genreName) {
         let genreList = document.getElementById('genreList');
         let newItem = document.createElement('li');
-        newItem.innerHTML = genreName + ' <button onclick="deleteGenre(this)">Xóa</button>';
+        newItem.innerHTML = genreName + ' <button class="delete-btn" onclick="deleteGenre(this)">Xóa</button>';
         genreList.appendChild(newItem);
     }
 }
