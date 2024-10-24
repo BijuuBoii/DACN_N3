@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using DACN_N3.Data;
 
 namespace DACN_N3.Areas.Admin.Controllers
 {

@@ -34,7 +34,7 @@
     //Function to add new movies
     document.querySelectorAll('.add-movie-btn').forEach(button => {
         button.addEventListener('click', function () {
-            document.getElementById('addMovieModal').style.display = 'block';
+            window.location.href = '/Admin/home/addMovies';
         });
     });
 

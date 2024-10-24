@@ -6,7 +6,7 @@
 }
 
 body {
-    display: flex;
+    
     min-height: 100vh;
     background-color: #f4f4f4;
 }
@@ -56,7 +56,7 @@ body {
 /* Main Content */
 .main-content {
     margin-left: 250px;
-    padding: 20px;
+    padding: 50px;
     flex-grow: 1;
     background-color: #ecf0f1;
     border-top-left-radius: 20px;
@@ -563,6 +563,7 @@ input:checked + .slider {
     border: 1px solid #ddd;
     border-radius: 5px;
     outline: none;
+    z-index:0;
 }
 
 .suggestion-list {
