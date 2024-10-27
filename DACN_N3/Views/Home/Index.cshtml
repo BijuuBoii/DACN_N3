@@ -1,13 +1,20 @@
-﻿@{
+﻿@using DACN_N3.Data
+@model List<Movie>
+@{
 	ViewData["Title"] = "Home Page";
+    int moviesPerItem = 5; // Số lượng phim trên mỗi carousel item
+    int totalMovies = Model.Count(); // Tổng số phim
+    int totalItems = (int)Math.Ceiling((double)totalMovies / moviesPerItem); // Tổng số carousel item
+
+
 }
+
+
 <section class="banner">
 	<div class="container">
-		<img src="https://www.tallengestore.com/cdn/shop/products/Midway_2019_-_Hollywood_War_WW2_Original_Movie_Poster_f261718e-611c-4143-9a6c-9db2fa9bdf4d.jpg?v=1582782916" alt="Phim Nổi Bật">
+        <img style="height: 650px" src="https://images-cdn.ubuy.co.in/634e8dbfe1492e3a2156d0d5-peaky-blinders-poster-season-1-key-art.jpg" alt="Phim Nổi Bật">
         <div style="position: absolute; top: 560px; left: 18%; padding: 10px">
-            <form asp-action="IndexXem" asp-controller="Home" method="post" style="display: inline;">
-                <button type="submit" class="btn btn-light btn-lg">Xem</button>
-            </form>
+            <button type="submit" class="btn btn-light btn-lg" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = 3 })'">Xem</button>           
             <button type="button" class="btn btn-secondary btn-lg">Chi Tiết</button>
         </div>
 	</div>
@@ -35,15 +42,12 @@
                     </div>
                     <div class="modal-body">
                         <div class="d-flex justify-content-start">
-                            <div class="me-3">
-                                <img src="https://th.bing.com/th/id/OIP.RZ-MPYsnCyezHSRn2o26fwHaK5?w=119&h=180&c=7&r=0&o=5&pid=1.7" class="rounded" alt="Phim 1" onclick="window.location.href='Home/filmdetails'">
-                            </div>
-                            <div class="me-3">
-                                <img src="https://th.bing.com/th/id/OIP.RZ-MPYsnCyezHSRn2o26fwHaK5?w=119&h=180&c=7&r=0&o=5&pid=1.7" class="rounded" alt="Phim 1" onclick="window.location.href='Home/filmdetails'">
-                            </div>
-                            <div class="me-3">
-                                <img src="https://th.bing.com/th/id/OIP.RZ-MPYsnCyezHSRn2o26fwHaK5?w=119&h=180&c=7&r=0&o=5&pid=1.7" class="rounded" alt="Phim 1" onclick="window.location.href='Home/filmdetails'">
-                            </div>
+                            @foreach(var movie in Model)
+                            {
+                                <div class="me-3">
+                                    <img src="@movie.Poster" class="rounded" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId})'">
+                                </div>
+                            }                           
                         </div>
                     </div>
                 </div>
@@ -51,49 +55,30 @@
         </div>
         <div id="movieCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="row">
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 1" onclick="window.location.href='Home/filmdetails'">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 2">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 3">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 4">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 5">
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row">
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 6">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 7">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 8">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 9">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 10">
+                @for (int i = 0; i < totalItems; i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <div class="row">
+                            @for (int j = 0; j < moviesPerItem; j++)
+                            {
+                                int movieIndex = i * moviesPerItem + j;
+                                if (movieIndex < totalMovies)
+                                {
+                                    var movie = Model[movieIndex];
+                                    <div class="col">
+                                        <img src="@movie.Poster" class="d-block w-100" alt="Phim @movie.MovieId"
+                                             onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId })'">
+                                    </div>
+                                }
+                            }
                         </div>
                     </div>
-                </div>
+                }
                 <!-- Add more items as needed -->
             </div>
 
             <!-- Controls -->
-            <button class="carousel-control-prev" style="background-color:#3333; margin-left:-50px;width:50px;" style="margin-left:10px;;" type="button" data-bs-target="#movieCarousel" data-bs-slide="prev">
+            <button class="carousel-control-prev" style="background-color:#3333; margin-left:-50px;width:50px;" type="button" data-bs-target="#movieCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
@@ -140,48 +125,13 @@
         <div id="movieCarousel2" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <div class="row">
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 1">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 2">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 3">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 4">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 5">
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row">
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 6">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 7">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 8">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 9">
-                        </div>
-                        <div class="col">
-                            <img src="https://static.themphim.com/hub/image/images/image-1725549878_8SRjN3pJJ9_2024090515.webp" class="d-block w-100" alt="Phim 10">
-                        </div>
-                    </div>
+                    
                 </div>
                 <!-- Add more items as needed -->
             </div>
 
             <!-- Controls -->
-            <button class="carousel-control-prev" style="background-color:#3333; margin-left:-50px;width:50px;" style="margin-left:10px;;" type="button" data-bs-target="#movieCarousel2" data-bs-slide="prev">
+            <button class="carousel-control-prev" style="background-color:#3333; margin-left:-50px;width:50px;" type="button" data-bs-target="#movieCarousel2" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>

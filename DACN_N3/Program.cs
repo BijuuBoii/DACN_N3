@@ -8,7 +8,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<MovieDbContext>(op =>
 {
-    op.UseSqlServer(builder.Configuration.GetConnectionString("MovieDB"));
+    op.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 var app = builder.Build();
 
