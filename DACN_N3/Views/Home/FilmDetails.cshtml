@@ -3,13 +3,28 @@
 *@
 @using DACN_N3.Data
 @{
-    ViewData["Title"] = "Film details";
+	ViewData["Title"] = "Film details";
 	var Movie = ViewBag.Movie as Movie ?? new Movie();
 	var Seasons = ViewBag.Seasons as List<Season> ?? new List<Season>();
 	var Episodes = ViewBag.Episodes as List<Episode> ?? new List<Episode>();
-	var seasonId = Seasons.Select(i => i.SeasonId).FirstOrDefault();
-	var episodeId = Episodes.Select(i => i.EpisodeId).FirstOrDefault();
-	var selectedEpisode = Episodes.FirstOrDefault(e => e.EpisodeId == episodeId && e.SeasonId == seasonId);
+
+	// Lấy SeasonId từ ViewBag nếu có
+	var selectedSeasonNumber = ViewBag.SeasonNumber != null ? (int)ViewBag.SeasonNumber : Seasons.FirstOrDefault()?.SeasonNumber;
+	var seasonId = Seasons
+		.Where(i => i.SeasonNumber == selectedSeasonNumber)
+		.Select(i => i.SeasonId)
+		.FirstOrDefault();
+
+	// Lấy tập đầu tiên trong mùa đã chọn
+	var selectedEpisode = Episodes
+		.Where(e => e.SeasonId == seasonId)
+		.FirstOrDefault();
+
+	// Nếu không có tập nào, thì chọn tập đầu tiên của tất cả các tập
+	if (selectedEpisode == null)
+	{
+		selectedEpisode = Episodes.FirstOrDefault();
+	}
 }
 
 <section class="banner">
@@ -19,7 +34,7 @@
 			Trình duyệt bạn không hỗ trợ loại video này.
 		</video> *@
 
-		<iframe src="@selectedEpisode.VideoUrl" width="640" height="360" frameborder="0" scrolling="no" allowfullscreen ></iframe>
+		<iframe src="@selectedEpisode?.VideoUrl" width="640" height="360" frameborder="0" scrolling="no" allowfullscreen ></iframe>
 		
 	</div>
 	<div class="container" style="padding-top: 20px; color:white;">
@@ -28,25 +43,27 @@
 		
 		<div class="d-flex justify-content-between align-item-center">
 			<h2>CÁC TẬP</h2>
-			<div class="btn-group">
-				<button class="btn btn-outline-light btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-					Phần
-				</button>
-				<ul class="dropdown-menu">
-				@foreach(var season in Seasons)
-				{
-						<li>
-							<a href="#"
-								data-season-id="@season.SeasonId"
-								class="dropdown-item season-select">@season.SeasonNumber</a>
-						</li>
-				}	
-				</ul>
-			</div>
+			<form method="post" action="@Url.Action("UpdateFilmDetails", "Home")">
+                <input type="hidden" name="id" value="@Movie.MovieId" />
+                <div class="btn-group">
+                    <select name="seasonNumber" class="form-select" onchange="this.form.submit()">
+                        <option value="">Chọn mùa</option>
+                        @foreach(var season in Seasons)
+                        {
+                            <option value="@season.SeasonNumber">@season.SeasonNumber</option>
+                        }    
+                    </select>
+                </div>
+            </form>
 		</div>
 		<br />
 		<div class="border rounded-3" style="padding: 20px;">
-			@foreach (var ep in Episodes.Where(s => s.SeasonId == (Seasons.Select(i => i.SeasonId).FirstOrDefault())).ToList())
+			@foreach (var ep in Episodes
+					.Where(s => s.SeasonId == Seasons
+					.Where(i => i.SeasonNumber == ViewBag.SeasonNumber)
+					.Select(i => i.SeasonId)
+					.FirstOrDefault())
+					.ToList())
 			{
 				<button type="button" class="btn btn-light ep"
 						data-episode-id="@ep.EpisodeId"
