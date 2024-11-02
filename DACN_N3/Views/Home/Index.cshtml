@@ -45,7 +45,7 @@
                             @foreach(var movie in Model)
                             {
                                 <div class="me-3">
-                                    <img src="@movie.Poster" class="rounded" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId})'">
+                                    <img src="~/img/@movie.Poster" class="rounded" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId})'">
                                 </div>
                             }                           
                         </div>
@@ -57,7 +57,7 @@
             <div class="carousel-inner">
                 @for (int i = 0; i < totalItems; i++)
                 {
-                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <div class="carousel-item @(i == 0 ? "active" : "")" style="width: auto">
                         <div class="row">
                             @for (int j = 0; j < moviesPerItem; j++)
                             {
@@ -65,8 +65,8 @@
                                 if (movieIndex < totalMovies)
                                 {
                                     var movie = Model[movieIndex];
-                                    <div class="col">
-                                        <img src="@movie.Poster" class="d-block w-100" alt="Phim @movie.MovieId"
+                                    <div class="col" style="height: 300px; width 100px">
+                                        <img src="~/img/@movie.Poster" class="d-block w-100 h-100" alt="Phim @movie.MovieId"
                                              onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId })'">
                                     </div>
                                 }

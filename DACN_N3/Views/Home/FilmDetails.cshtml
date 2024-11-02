@@ -9,17 +9,18 @@
 	var Episodes = ViewBag.Episodes as List<Episode> ?? new List<Episode>();
 	var seasonId = Seasons.Select(i => i.SeasonId).FirstOrDefault();
 	var episodeId = Episodes.Select(i => i.EpisodeId).FirstOrDefault();
-	var selectedEpisode = Episodes.FirstOrDefault(e => e.EpisodeId == episodeId);
+	var selectedEpisode = Episodes.FirstOrDefault(e => e.EpisodeId == episodeId && e.SeasonId == seasonId);
 }
 
 <section class="banner">
-	<div class="ratio ratio-16x9">
+	<div class="ratio ratio-21x9">
 		@* <video width="4000" height="800" controls>
-			<source src="https://hvuheduvn-my.sharepoint.com/:v:/g/personal/2105ct0096_dhv_edu_vn/ESBIguJcA4FDgc8y_LWW2zoBLMBZdQms3AHOSHem9YDmDA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=3DWALR" type="video/mp4">
+			<source src="https://hvuheduvn-my.sharepoint.com/:v:/g/personal/2105ct0096_dhv_edu_vn/ESBIguJcA4FDgc8y_LWW2zoBZygyR6sOErpI7IpEFeyzwA?e=GqmVMb&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D" type="video/mp4">
 			Trình duyệt bạn không hỗ trợ loại video này.
 		</video> *@
 
-		<iframe src="@selectedEpisode.VideoUrl" width="1250" height="800" frameborder="0" scrolling="no" allowfullscreen title="@Movie.Title"></iframe>
+		<iframe src="@selectedEpisode.VideoUrl" width="640" height="360" frameborder="0" scrolling="no" allowfullscreen ></iframe>
+		
 	</div>
 	<div class="container" style="padding-top: 20px; color:white;">
 		<h2>@Movie.Title tập 1</h2>
@@ -39,8 +40,7 @@
 								data-season-id="@season.SeasonId"
 								class="dropdown-item season-select">@season.SeasonNumber</a>
 						</li>
-				}
-						
+				}	
 				</ul>
 			</div>
 		</div>
@@ -48,10 +48,11 @@
 		<div class="border rounded-3" style="padding: 20px;">
 			@foreach (var ep in Episodes.Where(s => s.SeasonId == (Seasons.Select(i => i.SeasonId).FirstOrDefault())).ToList())
 			{
-				<button type="button" class="btn btn-light ep" 
+				<button type="button" class="btn btn-light ep"
 						data-episode-id="@ep.EpisodeId"
 						data-video-url="@ep.VideoUrl"
 						data-episode-number="@ep.EpisodeNumber">
+					<!-- Thêm thuộc tính này -->
 					@ep.EpisodeNumber
 				</button>
 			}
@@ -61,7 +62,7 @@
 		<div class="border border-light rounded">
 			<div class="row align-self-center">
 				<div class="col-4">
-					<img src="@Movie.Poster" alt="@Movie.Title poster" />
+					<img src="~/img/@Movie.Poster" alt="@Movie.Title poster" />
 				</div>
 				<div class="col-8" style="color:white;">
 					<h1>@Movie.Title</h1>
@@ -107,6 +108,7 @@
 				titleElement.textContent = `@Movie.Title tập ${episodeNumber}`;
 			});
 		});
+		
 	});
 </script>
 
