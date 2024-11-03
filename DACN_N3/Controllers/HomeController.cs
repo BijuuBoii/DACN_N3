@@ -26,6 +26,21 @@ namespace DACN_N3.Controllers
             return View();
         }
 
+        public IActionResult subscription()
+        {
+            return View();
+        }
+
+        public IActionResult buyTicket()
+        {
+            return View();
+        }
+
+        public IActionResult movieDetails()
+        {
+            return View();
+        }
+
         public IActionResult FilmDetails(int id)
         {
 			var movie = _movieDbContext.Movies

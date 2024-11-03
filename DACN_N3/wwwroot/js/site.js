@@ -38,6 +38,12 @@
         });
     });
 
+    document.querySelectorAll('.movie').forEach(button => {
+        button.addEventListener('click', function () {
+            window.location.href = '/home/movieDetails';
+        });
+    });
+    
 
     document.querySelectorAll('.save-btn-movies').forEach(button => {
         button.addEventListener('click', function () {
@@ -272,3 +278,21 @@ document.addEventListener('click', function (event) {
         suggestions.style.display = 'none';
     }
 });
+
+let currentIndex = 0;
+const slides = document.querySelectorAll('.carousel-slide');
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.style.transform = `translateX(${100 * (i - index)}%)`;
+    });
+}
+
+function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+}
+
+setInterval(nextSlide, 1000); // Tự động chuyển slide mỗi 3 giây
+
+
