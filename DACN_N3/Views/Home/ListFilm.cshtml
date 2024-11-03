@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+     
+*@
+@using DACN_N3.Data
+@{
+    var relatedFilms = ViewBag.RelatedFilms as List<Movie>;
+    
+}
+<div class="container-fluid">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content" style="background:#212529; color:white;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalFullScreenLabel2">Danh sách các phim thuộc thể loại @ViewBag.GenreName</h5>
+               
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-start">
+                    @if (relatedFilms != null)
+                    {
+                        foreach (var movie in relatedFilms)
+                        {
+                            <div class="me-3" style="height: 300px; width: 100px;">
+                                <img src="~/img/@movie.Poster" class="rounded d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId })'">
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Không có phim nào liên quan.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

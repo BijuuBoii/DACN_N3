@@ -1,28 +1,38 @@
-﻿@{
+﻿@using DACN_N3.Data
+@model User
+@{
 	ViewData["Title"] = "Login";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="AuthorityBody">
 	<div class="form-structor">
-		<div class="signup">
-			<h2 class="form-title" id="signup">Đăng ký</h2>
-			<div class="form-holder">
-				<input type="text" class="input" placeholder="Tên" />
-				<input type="email" class="input" placeholder="Email" />
-				<input type="password" class="input" placeholder="Mật khẩu" />
-			</div>
-			<button class="submit-btn">Đăng ký</button>
-		</div>
-		<div class="login slide-up">
-			<div class="center">
-				<h2 class="form-title" id="login">Đăng nhập</h2>
+		<form asp-action="SignUp" method="post">
+			<div class="signup">
+				<h2 class="form-title" id="signup">Đăng ký</h2>
 				<div class="form-holder">
-					<input type="email" class="input" placeholder="Email" />
-					<input type="password" class="input" placeholder="Mật khẩu" />
+					<input asp-for="Username" class="input" placeholder="Tên"/>
+					<input asp-for="Email" class="input" placeholder="Email" />
+					<input asp-for="Password" class="input" placeholder="Mật khẩu" />
+					<span asp-validation-for="Username" class="text-danger"></span>
+					<span asp-validation-for="Email" class="text-danger"></span>
+					<span asp-validation-for="Password" class="text-danger"></span>
 				</div>
-				<button class="submit-btn">Đăng nhập</button>
+				<button type="submit" class="submit-btn">Đăng ký</button>
 			</div>
-		</div>
+		</form>
+		<form asp-action="Login" method="post">
+			<div class="login slide-up">
+				<div class="center">
+					<h2 class="form-title" id="login">Đăng nhập</h2>
+					<div class="form-holder">
+						<input type="email" class="input" placeholder="Email" />
+						<input type="password" class="input" placeholder="Mật khẩu" />
+					</div>
+					<button class="submit-btn">Đăng nhập</button>
+				</div>
+			</div>
+		</form>
+		
 	</div>
 </div>

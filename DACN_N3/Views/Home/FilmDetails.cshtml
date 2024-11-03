@@ -25,6 +25,9 @@
 	{
 		selectedEpisode = Episodes.FirstOrDefault();
 	}
+	var genres = ViewBag.Genres as List<Genre>; 
+	int count = genres.Count;
+	int index = 0;
 }
 
 <section class="banner">
@@ -33,7 +36,6 @@
 			<source src="https://hvuheduvn-my.sharepoint.com/:v:/g/personal/2105ct0096_dhv_edu_vn/ESBIguJcA4FDgc8y_LWW2zoBZygyR6sOErpI7IpEFeyzwA?e=GqmVMb&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D" type="video/mp4">
 			Trình duyệt bạn không hỗ trợ loại video này.
 		</video> *@
-
 		<iframe src="@selectedEpisode?.VideoUrl" width="640" height="360" frameborder="0" scrolling="no" allowfullscreen ></iframe>
 		
 	</div>
@@ -75,20 +77,31 @@
 			}
 		</div>
 	</div>
-	<div class="container" style="padding-top: 20px">
-		<div class="border border-light rounded">
-			<div class="row align-self-center">
-				<div class="col-4">
-					<img src="~/img/@Movie.Poster" alt="@Movie.Title poster" />
+	<div class="container" style="padding-top: 20px;">
+		<div class="border border-light rounded bg-dark bg-gradient" style="height: 400px;">
+			<div class="row align-self-center" style="padding: 50px;">
+				<div class="col-4" style="height: 300px; width 100px">
+					<img class="rounded d-block w-100 h-100" src="~/img/@Movie.Poster" alt="@Movie.Title poster" />
 				</div>
 				<div class="col-8" style="color:white;">
 					<h1>@Movie.Title</h1>
-					<span>Nội dung: @Movie.Description</span>
-					<h6>Ngôn ngữ: @Movie.Language</h6>
-					<h6>Ngày ra mắt: @Movie.ReleaseDate</h6>
-					<h6>Đánh giá độ tuổi: @Movie.AgeRating</h6>
-					<h6>Thời lượng phim: @Movie.Duration</h6>
-					<h6>Đạo diễn: @Movie.Director</h6>
+					<span><b>Nội dung:</b> @Movie.Description</span>
+					<h6><b>Ngôn ngữ: </b>@Movie.Language</h6>
+					<h6><b>Ngày ra mắt: </b>@Movie.ReleaseDate</h6>
+					<h6><b>Đánh giá độ tuổi: </b>@Movie.AgeRating</h6>
+					<h6><b>Thời lượng phim: </b>@Movie.Duration</h6>
+					<h6><b>Đạo diễn: </b>@Movie.Director</h6>
+					<h6><b>Thể loại: </b>
+						@foreach (var theloai in genres)
+						{
+							<a href="#" style="text-decoration:none;">@theloai.Name</a>
+							@if (index < count - 1)
+							{
+								@: ,
+									}
+							index++;
+						}
+					</h6>
 				</div>
 			</div>
 		</div>
@@ -97,7 +110,7 @@
 	<div class="container" style="padding-top:30px">
 		<div class="py-2 px-4 mb-4 rounded-lg border bg-zinc-800 border-zinc-700">
 			<label for="comment" class="form-label text-white">Bình luận</label>
-			<textarea id="comment" rows="2" class="form-control border-0 text-white placeholder-zinc-400 bg-zinc-800" placeholder="Để lại bình luận..." required></textarea>
+			<textarea id="comment" rows="2" class="form-control border-0 text-black placeholder-zinc-400 bg-zinc-800" placeholder="Để lại bình luận..." required></textarea>
 			<button type="submit" class="inline-flex items-center mt-2 py-2 px-3 text-xs font-medium text-center text-black bg-zinc-700 rounded-lg hover:opacity-90">Bình Luận</button>
 		</div>
 		

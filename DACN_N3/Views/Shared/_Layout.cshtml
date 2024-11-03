@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using DACN_N3.Data
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -13,18 +14,46 @@
 			<div class="logo">
 				<img src="/img/logo.png" alt="Logo">
 			</div>
-			<nav> 
-				<ul style="width: 1080px">
-					<li><a href="~/home/index">Trang Chủ</a></li>
-					<li><a href="#">Thể Loại</a></li>
-					<li><a href="#">Phim yêu thích</a></li>
-					<li style="float:right;line-height:35px">
-						<a href="~/Authority/Login">Đăng Nhập</a>
-					</li>
-					<li style="float:right;">
-						<input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
-					</li>
-				</ul>
+			<nav class="navbar navbar-expand-lg navbar-dark">
+				<div class="container-fluid">
+					<ul class="navbar-nav me-auto" style="width: 1080px;">
+						<li class="nav-item">
+							<a class="nav-link" href="~/home/index">Trang Chủ</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Thể loại
+							</a>
+							<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" style="max-height: 300px; overflow-y: auto; width: 300px;">
+								<div class="row g-2"> <!-- Dùng g-2 để tạo khoảng cách giữa các cột -->
+									@foreach (var genre in ViewBag.AllGenres as List<Genre>)
+									{
+										if (genre != null)
+										{
+											<div class="col-4"> <!-- 3 cột cho mỗi hàng -->
+												<li class="dropdown-item" style="margin-bottom: 10px;">
+													<a href="@Url.Action("listFilm", "Home", new { id = genre.GenreId })">@genre.Name</a>
+												</li>
+											</div>
+										}
+									}
+								</div>
+							</ul>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Phim yêu thích</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Xem phim tại rạp</a>
+						</li>
+						<li class="nav-item ms-auto">
+							<input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="~/Authority/Login">Đăng Nhập</a>
+						</li>
+					</ul>
+				</div>
 			</nav>
 		</div>
 	</header>

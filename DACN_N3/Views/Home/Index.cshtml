@@ -5,17 +5,12 @@
     int moviesPerItem = 5; // Số lượng phim trên mỗi carousel item
     int totalMovies = Model.Count(); // Tổng số phim
     int totalItems = (int)Math.Ceiling((double)totalMovies / moviesPerItem); // Tổng số carousel item
-
-
 }
-
-
 <section class="banner">
 	<div class="container">
-        <img style="height: 650px" src="https://images-cdn.ubuy.co.in/634e8dbfe1492e3a2156d0d5-peaky-blinders-poster-season-1-key-art.jpg" alt="Phim Nổi Bật">
+        <img style="height: 650px" src="~/img/@ViewBag.RandomMovies.Poster" alt="Phim Nổi Bật">
         <div style="position: absolute; top: 560px; left: 18%; padding: 10px">
-            <button type="submit" class="btn btn-light btn-lg" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = 3 })'">Xem</button>           
-            <button type="button" class="btn btn-secondary btn-lg">Chi Tiết</button>
+            <button type="submit" class="btn btn-light btn-lg" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = @ViewBag.RandomMovies.MovieId })'">Xem</button>
         </div>
 	</div>
 </section>
@@ -44,8 +39,8 @@
                         <div class="d-flex justify-content-start">
                             @foreach(var movie in Model)
                             {
-                                <div class="me-3">
-                                    <img src="~/img/@movie.Poster" class="rounded" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId})'">
+                                <div class="me-3" style="height: 300px; width 100px">
+                                    <img src="~/img/@movie.Poster" class="rounded d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId})'">
                                 </div>
                             }                           
                         </div>
@@ -57,8 +52,8 @@
             <div class="carousel-inner">
                 @for (int i = 0; i < totalItems; i++)
                 {
-                    <div class="carousel-item @(i == 0 ? "active" : "")" style="width: auto">
-                        <div class="row">
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <div class="row" style="display:inline-flex">
                             @for (int j = 0; j < moviesPerItem; j++)
                             {
                                 int movieIndex = i * moviesPerItem + j;
@@ -91,7 +86,7 @@
 
         <div class="d-flex align-items-center">
             <!-- Tiêu đề -->
-            <h2 class="me-3">Top 10 phim</h2>
+            <h2 class="me-3">Phim hoạt hình</h2>
             <!-- Button để mở modal -->
             <button type="button" style="margin-bottom:10px" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#myModalFullScreen2">
                 Xem thêm
@@ -102,20 +97,17 @@
             <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content" style="background:#212529; color:white;">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalFullScreenLabel">Danh sách các phim mới</h5>
+                        <h5 class="modal-title" id="myModalFullScreenLabel2">Danh sách các phim hoạt hình</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="d-flex justify-content-start">
-                            <div class="me-3">
-                                <img src="https://th.bing.com/th/id/OIP.RZ-MPYsnCyezHSRn2o26fwHaK5?w=119&h=180&c=7&r=0&o=5&pid=1.7" class="rounded" alt="Phim 1" onclick="window.location.href='Home/filmdetails'">
-                            </div>
-                            <div class="me-3">
-                                <img src="https://th.bing.com/th/id/OIP.RZ-MPYsnCyezHSRn2o26fwHaK5?w=119&h=180&c=7&r=0&o=5&pid=1.7" class="rounded" alt="Phim 1" onclick="window.location.href='Home/filmdetails'">
-                            </div>
-                            <div class="me-3">
-                                <img src="https://th.bing.com/th/id/OIP.RZ-MPYsnCyezHSRn2o26fwHaK5?w=119&h=180&c=7&r=0&o=5&pid=1.7" class="rounded" alt="Phim 1" onclick="window.location.href='Home/filmdetails'">
-                            </div>
+                            @foreach (var movie in ViewBag.AnimeMovies)
+                            {
+                                <div class="me-3" style="height: 300px; width 100px">
+                                    <img src="~/img/@movie.Poster" class="rounded d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId})'">
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -124,9 +116,24 @@
         
         <div id="movieCarousel2" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    
-                </div>
+                @for (int i = 0; i < Math.Ceiling((double)ViewBag.AnimeMovies.Count / moviesPerItem); i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")" >
+                        <div class="row" style="display:inline-flex">
+                            @for (int j = 0; j < moviesPerItem; j++)
+                            {
+                                int movieIndex = i * moviesPerItem + j;
+                                if (movieIndex < ViewBag.AnimeMovies.Count)
+                                {
+                                    var movie = ViewBag.AnimeMovies[movieIndex];
+                                    <div class="col" style="height: 300px; width: 300px">
+                                        <img src="~/img/@movie.Poster" class="d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId })'">
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
                 <!-- Add more items as needed -->
             </div>
 
@@ -136,6 +143,71 @@
                 <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" style="background-color:#3333; margin-right:-50px;width:50px;" type="button" data-bs-target="#movieCarousel2" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <br />
+        <div class="d-flex align-items-center">
+            <!-- Tiêu đề -->
+            <h2 class="me-3">Phim tội phạm</h2>
+            <!-- Button để mở modal -->
+            <button type="button" style="margin-bottom:10px" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#myModalFullScreen3">
+                Xem thêm
+            </button>
+        </div>
+        <!-- Modal với id mới -->
+        <div class="modal fade" id="myModalFullScreen3" tabindex="-1" aria-labelledby="myModalFullScreenLabel3" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content" style="background:#212529; color:white;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalFullScreenLabel3">Danh sách các phim tội phạm</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-start">
+                            @foreach (var movie in ViewBag.CrimeMovies)
+                            {
+                                <div class="me-3" style="height: 300px; width 100px">
+                                    <img src="~/img/@movie.Poster" class="rounded d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId})'">
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="movieCarousel3" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @for (int i = 0; i < Math.Ceiling((double)ViewBag.CrimeMovies.Count / moviesPerItem); i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <div class="row" style="display:inline-flex">
+                            @for (int j = 0; j < moviesPerItem; j++)
+                            {
+                                int movieIndex = i * moviesPerItem + j;
+                                if (movieIndex < ViewBag.CrimeMovies.Count)
+                                {
+                                    var movie = ViewBag.CrimeMovies[movieIndex];
+                                    <div class="col" style="height: 300px; width: 300px">
+                                        <img src="~/img/@movie.Poster" class="d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId })'">
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                <!-- Add more items as needed -->
+            </div>
+
+            <!-- Controls -->
+            <button class="carousel-control-prev" style="background-color:#3333; margin-left:-50px;width:50px;" type="button" data-bs-target="#movieCarousel3" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" style="background-color:#3333; margin-right:-50px;width:50px;" type="button" data-bs-target="#movieCarousel3" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
