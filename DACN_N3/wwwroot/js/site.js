@@ -43,6 +43,12 @@
             window.location.href = '/home/movieDetails';
         });
     });
+
+    document.querySelectorAll('.buy-ticket-button').forEach(button => {
+        button.addEventListener('click', function () {
+            window.location.href = '/home/selectChair';
+        });
+    });
     
 
     document.querySelectorAll('.save-btn-movies').forEach(button => {
@@ -51,6 +57,8 @@
             window.location.href = '/Admin/home/Movies';
         });
     });
+
+
 
 
 
