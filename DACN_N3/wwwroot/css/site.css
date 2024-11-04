@@ -1,4 +1,4 @@
-body {
+﻿body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -390,3 +390,293 @@ footer {
 .ep{
     margin: 5px;
 }
+
+/*sub*/
+.subscription-container {
+    display: flex;
+    justify-content:center;
+    padding-top:50px;
+    padding-bottom:50px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.subscription-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 500px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+    .subscription-card:hover {
+        transform: translateY(-10px);
+    }
+
+.price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e63946;
+    margin-bottom: 15px;
+}
+
+.package-info h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.package-info ul {
+    list-style: none;
+    margin-bottom: 15px;
+}
+
+    .package-info ul li {
+        margin: 8px 0;
+        color: #555;
+    }
+
+.subscribe-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .subscribe-button:hover {
+        background-color: #0056b3;
+    }
+
+/*buy ticket*/
+.carousel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    border-radius: 8px;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    transition: transform 0.5s ease;
+}
+
+    .carousel-slide img {
+        width: 100%;
+        border-radius: 8px;
+    }
+
+.upcoming-movies {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+    .upcoming-movies h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+.movie {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    background-color: #f9f9f9;
+}
+
+    .movie:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .movie h3 {
+        font-size: 18px;
+        color: inherit;
+    }
+
+    .movie p {
+        color: inherit;
+    }
+
+/*movie details*/
+.movie-details-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.movie-banner {
+    position: relative;
+    text-align: center;
+}
+
+.movie-image {
+    width: 50%;
+    border-radius: 8px;
+}
+
+.buy-ticket-button {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .buy-ticket-button:hover {
+        background-color: #0056b3;
+    }
+
+.movie-info {
+    margin: 20px 0;
+    color:white;
+}
+
+    .movie-info h1 {
+        font-size: 24px;
+        color: wheat;
+        margin-bottom: 10px;
+    }
+
+.description {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.movie-details {
+    list-style: none;
+    font-size: 16px;
+}
+
+    .movie-details li {
+        margin: 5px 0;
+    }
+
+.trailer-section, .news-section, .reviews-section {
+    margin-top: 30px;
+}
+
+    .trailer-section h2,
+    .news-section h2,
+    .reviews-section h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .trailer-section iframe {
+        width: 100%;
+        height: 300px;
+        border-radius: 8px;
+        border: none;
+    }
+
+.news-list {
+    list-style: none;
+}
+
+    .news-list li {
+        margin: 5px 0;
+    }
+
+    .news-list a {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+        .news-list a:hover {
+            color: #0056b3;
+        }
+
+.review {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.screen {
+    width: 80%;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #444;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.seat-selection {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.seats {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    gap: 10px;
+}
+
+.seat {
+    width: 40px;
+    height: 40px;
+    background-color: #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .seat.vip {
+        background-color: gold;
+    }
+
+    .seat.selected {
+        background-color: #4CAF50; /* Màu xanh khi chọn ghế */
+    }
+
+.seat-info {
+    display:flex;
+    justify-content:center;
+   
+    margin: 20px auto;
+    width: 80%;
+    text-align: center;
+    font-size: 18px;
+    background-color:white;
+}
+
+    .seat-info p {
+        margin: 10px 0;
+
+    }
+
+    .seat-info .seat{
+        margin:5px;
+    }
+

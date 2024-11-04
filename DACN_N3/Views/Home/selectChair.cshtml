@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "selectChair";
+}
+
+<!-- Thông tin phim -->
+<div style="display:flex;justify-content:center">
+    <img src="https://th.bing.com/th/id/R.0d78be20ed7377dfe37bdc75828f87a8?rik=x2AAUQBoO%2bGFYg&pid=ImgRaw&r=0" width="200px" alt="Alternate Text" />
+    <div class="movie-info">
+        <h1>Tên Phim</h1>
+        <p>Thời gian: 120 phút | Ngày chiếu: 01-01-2024</p>
+        <p>Thể loại: Hành động, Phiêu lưu</p>
+    </div>
+</div>
+
+
+<!-- Màn hình và ghế ngồi -->
+<div class="screen">
+    <p>Màn Hình</p>
+</div>
+
+<div class="seat-selection">
+    <div class="seats" id="seats">
+        <!-- Ghế sẽ được tạo bằng JavaScript -->
+    </div>
+</div>
+
+<!-- Thông tin chọn ghế -->
+<div class="seat-info" style="gap:20px">
+    <div class="d-flex">
+        <div class="seat"></div><p><strong>Ghế thường</strong></p>
+    </div>
+    <div class="d-flex">
+        <div class="seat vip"></div><p><strong>Ghế VIP</strong></p>
+    </div>
+    <div class="d-flex">
+        <div class="seat"></div><p><strong>Ghế đã chọn:</strong> <span id="selected-seats"></span></p>
+    </div>
+    <div class="d-flex">
+        <div class="seat"></div><p><strong>Tổng tiền:</strong> <span id="total-price">0</span>.000đ</p>
+    </div>
+    <input type="submit" style="border-radius:5px;" name="name" value="Đặt vé" />
+</div>
+

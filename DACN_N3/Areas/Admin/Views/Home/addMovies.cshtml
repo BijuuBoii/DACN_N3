@@ -1,0 +1,67 @@
+﻿@{
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="main-content">
+	<div style="display:flex;gap:10px;">
+		<div id="addMovieModal" style="padding-top:20px;">
+			<div class="modal-content" >
+
+				<h2>Thêm Phim Mới</h2>
+
+				<label for="movieImage">Movie Image:</label>
+				<input type="file" id="movieImage" accept="image/*">
+
+				<label for="movieTitle">Movie Name:</label>
+				<input type="text" id="movieTitle" placeholder="Enter movie name">
+
+				<label for="movieInfo">Movie Info:</label>
+				<textarea id="movieInfo" placeholder="Enter movie info"></textarea>
+
+				<label for="movieCategory">Thể loại:</label>
+				<section id="genres">
+					<h2>Chọn Thể Loại</h2>
+
+
+					<!-- Input để chọn thể loại -->
+					<div class="genre-select">
+						<input type="text" id="genreInput" placeholder="Chọn thể loại" onfocus="showSuggestions()" oninput="filterSuggestions()">
+						<ul id="suggestions" class="suggestion-list" style="z-index:1;">
+							
+							<li onclick="selectGenre('Hành Động')">Hành Động</li>
+							<li onclick="selectGenre('Kinh Dị')">Kinh Dị</li>
+							<li onclick="selectGenre('Hài')">Hài</li>
+							<li onclick="selectGenre('Tình Cảm')">Tình Cảm</li>
+							<li onclick="selectGenre('Khoa Học Viễn Tưởng')">Khoa Học Viễn Tưởng</li>
+						</ul>
+					</div>
+					<br />
+					<button id="addGenreBtn" onclick="addNewGenre()">Thêm Thể Loại</button>
+					<!-- Khu vực để hiển thị các thể loại đã chọn -->
+					<div id="selectedGenres" class="selected-genres"></div>
+
+				</section>
+
+
+				<div class="modal-actions">
+					<button type="button" class="save-btn-movies" onclick="saveMovie()">Save</button>
+				</div>
+			</div>
+		</div>
+		<section id="genres" style="width:500px; margin-left:10px;">
+			<h2>Quản lý Thể Loại</h2>
+
+			<!-- Button to add a new genre -->
+			<button class="add-genre-btn" onclick="addGenre()">Thêm Thể Loại</button>
+
+			<!-- Genre List -->
+			<ul id="genreList" class="genre-list">
+				<li class="li-genres">Hành Động <button class="delete-btn" onclick="deleteGenre(this)">Xóa</button></li>
+				<li class="li-genres">Kinh Dị <button class="delete-btn" onclick="deleteGenre(this)">Xóa</button></li>
+				<li class="li-genres">Hài <button class="delete-btn" onclick="deleteGenre(this)">Xóa</button></li>
+				<li class="li-genres">Tình Cảm <button class="delete-btn" onclick="deleteGenre(this)">Xóa</button></li>
+				<li class="li-genres">Khoa Học Viễn Tưởng <button class="delete-btn" onclick="deleteGenre(this)">Xóa</button></li>
+			</ul>
+		</section>
+	</div>
+		
+</div>
