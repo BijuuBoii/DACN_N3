@@ -295,4 +295,63 @@ function nextSlide() {
 
 setInterval(nextSlide, 1000); // Tự động chuyển slide mỗi 3 giây
 
+//selectChair
+const seatsContainer = document.getElementById('seats');
+const selectedSeatsElement = document.getElementById('selected-seats');
+const totalPriceElement = document.getElementById('total-price');
+
+const SEAT_COUNT = 60;
+const VIP_SEATS = [14,15, 16,17,24, 25, 26,27,34,37,44,47, 35, 36,45,46]; // Các ghế VIP
+const REGULAR_PRICE = 45;
+const VIP_PRICE = 60;
+
+let selectedSeats = [];
+let totalPrice = 0;
+
+// Tạo ghế ngồi
+for (let i = 1; i <= SEAT_COUNT; i++) {
+    const seat = document.createElement('div');
+    seat.classList.add('seat');
+    seat.textContent = i;
+
+    // Xác định ghế VIP
+    if (VIP_SEATS.includes(i)) {
+        seat.classList.add('vip');
+        seat.dataset.price = VIP_PRICE;
+    } else {
+        seat.dataset.price = REGULAR_PRICE;
+    }
+
+    // Thêm sự kiện khi bấm vào ghế
+    seat.addEventListener('click', () => {
+        toggleSeatSelection(seat);
+    });
+
+    seatsContainer.appendChild(seat);
+}
+
+// Chọn hoặc bỏ chọn ghế
+function toggleSeatSelection(seat) {
+    const seatNumber = seat.textContent;
+    const seatPrice = parseInt(seat.dataset.price);
+
+    if (seat.classList.contains('selected')) {
+        seat.classList.remove('selected');
+        selectedSeats = selectedSeats.filter(s => s !== seatNumber);
+        totalPrice -= seatPrice;
+    } else {
+        seat.classList.add('selected');
+        selectedSeats.push(seatNumber);
+        totalPrice += seatPrice;
+    }
+
+    updateSeatInfo();
+}
+
+// Cập nhật thông tin ghế và tổng tiền
+function updateSeatInfo() {
+    selectedSeatsElement.textContent = selectedSeats.join(', ') || 'Chưa chọn';
+    totalPriceElement.textContent = totalPrice;
+}
+
 

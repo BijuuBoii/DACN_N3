@@ -41,6 +41,11 @@ namespace DACN_N3.Controllers
             return View();
         }
 
+        public IActionResult selectChair()
+        {
+            return View();
+        }
+
         public IActionResult FilmDetails(int id)
         {
 			var movie = _movieDbContext.Movies

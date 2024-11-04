@@ -1,4 +1,4 @@
-body {
+﻿body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -554,11 +554,12 @@ footer {
 
 .movie-info {
     margin: 20px 0;
+    color:white;
 }
 
     .movie-info h1 {
         font-size: 24px;
-        color: #333;
+        color: wheat;
         margin-bottom: 10px;
     }
 
@@ -620,3 +621,62 @@ footer {
     border-radius: 5px;
     margin-bottom: 10px;
 }
+.screen {
+    width: 80%;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #444;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.seat-selection {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.seats {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    gap: 10px;
+}
+
+.seat {
+    width: 40px;
+    height: 40px;
+    background-color: #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .seat.vip {
+        background-color: gold;
+    }
+
+    .seat.selected {
+        background-color: #4CAF50; /* Màu xanh khi chọn ghế */
+    }
+
+.seat-info {
+    display:flex;
+    justify-content:center;
+   
+    margin: 20px auto;
+    width: 80%;
+    text-align: center;
+    font-size: 18px;
+    background-color:white;
+}
+
+    .seat-info p {
+        margin: 10px 0;
+
+    }
+
+    .seat-info .seat{
+        margin:5px;
+    }
+
