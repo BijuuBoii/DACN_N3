@@ -7,8 +7,8 @@
 
 <div class="AuthorityBody">
 	<div class="form-structor">
-		<form asp-action="SignUp" method="post">
-			<div class="signup">
+		<form id="signUp" asp-action="SignUp" method="post">
+			<div class="signup slide-up">
 				<h2 class="form-title" id="signup">Đăng ký</h2>
 				<div class="form-holder">
 					<input asp-for="Username" class="input" placeholder="Tên"/>
@@ -18,16 +18,16 @@
 					<span asp-validation-for="Email" class="text-danger"></span>
 					<span asp-validation-for="Password" class="text-danger"></span>
 				</div>
-				<button type="submit" class="submit-btn">Đăng ký</button>
+				<button id="signUpBtn" type="submit" class="submit-btn">Đăng ký</button>
 			</div>
 		</form>
 		<form asp-action="Login" method="post">
-			<div class="login slide-up">
+			<div class="login ">
 				<div class="center">
 					<h2 class="form-title" id="login">Đăng nhập</h2>
 					<div class="form-holder">
-						<input type="email" class="input" placeholder="Email" />
-						<input type="password" class="input" placeholder="Mật khẩu" />
+						<input asp-for="Email" type="email" class="input" placeholder="Email" />
+						<input asp-for="Password" type="password" class="input" placeholder="Mật khẩu" />
 					</div>
 					<button class="submit-btn">Đăng nhập</button>
 				</div>
@@ -36,3 +36,45 @@
 		
 	</div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // document.getElementById('signUp').addEventListener('submit', function (e) {
+    //     e.preventDefault();  // Prevent the form from submitting immediately
+    //     // Display SweetAlert2 notification with custom icon size
+    //     Swal.fire({
+    //         position: 'top-end',
+    //         icon: 'success',
+    //         title: 'Đăng ký thành công',
+    //         showConfirmButton: false,
+    //         timer: 1500,
+    //         width: '200px',
+    //         height: '10px',
+    //         padding: '2em',  // Adjust padding inside the alert (optional)
+    //         customClass: {
+    //             popup: 'custom-swal-popup',  // Custom popup styling
+    //             icon: 'custom-icon-size',
+    //             title: 'custom-front-size'
+    //         }
+    //     }).then(function () {
+    //         // After the SweetAlert closes, submit the form
+    //         document.getElementById('signUp').submit();
+    //     });
+    // });
+</script>
+
+<style>
+    /* Optional: Define a custom class to further style the SweetAlert popup */
+    .custom-swal-popup {
+        border-radius: 10px; /* Rounded corners */
+        font-size: 18px; /* Custom font size */
+    }
+
+    /* Custom styling for the icon */
+    .custom-icon-size {
+        font-size: 5px; /* Adjust the icon size */
+    }
+
+    .custom-front-size {
+        font-size: 20px; /* Adjust the icon size */
+    }
+</style>

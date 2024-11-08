@@ -454,7 +454,7 @@ footer {
     }
 
 /*buy ticket*/
-.carousel {
+/*.carousel {
     display: flex;
     overflow: hidden;
     width: 100%;
@@ -510,10 +510,10 @@ footer {
 
     .movie p {
         color: inherit;
-    }
+    }*/
 
 /*movie details*/
-.movie-details-container {
+/*.movie-details-container {
     width: 90%;
     max-width: 800px;
     margin: 20px auto;
@@ -657,8 +657,8 @@ footer {
     }
 
     .seat.selected {
-        background-color: #4CAF50; /* Màu xanh khi chọn ghế */
-    }
+        background-color: #4CAF50;*/ /* Màu xanh khi chọn ghế */
+    /*}
 
 .seat-info {
     display:flex;
@@ -678,5 +678,5 @@ footer {
 
     .seat-info .seat{
         margin:5px;
-    }
+    }*/
 

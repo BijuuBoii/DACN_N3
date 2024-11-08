@@ -39,7 +39,7 @@
                         <div class="d-flex justify-content-start">
                             @foreach(var movie in Model)
                             {
-                                <div class="me-3" style="height: 300px; width 100px">
+                                <div class="me-3" style="height: 300px; width: 200px">
                                     <img src="~/img/@movie.Poster" class="rounded d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId})'">
                                 </div>
                             }                           
@@ -60,7 +60,7 @@
                                 if (movieIndex < totalMovies)
                                 {
                                     var movie = Model[movieIndex];
-                                    <div class="col" style="height: 300px; width 100px">
+                                    <div class="col" style="height: 300px; width: 200px">
                                         <img src="~/img/@movie.Poster" class="d-block w-100 h-100" alt="Phim @movie.MovieId"
                                              onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId })'">
                                     </div>
@@ -104,7 +104,7 @@
                         <div class="d-flex justify-content-start">
                             @foreach (var movie in ViewBag.AnimeMovies)
                             {
-                                <div class="me-3" style="height: 300px; width 100px">
+                                <div class="me-3" style="height: 300px; width: 200px">
                                     <img src="~/img/@movie.Poster" class="rounded d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId})'">
                                 </div>
                             }
@@ -126,7 +126,7 @@
                                 if (movieIndex < ViewBag.AnimeMovies.Count)
                                 {
                                     var movie = ViewBag.AnimeMovies[movieIndex];
-                                    <div class="col" style="height: 300px; width: 300px">
+                                    <div class="col" style="height: 300px; width: 200px">
                                         <img src="~/img/@movie.Poster" class="d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId })'">
                                     </div>
                                 }
@@ -169,7 +169,7 @@
                         <div class="d-flex justify-content-start">
                             @foreach (var movie in ViewBag.CrimeMovies)
                             {
-                                <div class="me-3" style="height: 300px; width 100px">
+                                <div class="me-3" style="height: 300px; width: 200px">
                                     <img src="~/img/@movie.Poster" class="rounded d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId})'">
                                 </div>
                             }
@@ -191,7 +191,7 @@
                                 if (movieIndex < ViewBag.CrimeMovies.Count)
                                 {
                                     var movie = ViewBag.CrimeMovies[movieIndex];
-                                    <div class="col" style="height: 300px; width: 300px">
+                                    <div class="col" style="height: 300px; width: 200px">
                                         <img src="~/img/@movie.Poster" class="d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId })'">
                                     </div>
                                 }
@@ -214,5 +214,30 @@
         </div>
     </div>
 </section>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var loginAlert = '@TempData["LoginAlert"]';
+        if (loginAlert) {
+            Swal.fire({
+                title: 'Thông báo',
+                text: "Vui lòng đăng nhập để xem chi tiết phim!",
+                icon: 'warning',
+                confirmButtonText: 'Đăng nhập',
+                showCancelButton: true,
+                cancelButtonText: 'Hủy',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '@Url.Action("Login", "Authority")';
+                }
+            });
+        }
+    });
+</script>
 
