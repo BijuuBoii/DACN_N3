@@ -454,7 +454,7 @@ footer {
     }
 
 /*buy ticket*/
-/*.carousel {
+.carouselTicket {
     display: flex;
     overflow: hidden;
     width: 100%;
@@ -463,12 +463,12 @@ footer {
     border-radius: 8px;
 }
 
-.carousel-slide {
+.carousel-ticket-slide {
     min-width: 100%;
     transition: transform 0.5s ease;
 }
 
-    .carousel-slide img {
+    .carousel-ticket-slide img {
         width: 100%;
         border-radius: 8px;
     }
@@ -510,10 +510,10 @@ footer {
 
     .movie p {
         color: inherit;
-    }*/
+    }
 
 /*movie details*/
-/*.movie-details-container {
+.movie-details-container {
     width: 90%;
     max-width: 800px;
     margin: 20px auto;
@@ -657,8 +657,8 @@ footer {
     }
 
     .seat.selected {
-        background-color: #4CAF50;*/ /* Màu xanh khi chọn ghế */
-    /*}
+        background-color: #4CAF50;  Màu xanh khi chọn ghế 
+    }
 
 .seat-info {
     display:flex;
@@ -678,5 +678,5 @@ footer {
 
     .seat-info .seat{
         margin:5px;
-    }*/
+    }
 

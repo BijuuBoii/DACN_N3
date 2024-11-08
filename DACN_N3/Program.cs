@@ -1,8 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DACN_N3.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using DACN_N3.Models.Momo;
+using DACN_N3.Services.Momo;
 var builder = WebApplication.CreateBuilder(args);
+//Connect momo api
+builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
+builder.Services.AddScoped<IMomoService, MomoService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -11,6 +15,7 @@ builder.Services.AddDbContext<MovieDbContext>(op =>
 {
     op.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
 // Thêm dịch vụ Session
 builder.Services.AddDistributedMemoryCache(); // Cấu hình bộ nhớ tạm thời cho session
 builder.Services.AddSession(options =>

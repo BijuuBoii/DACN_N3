@@ -1,4 +1,5 @@
-﻿@using DACN_N3.Data
+﻿
+@using DACN_N3.Data
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +10,19 @@
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
+	@inject DACN_N3.Data.MovieDbContext _movieDbContext
+	@{
+		var userID = Context.Session.GetInt32("userID");
+		if (userID.HasValue)
+		{
+			var userName = _movieDbContext.Users
+			.Where(u => u.UserId == userID.Value)
+			.Select(u => u.Username)
+			.FirstOrDefault();
+
+			ViewBag.userName = userName;
+		}
+	}
 	<header>
 		<div class="container">
 			<div class="logo">
@@ -18,7 +32,7 @@
 				<div class="container-fluid">
 					<ul class="navbar-nav me-auto" style="width: 1080px;">
 						<li class="nav-item">
-							<a class="nav-link" onclick="window.location.href='@Url.Action("Index", "Home", new { userID = ViewBag.UserID })'">Trang Chủ</a>
+							<a class="nav-link" onclick="window.location.href='@Url.Action("Index", "Home")'">Trang Chủ</a>
 						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -44,7 +58,7 @@
 							<a class="nav-link" href="#">Phim yêu thích</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">Xem phim tại rạp</a>
+							<a class="nav-link" href="@Url.Action("buyTicket", "Home")">Xem phim tại rạp</a>
 						</li>
 						<li class="nav-item ms-auto">
 							<input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
@@ -53,7 +67,7 @@
 							@if (User.Identity.IsAuthenticated)
 							{
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Dropdown
+									@ViewBag.userName
 								</a>
 								<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 									<li><a class="dropdown-item" onclick="window.location.href='@Url.Action("subscription", "Home")'">Thông tin gói</a></li>

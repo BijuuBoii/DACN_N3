@@ -12,11 +12,11 @@ namespace DACN_N3.Controllers
         private readonly ILogger<HomeController> _logger;
         private MovieDbContext _movieDbContext;
         
-        
         public HomeController(ILogger<HomeController> logger, MovieDbContext movieDbContext)
         {
             _logger = logger;
             _movieDbContext = movieDbContext;
+            
             
         }
         //phương thức gọi khi chạy bất kì action nào
@@ -25,11 +25,11 @@ namespace DACN_N3.Controllers
 			base.OnActionExecuting(context);
             var genres = _movieDbContext.Genres.ToList();
             ViewBag.AllGenres = genres;
-        }
+            
+		}
 
         public IActionResult Index(int UserID)
         {
-
 			var movies  = _movieDbContext.Movies.Include(m => m.Genres).ToList();
             
             var animeMovies = movies.Where(m => m.Genres.Any(g => g.Name == "Anime")).ToList();
@@ -52,9 +52,11 @@ namespace DACN_N3.Controllers
 
         public IActionResult subscription()
         {
-			
+			var subscriptions = _movieDbContext.Subscriptions.ToList();
+            ViewBag.Subscription = subscriptions;
 
-			return View();
+
+            return View();
         }
 
         public IActionResult buyTicket()

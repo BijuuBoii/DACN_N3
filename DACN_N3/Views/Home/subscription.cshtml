@@ -1,54 +1,28 @@
-﻿@{
+﻿@using DACN_N3.Data;
+@{
     ViewData["Title"] = "subscription";
+    var subscriptions = ViewBag.Subscription as List<Subscription> ?? new List<Subscription>();
+
 }
 
 <div class="subscription-container">
-    <div class="subscription-card">
-        <div class="price">199,000 VND</div>
-        <hr />
-        <div class="package-info">
-            <h3 style="color:brown">Gói Cơ Bản</h3>
-            <ul>
-                <li>Xem phim ở chất lượng HD</li>
-                <li>Hỗ trợ 1 thiết bị</li>
-                <li>Không có quảng cáo</li>
-            </ul>
+@foreach(var subscription in subscriptions)
+    {
+        <div class="subscription-card">
+            <div class="price">@subscription.Price VND</div>
+            <hr />
+            <div class="package-info">
+                <h3>@subscription.Name</h3>
+                <h3> Thời lượng: @subscription.Duration ngày</h3>
+            </div>
+            <hr />
+            <form method="post" asp-action="CreatePaymentMomo" asp-controller="Payment">
+                <input type="hidden" name="Amount" value="@subscription.Price" />
+                <input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
+                <input type="hidden" name="OrderInfo" value="Thanh toán momo cho @subscription.Name" />
+                <input type="hidden" name="FullName" value="@ViewBag.userName" />
+                <button class="subscribe-button" name="PayUrl" type="submit">Đăng Ký</button>
+            </form>
         </div>
-        <hr />
-        <button class="subscribe-button">Đăng Ký</button>
-    </div>
-
-    <div class="subscription-card">
-        <div class="price">299,000 VND</div>
-        <hr />
-        <div class="package-info">
-            <h3>Gói Tiêu Chuẩn</h3>
-
-            <ul>
-                <li>Xem phim ở chất lượng Full HD</li>
-                <li>Hỗ trợ 2 thiết bị</li>
-                <li>Không có quảng cáo</li>
-            </ul>
-        </div>
-        <hr />
-        <button class="subscribe-button">Đăng Ký</button>
-    </div>
-
-    <div class="subscription-card">
-        <div class="price">399,000 VND</div>
-        <hr />
-        <div class="package-info">
-            <h3>Gói Cao Cấp</h3>
-            <ul>
-                <li>Xem phim ở chất lượng 4K</li>
-                <li>Hỗ trợ 4 thiết bị</li>
-                <li>Không có quảng cáo</li>
-                <li>Tải xuống phim</li>
-            </ul>
-        </div>
-        <hr />
-        <button class="subscribe-button">Đăng Ký</button>
-    </div>
-    
-    
+    }
 </div>

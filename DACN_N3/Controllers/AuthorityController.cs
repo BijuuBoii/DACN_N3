@@ -56,8 +56,12 @@ namespace DACN_N3.Controllers
 				};
 
 				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+				// Lưu `userID` vào Session
+				HttpContext.Session.SetInt32("userID", existingUser.UserId);
+
 				// Đăng nhập thành công
-				if(existingUser.Role == "User")
+				if (existingUser.Role == "User")
 					return RedirectToAction("Index", "Home");
 				else if (existingUser.Role == "Admin")
 					return RedirectToAction("Home", "Admin");
