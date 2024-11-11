@@ -650,6 +650,10 @@ footer {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    display: inline-block;
+    padding-top: 8px;
+    text-align: center;
+    content-visibility: hidden;
 }
 
     .seat.vip {
@@ -657,7 +661,8 @@ footer {
     }
 
     .seat.selected {
-        background-color: #4CAF50;  Màu xanh khi chọn ghế 
+        background-color: #4CAF50;
+        content-visibility: visible;
     }
 
 .seat-info {
