@@ -391,6 +391,16 @@ footer {
     margin: 5px;
 }
 
+.heart i {
+    color: #ffffff;
+    transition: color 0.3s ease, transform 0.3s ease; /* Chuyển đổi mượt mà */
+}
+
+/* Khi thêm lớp 'active', màu sẽ chuyển sang đỏ và thêm hiệu ứng thu phóng */
+.heart.active i {
+    color: red;
+    transform: scale(1.2); /* Tạo hiệu ứng phóng to một chút khi nhấn */
+}
 /*sub*/
 .subscription-container {
     display: flex;

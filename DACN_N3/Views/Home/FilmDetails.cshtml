@@ -40,7 +40,15 @@
 		
 	</div>
 	<div class="container" style="padding-top: 20px; color:white;">
-		<h2>@Movie.Title tập 1</h2>
+		<div style="display:flex; gap:65%">
+			<h2>@Movie.Title tập 1</h2>
+			<div style=" display:flex; gap:10px">
+				<button id="heartButton" class="heart" style="background-color:#343a40; width:50px; height:50px">
+					<i class="fa-regular fa-heart fa-lg"></i>
+				</button>
+				<button style="background-color:#343a40; width:50px; height:50px"><i class="fa-solid fa-triangle-exclamation" style="color: #FFD43B;font-size:30px"></i></button>
+			</div>
+		</div>
 		<br /><br />
 		
 		<div class="d-flex justify-content-between align-item-center">

@@ -31,6 +31,18 @@
         });
     }
 
+    const heartButton = document.getElementById('heartButton');
+    const heartIcon = heartButton.querySelector('i'); // Lấy biểu tượng trái tim bên trong
+
+    // Thêm sự kiện click để toggle lớp 'active' và đổi từ regular sang solid
+    heartButton.addEventListener('click', function () {
+        heartButton.classList.toggle('active');
+
+        // Toggle giữa các lớp 'fa-regular' và 'fa-solid' cho biểu tượng
+        heartIcon.classList.toggle('fa-regular');
+        heartIcon.classList.toggle('fa-solid');
+    });
+
     //Function to add new movies
     document.querySelectorAll('.add-movie-btn').forEach(button => {
         button.addEventListener('click', function () {
@@ -361,5 +373,7 @@ function updateSeatInfo() {
     selectedSeatsElement.textContent = selectedSeats.join(', ') || 'Chưa chọn';
     totalPriceElement.textContent = totalPrice;
 }
+
+
 
 
