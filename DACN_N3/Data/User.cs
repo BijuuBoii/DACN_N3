@@ -17,6 +17,8 @@ public partial class User
 
     public DateTime? CreatedDate { get; set; }
 
+    public virtual ICollection<CinemaTicket> CinemaTickets { get; set; } = new List<CinemaTicket>();
+
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 
     public virtual ICollection<UserSubscription> UserSubscriptions { get; set; } = new List<UserSubscription>();

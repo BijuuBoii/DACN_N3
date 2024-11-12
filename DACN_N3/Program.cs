@@ -1,15 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-using DACN_N3.Data;
+/*using DACN_N3.Data;*/
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<MovieDbContext>(op =>
+/*builder.Services.AddDbContext<MovieDbContext>(op =>
 {
     op.UseSqlServer(builder.Configuration.GetConnectionString("MovieDB"));
-});
+});*/
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
