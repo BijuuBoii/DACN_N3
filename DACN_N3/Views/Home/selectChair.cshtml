@@ -1,43 +1,45 @@
 ﻿@{
     ViewData["Title"] = "selectChair";
 }
+<div style="display:flex">
+    <div style="width:70%">
+        <!-- Màn hình và ghế ngồi -->
+        <div class="screen">
+            <p>Màn Hình</p>
+        </div>
 
-<!-- Thông tin phim -->
-<div style="display:flex;justify-content:center">
-    <img src="https://th.bing.com/th/id/R.0d78be20ed7377dfe37bdc75828f87a8?rik=x2AAUQBoO%2bGFYg&pid=ImgRaw&r=0" width="200px" alt="Alternate Text" />
-    <div class="movie-info">
-        <h1>Tên Phim</h1>
-        <p>Thời gian: 120 phút | Ngày chiếu: 01-01-2024</p>
-        <p>Thể loại: Hành động, Phiêu lưu</p>
+        <div class="seat-selection">
+            <div class="seats" id="seats">
+                <!-- Ghế sẽ được tạo bằng JavaScript -->
+            </div>
+        </div>
+        <!-- Thông tin chọn ghế -->
+        <div class="seat-info" style="gap:20px">
+            <div class="d-flex">
+                <div class="seat"></div><p><strong>Ghế thường</strong></p>
+            </div>
+            <div class="d-flex">
+                <div class="seat vip"></div><p><strong>Ghế VIP</strong></p>
+            </div>
+        </div>
+    </div>
+    <div style="background-color:white;width:20%;padding:10px; margin-10px; height:fit-content;border-radius:10px;">
+        <p>Mắt Biếc</p>
+        <p><strong>CGV Sư Vạn Hạnh</strong></p>
+        <p>Suất: <strong>6:30</strong> | Ngày: <strong>1/1/2000</strong></p>
+        <p>Phòng chiếu: <strong>P6</strong></p>
+        <div class="d-flex" style="color:black">
+            <p>Ghế đã chọn: <strong id="selected-seats"></strong></p>
+        </div>
+        <div class="d-flex" style="color:black">
+            <p>Tổng tiền: <strong id="total-price">0</strong><strong>.000đ</strong></p>
+        </div>
+        <input type="submit" style="border-radius:5px;margin:10px;margin-left:50px; width:200px; height:50px; font-size:24px; background-color:lightgreen" name="name" value="Đặt vé" />
     </div>
 </div>
 
 
-<!-- Màn hình và ghế ngồi -->
-<div class="screen">
-    <p>Màn Hình</p>
-</div>
 
-<div class="seat-selection">
-    <div class="seats" id="seats">
-        <!-- Ghế sẽ được tạo bằng JavaScript -->
-    </div>
-</div>
 
-<!-- Thông tin chọn ghế -->
-<div class="seat-info" style="gap:20px">
-    <div class="d-flex">
-        <div class="seat"></div><p><strong>Ghế thường</strong></p>
-    </div>
-    <div class="d-flex">
-        <div class="seat vip"></div><p><strong>Ghế VIP</strong></p>
-    </div>
-    <div class="d-flex">
-        <div class="seat"></div><p><strong>Ghế đã chọn:</strong> <span id="selected-seats"></span></p>
-    </div>
-    <div class="d-flex">
-        <div class="seat"></div><p><strong>Tổng tiền:</strong> <span id="total-price">0</span>.000đ</p>
-    </div>
-    <input type="submit" style="border-radius:5px;" name="name" value="Đặt vé" />
-</div>
+
 
