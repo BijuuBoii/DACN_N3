@@ -29,9 +29,17 @@ public partial class Movie
 
     public DateTime? CreatedDate { get; set; }
 
+    public string? HorizontalPoster { get; set; }
+
+    public bool? Screening { get; set; }
+
+    public virtual ICollection<CinemaTicket> CinemaTickets { get; set; } = new List<CinemaTicket>();
+
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 
     public virtual ICollection<Season> Seasons { get; set; } = new List<Season>();
+
+    public virtual ICollection<ShowTime> ShowTimes { get; set; } = new List<ShowTime>();
 
     public virtual ICollection<ViewHistory> ViewHistories { get; set; } = new List<ViewHistory>();
 
