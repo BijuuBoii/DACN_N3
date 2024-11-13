@@ -5,31 +5,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Scripting;
 using System.Security.Claims;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using DACN_N3.Services.Email;
 
 namespace DACN_N3.Controllers
 {
     public class AuthorityController : Controller
     {
 		private MovieDbContext _movieDbContext;
-		
-		public AuthorityController(MovieDbContext movieDbContext)
+        private readonly IEmailSender _emailSender;
+        public AuthorityController(IEmailSender emailSender, MovieDbContext movieDbContext)
 		{
 			_movieDbContext = movieDbContext;
-			
-		}
+            _emailSender = emailSender;
+
+        }
 		public IActionResult Index()
         {
 			
             return View();
 
         }
-		public IActionResult Login()
+		public async Task<IActionResult> Login()
 		{
 			
 
 			var genres = _movieDbContext.Genres.ToList(); // Lấy danh sách thể loại
 			ViewBag.AllGenres = genres; // Gửi danh sách thể loại vào ViewBag
-			return View();
+                                        //gui mail
+            var receiver = "Datcopw123@gmail.com";
+            var subject = "Thanh toán gói tháng ComfyMovie";
+            var message = "Thanh toán thành công gói tháng, chúc bạn có những phút giây xem phim thư giản";
+            await _emailSender.SendEmailAsync(receiver, subject, message);
+            return View();
 		}
 		[HttpPost]
 		public async Task<IActionResult> Login(User user)

@@ -3,6 +3,7 @@ using DACN_N3.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using DACN_N3.Models.Momo;
 using DACN_N3.Services.Momo;
+using DACN_N3.Services.Email;
 var builder = WebApplication.CreateBuilder(args);
 //Connect momo api
 builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
@@ -10,6 +11,9 @@ builder.Services.AddScoped<IMomoService, MomoService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Connect email
+builder.Services.AddTransient<IEmailSender,EmailSender>();
 
 builder.Services.AddDbContext<MovieDbContext>(op =>
 {

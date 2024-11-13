@@ -21,7 +21,18 @@
             <div class="d-flex">
                 <div class="seat vip"></div><p><strong>Ghế VIP</strong></p>
             </div>
+            <div class="d-flex">
+                <div class="seat placed"></div><p><strong>Ghế đã đặt</strong></p>
+            </div>
         </div>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <div class="popup" id="popup">
+        <i class="fa-regular fa-circle-xmark fa-shake" style="color: #d41616; font-size:50px;"></i>
+        <br />
+        <p><strong>Mỗi lần chỉ được đặt tối đa 8 chỗ!</strong></p>
+        <button class="close-btn" onclick="closePopup()">Đóng</button>
     </div>
     <div style="background-color:white;width:20%;padding:10px; margin-10px; height:fit-content;border-radius:10px;">
         <p>Mắt Biếc</p>

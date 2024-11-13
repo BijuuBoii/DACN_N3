@@ -11,16 +11,15 @@ namespace DACN_N3.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private MovieDbContext _movieDbContext;
-        
+
         public HomeController(ILogger<HomeController> logger, MovieDbContext movieDbContext)
         {
             _logger = logger;
             _movieDbContext = movieDbContext;
-            
-            
+
         }
         //phương thức gọi khi chạy bất kì action nào
-		public override void OnActionExecuting(ActionExecutingContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
 		{
 			base.OnActionExecuting(context);
             var genres = _movieDbContext.Genres.ToList();
@@ -28,9 +27,9 @@ namespace DACN_N3.Controllers
             
 		}
 
-        public IActionResult Index(int UserID)
+        public async Task<IActionResult> Index(int UserID)
         {
-			var movies  = _movieDbContext.Movies.Include(m => m.Genres).ToList();
+            var movies  = _movieDbContext.Movies.Include(m => m.Genres).ToList();
             
             var animeMovies = movies.Where(m => m.Genres.Any(g => g.Name == "Anime")).ToList();
             var crimeMovies = movies.Where(m => m.Genres.Any(g => g.Name == "Crime")).ToList();
