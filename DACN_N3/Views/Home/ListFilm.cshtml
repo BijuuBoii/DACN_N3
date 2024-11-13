@@ -20,7 +20,7 @@
                     {
                         foreach (var movie in relatedFilms)
                         {
-                            <div class="me-3" style="height: 300px; width: 100px;">
+                            <div class="me-3" style="height: 300px; width: 200px;">
                                 <img src="~/img/@movie.Poster" class="rounded d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId })'">
                             </div>
                         }

@@ -486,7 +486,7 @@ footer {
 .upcoming-movies {
     width: 90%;
     max-width: 800px;
-    margin: 20px auto;
+    margin:0 auto 20px auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
@@ -526,7 +526,7 @@ footer {
 .movie-details-container {
     width: 90%;
     max-width: 800px;
-    margin: 20px auto;
+    margin:0 auto 20px auto;
     background-color: #fff;
     border-radius: 8px;
     padding: 20px;

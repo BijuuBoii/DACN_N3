@@ -10,7 +10,7 @@
 	<div class="container">
         <img style="height: 650px" src="~/img/@ViewBag.RandomMovies.Poster" alt="Phim Nổi Bật">
         <div style="position: absolute; top: 560px; left: 18%; padding: 10px">
-            <button type="submit" class="btn btn-light btn-lg" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = @ViewBag.RandomMovies.MovieId })'">Xem</button>
+            <button type="submit" class="btn btn-light btn-lg" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = @ViewBag.RandomMovies.MovieId })'"><i class="fa-solid fa-play"></i> <strong>Phát</strong></button>
         </div>
 	</div>
 </section>
