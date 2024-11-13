@@ -12,11 +12,9 @@ namespace DACN_N3.Controllers
     public class AuthorityController : Controller
     {
 		private MovieDbContext _movieDbContext;
-        private readonly IEmailSender _emailSender;
-        public AuthorityController(IEmailSender emailSender, MovieDbContext movieDbContext)
+        public AuthorityController( MovieDbContext movieDbContext)
 		{
 			_movieDbContext = movieDbContext;
-            _emailSender = emailSender;
 
         }
 		public IActionResult Index()
@@ -31,11 +29,6 @@ namespace DACN_N3.Controllers
 
 			var genres = _movieDbContext.Genres.ToList(); // Lấy danh sách thể loại
 			ViewBag.AllGenres = genres; // Gửi danh sách thể loại vào ViewBag
-                                        //gui mail
-            var receiver = "Datcopw123@gmail.com";
-            var subject = "Thanh toán gói tháng ComfyMovie";
-            var message = "Thanh toán thành công gói tháng, chúc bạn có những phút giây xem phim thư giản";
-            await _emailSender.SendEmailAsync(receiver, subject, message);
             return View();
 		}
 		[HttpPost]
