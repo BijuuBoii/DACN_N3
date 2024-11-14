@@ -11,40 +11,59 @@
     <!-- Main Content -->
     <div class="main-content">
         <header>
-            <h1>Welcome to Admin Panel</h1>
+            <h1>chào mừng đến với Admin Panel</h1>
         </header>
 
         <div class="dt">
-            <section id="dashboard">
-                <h2>Dashboard</h2>
-                <p>Overview of activities and site statistics.</p>
-                
+            <section id="revenue">
+                <h2>Doanh Thu Đăng Ký Gói (Năm nay)</h2>
+                <div class="revenue-chart" >
+                    <!-- Placeholder for Revenue Chart -->
+                    <img src="~/img/statistic.png" alt="Biểu đồ doanh thu" />
+                </div>
             </section>
 
-            <section id="dashboard">
-                <h2>Dashboard</h2>
-                <p>Overview of activities and site statistics.</p>
+            <!-- Tổng số người dùng -->
+            <section id="users-stat">
+                <h2>Tổng Số Người Dùng</h2>
+                <p>Tổng số người dùng hiện tại của website: <strong>5,234</strong> người.</p>
             </section>
         </div>
 
-        <section id="movies">
-            <h2>Movies</h2>
-            <p>Manage movies available on the website.</p>
-        </section>
-
         <section id="genres">
-            <h2>Genres</h2>
-            <p>Manage different genres for movies.</p>
+            <h2>Thể Loại Phim</h2>
+            <p>Quản lý các thể loại phim hiện có trên website.</p>
+            <div class="genre-stats">
+                <ul>
+                    <li><strong>Hành Động:</strong> 30 phim</li>
+                    <li><strong>Tâm Lý:</strong> 25 phim</li>
+                    <li><strong>Khoa Học Viễn Tưởng:</strong> 20 phim</li>
+                    <li><strong>Hài:</strong> 15 phim</li>
+                    <li><strong>Võ Thuật:</strong> 10 phim</li>
+                </ul>
+            </div>
         </section>
 
+        <!-- Quản lý người dùng -->
         <section id="users">
-            <h2>Users</h2>
-            <p>Manage registered users and their activities.</p>
+            <h2>Quản Lý Người Dùng</h2>
+            <p>Thông tin về người dùng và các hoạt động của họ trên website.</p>
+            <div class="user-stats">
+                <div class="stat">
+                    <h3>Người Dùng Đang Hoạt Động</h3>
+                    <p><strong>1,200</strong> người dùng đang online hiện tại.</p>
+                </div>
+                <div class="stat">
+                    <h3>Người Dùng Mới</h3>
+                    <p><strong>150</strong> người dùng mới đã đăng ký trong tháng này.</p>
+                </div>
+            </div>
         </section>
 
+        <!-- Cài đặt -->
         <section id="settings">
-            <h2>Settings</h2>
-            <p>Configure website settings.</p>
+            <h2>Cài Đặt</h2>
+            <p>Quản lý các thiết lập của website, bao gồm bảo mật, ngôn ngữ, và thông báo.</p>
         </section>
     </div>
 </div>

@@ -80,6 +80,7 @@ public partial class MovieDbContext : DbContext
             entity.Property(e => e.Director).HasMaxLength(100);
             entity.Property(e => e.Language).HasMaxLength(50);
             entity.Property(e => e.Poster).HasMaxLength(255);
+            entity.Property(e => e.HorizontalPoster).HasMaxLength(255);
             entity.Property(e => e.Title).HasMaxLength(255);
             entity.Property(e => e.Trailer).HasMaxLength(255);
 

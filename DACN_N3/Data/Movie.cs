@@ -24,6 +24,7 @@ public partial class Movie
     public string? AgeRating { get; set; }
 
     public string? Poster { get; set; }
+    public string? HorizontalPoster { get; set; }
 
     public string? Trailer { get; set; }
 
