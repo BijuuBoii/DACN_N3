@@ -25,8 +25,6 @@ namespace DACN_N3.Controllers
         }
 		public async Task<IActionResult> Login()
 		{
-			
-
 			var genres = _movieDbContext.Genres.ToList(); // Lấy danh sách thể loại
 			ViewBag.AllGenres = genres; // Gửi danh sách thể loại vào ViewBag
             return View();
@@ -67,7 +65,7 @@ namespace DACN_N3.Controllers
 					return RedirectToAction("Home", "Admin");
 			}
 			// Xử lý đăng nhập không thành công
-			ModelState.AddModelError(string.Empty, "Đăng nhập không hợp lệ.");
+			
 			return View(user);
 		}
 		[HttpPost]
@@ -84,7 +82,7 @@ namespace DACN_N3.Controllers
 				_movieDbContext.SaveChanges();
 				
 			}
-			ModelState.AddModelError(string.Empty, "Đăng ký không hợp lệ.");
+			TempData["LoginAlert"] = "Đăng ký không thành công";
 			return RedirectToAction("Login");
 
 		}

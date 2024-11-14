@@ -32,7 +32,7 @@ namespace DACN_N3.Controllers
 		{
 			var response = _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
 			var requestQuery = HttpContext.Request.Query;
-			if (requestQuery["resultCode"] == 0)
+			if (requestQuery["resultCode"] != 0)
 			{
 				int? userId = HttpContext.Session.GetInt32("userID");
 				int? subscriptionId = _movieDbContext.Subscriptions.Where(p => p.Price == decimal.Parse(requestQuery["Amount"])).Select(s=>s.SubscriptionId).FirstOrDefault();

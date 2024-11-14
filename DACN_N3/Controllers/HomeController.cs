@@ -112,6 +112,9 @@ namespace DACN_N3.Controllers
 			.Include(g => g.Genres)
 			.FirstOrDefault(m => m.MovieId == id);
 
+            var comments = _movieDbContext.Reviews.Where(s=>s.MovieId == id).Include(s=>s.User).ToList();
+
+            ViewBag.Comments = comments;
 			ViewBag.SeasonNumber = 1;
 			ViewBag.Movie = movie;
 			ViewBag.Seasons = movie.Seasons.ToList();
@@ -135,8 +138,13 @@ namespace DACN_N3.Controllers
 			ViewBag.Genres = movie.Genres.ToList();
 			return View("FilmDetails"); // Trả về view với dữ liệu mới
 		}
+		public IActionResult Favorite()
+        {
+            
+            return View();
+        }
 
-        public IActionResult ListFilm(int id)
+		public IActionResult ListFilm(int id)
         {
             var movies = _movieDbContext.Movies.Include(g => g.Genres).ToList();
             var relatedFilms = movies.Where(m => m.Genres.Any(g => g.GenreId == id)).ToList();
@@ -148,6 +156,32 @@ namespace DACN_N3.Controllers
             return View();
         }
 
+		[HttpPost]
+		public async Task<IActionResult> Review(string content, int rating, int movieId)
+		{
+			if (ModelState.IsValid)
+			{
+				int? userId = HttpContext.Session.GetInt32("userID");
+				// Tạo đối tượng bình luận mới
+				var Review = new Review
+				{
+                    UserId = userId,
+                    MovieId = movieId,
+					Comment = content,
+					Rating = rating,
+					CreatedDate = DateTime.Now
+				};
+
+				// Thêm bình luận vào DbContext và lưu
+				_movieDbContext.Reviews.Add(Review);
+				await _movieDbContext.SaveChangesAsync();
+
+				// Có thể redirect hoặc trả về kết quả khác sau khi lưu
+				
+			}
+			return RedirectToAction("FilmDetails", new { id = movieId });
+
+		}
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
