@@ -119,7 +119,7 @@
 					<h6><b>Thể loại: </b>
 						@foreach (var theloai in genres)
 						{
-							<a href="#" style="text-decoration:none;">@theloai.Name</a>
+							<a href="@Url.Action("listFilm", "Home", new { id = theloai.GenreId })" style="text-decoration:none;">@theloai.Name</a>
 							@if (index < count - 1)
 							{
 								@: ,
