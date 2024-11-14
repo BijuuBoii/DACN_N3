@@ -50,7 +50,7 @@ namespace DACN_N3.Controllers
 				var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 				var authProperties = new AuthenticationProperties
 				{
-					IsPersistent = true // Cookie tồn tại sau khi đóng trình duyệt
+					
 				};
 
 				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
