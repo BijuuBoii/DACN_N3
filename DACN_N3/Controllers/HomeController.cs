@@ -114,7 +114,10 @@ namespace DACN_N3.Controllers
 
             var comments = _movieDbContext.Reviews.Where(s=>s.MovieId == id).Include(s=>s.User).ToList();
 
-            ViewBag.Comments = comments;
+			var movieFav = _movieDbContext.Watchlists.Where(m => m.MovieId == id && m.UserId == userId).FirstOrDefault();
+
+            ViewBag.MovieFav = movieFav;
+			ViewBag.Comments = comments;
 			ViewBag.SeasonNumber = 1;
 			ViewBag.Movie = movie;
 			ViewBag.Seasons = movie.Seasons.ToList();
@@ -138,12 +141,42 @@ namespace DACN_N3.Controllers
 			ViewBag.Genres = movie.Genres.ToList();
 			return View("FilmDetails"); // Trả về view với dữ liệu mới
 		}
-		public IActionResult Favorite()
+		[HttpPost]
+		public async Task<IActionResult> Favorite(int movieId)
         {
-            
-            return View();
-        }
+			int? userId = HttpContext.Session.GetInt32("userID");
+			var movieFav = _movieDbContext.Watchlists.Where(m=>m.MovieId == movieId && m.UserId == userId).FirstOrDefault();
+            if(movieFav == null)
+            {
+				
+				Watchlist watchlist = new Watchlist
+                {
+                    MovieId = movieId,
+                    UserId = userId,
+                    AddedDate = DateTime.Now
+                };
+				_movieDbContext.Watchlists.Add(watchlist);
+				await _movieDbContext.SaveChangesAsync();
+			}
+            else
+            {
+				_movieDbContext.Watchlists.Remove(movieFav);
+				await _movieDbContext.SaveChangesAsync();
+			}
 
+			return RedirectToAction("FilmDetails", new { id = movieId });
+		}
+		public IActionResult ListFilmFav()
+        {
+			int? userId = HttpContext.Session.GetInt32("userID");
+			var watchlist = _movieDbContext.Watchlists
+								.Where(w => w.UserId == userId)
+								.Include(w => w.Movie) // Bao gồm thông tin phim
+								.ToList();
+            
+			ViewBag.RelatedFilms = watchlist;
+			return View();
+        }
 		public IActionResult ListFilm(int id)
         {
             var movies = _movieDbContext.Movies.Include(g => g.Genres).ToList();

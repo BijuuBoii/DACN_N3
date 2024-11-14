@@ -4,6 +4,7 @@
 @using DACN_N3.Data
 @{
 	ViewData["Title"] = "Film details";
+	var MovieFav = ViewBag.MovieFav;
 	var Movie = ViewBag.Movie as Movie ?? new Movie();
 	var Seasons = ViewBag.Seasons as List<Season> ?? new List<Season>();
 	var Episodes = ViewBag.Episodes as List<Episode> ?? new List<Episode>();
@@ -45,9 +46,23 @@
 		<div style="display:flex; gap:65%" class="d-flex justify-content-between">
 			<h2>@Movie.Title tập 1</h2>
 			<div style=" display:flex; gap:10px">
-					<button id="heartButton" class="heart" style="background-color:#343a40; width:50px; height:50px" type="submit">
-						<i class="fa-regular fa-heart fa-lg"></i>
-					</button>
+				<form id="Favorite" asp-action="Favorite" method="post">
+					<input type="hidden" name="movieId" value="@Movie.MovieId" />
+					@if (MovieFav == null)
+					{
+						<button id="heartButton" class="heart" style="background-color:#343a40; width:50px; height:50px" type="submit">
+							<i class="fa-regular fa-heart fa-lg"></i>
+						</button>
+					}
+					else
+					{
+						<button id="heartButton" class="heart active" style="background-color:#343a40; width:50px; height:50px" type="submit">
+							<i class="fa-heart fa-lg fa-solid"></i>
+						</button>
+					}
+				</form>
+						
+					
 				<button style="background-color:#343a40; width:50px; height:50px"><i class="fa-solid fa-triangle-exclamation" style="color: #FFD43B;font-size:30px"></i></button>
 			</div>
 		</div>
