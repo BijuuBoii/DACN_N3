@@ -39,7 +39,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var loginAlert = '@TempData["LoginAlert"]';
+        var loginAlert = '@TempData["SignUpFailAlert"]';
         if (loginAlert) {
             Swal.fire({
 			  position: "top-end",
@@ -50,6 +50,18 @@
 			});
         }
     });
+	document.addEventListener("DOMContentLoaded", function () {
+		var loginAlert = '@TempData["SignUpSuccessAlert"]';
+		if (loginAlert) {
+			Swal.fire({
+				position: "top-end",
+				icon: "success",
+				title: "Đăng ký thành công",
+				showConfirmButton: false,
+				timer: 1500
+			});
+		}
+	});
 </script>
 
 <style>

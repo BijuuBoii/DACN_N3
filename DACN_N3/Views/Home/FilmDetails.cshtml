@@ -103,12 +103,16 @@
 		</div>
 	</div>
 	<div class="container" style="padding-top: 20px;">
-		<div class="border border-light rounded bg-dark bg-gradient" style="height: 400px;">
-			<div class="row align-self-center" style="padding: 50px;">
-				<div class="col-4" style="height: 300px; width 100px">
+		<div class="border border-light rounded" style="height: 400px;">
+			<div class="row align-self-center" style="padding: 50px; position: relative; height: 400px;">
+				<!-- Phần tử img làm nền, đặt phía dưới -->
+				<img class="rounded d-block w-100 h-100" src="~/img/@Movie.HorizontalPoster" alt="@Movie.Title poster" style="position: absolute; top: 0; left: 0; z-index: 1; object-fit: cover; width: 100%; height: 100%; opacity: 0.4;" />
+
+				<!-- Nội dung (ở trên ảnh) -->
+				<div class="col-4" style="height: 300px; width: 200px; position: relative; z-index: 2;">
 					<img class="rounded d-block w-100 h-100" src="~/img/@Movie.Poster" alt="@Movie.Title poster" />
 				</div>
-				<div class="col-8" style="color:white;">
+				<div class="col-8" style="color:white; position: relative; z-index: 2;">
 					<h1>@Movie.Title</h1>
 					<span><b>Nội dung:</b> @Movie.Description</span>
 					<h6><b>Ngôn ngữ: </b>@Movie.Language</h6>
@@ -116,19 +120,21 @@
 					<h6><b>Đánh giá độ tuổi: </b>@Movie.AgeRating</h6>
 					<h6><b>Thời lượng phim: </b>@Movie.Duration</h6>
 					<h6><b>Đạo diễn: </b>@Movie.Director</h6>
-					<h6><b>Thể loại: </b>
+					<h6>
+						<b>Thể loại: </b>
 						@foreach (var theloai in genres)
 						{
-							<a href="@Url.Action("listFilm", "Home", new { id = theloai.GenreId })" style="text-decoration:none;">@theloai.Name</a>
+							<a href="@Url.Action("listFilm", "Home", new { id = theloai.GenreId })" style="text-decoration:none; color:white">@theloai.Name</a>
 							@if (index < count - 1)
 							{
 								@: ,
-									}
+							}
 							index++;
 						}
 					</h6>
 				</div>
 			</div>
+
 		</div>
 		
 	</div>

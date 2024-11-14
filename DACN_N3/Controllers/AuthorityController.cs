@@ -80,9 +80,12 @@ namespace DACN_N3.Controllers
 				user.Role = "User";
 				_movieDbContext.Users.Add(user);
 				_movieDbContext.SaveChanges();
-				
+				TempData["SignUpSuccessAlert"] = "Đăng ký thành công";
 			}
-			TempData["LoginAlert"] = "Đăng ký không thành công";
+			else
+			{
+				TempData["SignUpFailAlert"] = "Đăng ký không thành công";
+			}
 			return RedirectToAction("Login");
 
 		}
