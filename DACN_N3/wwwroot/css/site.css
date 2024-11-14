@@ -814,3 +814,142 @@ footer {
     border: none;
     border-radius: 5px;
 }
+/*select time*/
+.location-input input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.date-selector {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.date-item {
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: #333;
+    cursor: pointer;
+    background-color: #f1f5f9;
+}
+
+    .date-item.active {
+        background-color: #d1e9ff;
+        color: #333;
+    }
+
+.cinema-list {
+    border-top: 1px solid #ddd;
+}
+
+.cinema-group {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f0f4ff;
+}
+
+.cinema-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+    .cinema-header img {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+    }
+
+    .cinema-header span {
+        font-size: 16px;
+        color: #333;
+    }
+
+.cinema-count {
+    margin-left: auto;
+    font-size: 14px;
+    color: #777;
+}
+
+.cinema-details {
+    padding-left: 34px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: width 2s;
+}
+
+    .cinema-details.hidden {
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    .cinema-details:not(.hidden) {
+        max-height: 500px; /* Đặt giá trị lớn hơn chiều cao tối đa của phần tử */
+        opacity: 1;
+        transform: translateY(0);
+    }
+.branch-name {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.branch-address {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+    .branch-address a {
+        color: #1e90ff;
+        text-decoration: none;
+    }
+
+.showtime {
+    margin-bottom: 10px;
+}
+
+.showtype {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.time {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-right: 8px;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+    cursor: pointer;
+}
+
+    .time.disabled {
+        background-color: #f1f1f1;
+        color: #bbb;
+        cursor: not-allowed;
+    }
+
+    .time:hover {
+        background-color: #d1e9ff;
+    }
+
+.price {
+    font-size: 12px;
+    color: #777;
+    margin-left: 5px;
+}
+
+.hidden {
+    display: none;
+}

@@ -85,6 +85,11 @@ namespace DACN_N3.Controllers
 			return View();
         }
 
+        public IActionResult selectTime()
+        {
+            return View();
+        }
+
         public IActionResult FilmDetails(int id)
         {
             if(!User.Identity.IsAuthenticated)

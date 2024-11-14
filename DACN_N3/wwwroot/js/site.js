@@ -395,5 +395,20 @@ function closePopup() {
     document.getElementById('overlay').style.display = 'none';
 }
 
+function toggleCinemaDetails(header) {
+    const details = header.nextElementSibling;
+    details.classList.toggle('hidden');
+}
+
+function selectDate(element) {
+    // Xóa lớp 'selected' khỏi tất cả các ngày
+    const dates = document.querySelectorAll('.date-item');
+    dates.forEach(date => date.classList.remove('active'));
+
+    // Thêm lớp 'selected' vào ngày được chọn
+    element.classList.add('active');
+}
+
+
 
 
