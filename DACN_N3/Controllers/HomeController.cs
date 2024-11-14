@@ -51,11 +51,18 @@ namespace DACN_N3.Controllers
 
         public IActionResult subscription()
         {
+			
+
 			var subscriptions = _movieDbContext.Subscriptions.ToList();
             ViewBag.Subscription = subscriptions;
 
-
-            return View();
+			int? userId = HttpContext.Session.GetInt32("userID");
+			var latestSubscription = _movieDbContext.UserSubscriptions
+				                          .Where(s => s.UserId == userId)
+										  .OrderByDescending(s => s.StartDate)
+										  .FirstOrDefault();
+            ViewBag.UserSubscription = latestSubscription;
+			return View();
         }
 
         public IActionResult buyTicket()
@@ -85,9 +92,21 @@ namespace DACN_N3.Controllers
                 TempData["LoginAlert"] = "Vui lòng đăng nhập để xem chi tiết phim!";
                 return RedirectToAction("Index", "Home");
             }
-				
+            int? userId = HttpContext.Session.GetInt32("userID");
+            // Kiểm tra tình trạng đăng ký của người dùng
+            var latestSubscription = _movieDbContext.UserSubscriptions
+                .Where(s => s.UserId == userId)
+                .OrderByDescending(s => s.StartDate)
+                .FirstOrDefault();
 
-			var movie = _movieDbContext.Movies
+            if (latestSubscription == null || latestSubscription.EndDate < DateTime.Now)
+            {
+                // Nếu người dùng chưa đăng ký gói hoặc gói đã hết hạn, yêu cầu đăng ký
+                TempData["SubscriptionAlert"] = "Vui lòng đăng ký gói để xem chi tiết phim!";
+                return RedirectToAction("Index", "Home"); // Giả sử trang đăng ký gói là "Subscription"
+            }
+
+            var movie = _movieDbContext.Movies
 		    .Include(m => m.Seasons) // Bao gồm các mùa
 			.ThenInclude(s => s.Episodes) // Bao gồm các tập
 			.Include(g => g.Genres)

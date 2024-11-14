@@ -1,28 +1,55 @@
 ﻿@using DACN_N3.Data;
 @{
-    ViewData["Title"] = "subscription";
+    ViewData["Title"] = "Subscription";
     var subscriptions = ViewBag.Subscription as List<Subscription> ?? new List<Subscription>();
+    var userLatestSub = ViewBag.UserSubscription as UserSubscription; // Đảm bảo là một đối tượng UserSubscription
 
+    // Kiểm tra xem người dùng đã đăng ký gói nào và gói đó còn hạn không
+    var isSubscribed = userLatestSub != null && userLatestSub.EndDate > DateTime.Now;
+    var endDate = isSubscribed ? userLatestSub.EndDate?.ToString("dd/MM/yyyy") : null;
 }
 
 <div class="subscription-container">
-@foreach(var subscription in subscriptions)
+    @foreach (var subscription in subscriptions)
     {
+        // Kiểm tra nếu người dùng đã đăng ký gói này và gói đó còn hạn
+        var isCurrentSubscription = isSubscribed && userLatestSub.SubscriptionId == subscription.SubscriptionId;
+        
         <div class="subscription-card">
             <div class="price">@subscription.Price VND</div>
             <hr />
             <div class="package-info">
                 <h3>@subscription.Name</h3>
-                <h3> Thời lượng: @subscription.Duration ngày</h3>
+                <h3>Thời lượng: @subscription.Duration ngày</h3>
             </div>
             <hr />
-            <form method="post" asp-action="CreatePaymentMomo" asp-controller="Payment">
-                <input type="hidden" name="Amount" value="@subscription.Price" />
-                <input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
-                <input type="hidden" name="OrderInfo" value="Thanh toán momo cho @subscription.Name" />
-                <input type="hidden" name="FullName" value="@ViewBag.userName" />
-                <button class="subscribe-button" name="PayUrl" type="submit">Đăng Ký</button>
-            </form>
+
+            @if (isCurrentSubscription)
+            {
+                <!-- Nếu người dùng đã đăng ký gói này và gói còn hạn, thì khóa gói đó và hiển thị ngày hết hạn trong nút -->
+                        <button class="subscribe-button alreadySubButton" disabled>
+                    Đã đăng ký (Hết hạn: @endDate)
+                </button>
+            }
+            else
+            {
+                <!-- Nếu người dùng chưa đăng ký gói này hoặc gói đã hết hạn, cho phép đăng ký -->
+                @if (!isSubscribed)
+                {
+                    <form method="post" asp-action="CreatePaymentMomo" asp-controller="Payment">
+                        <input type="hidden" name="Amount" value="@subscription.Price" />
+                        <input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
+                        <input type="hidden" name="OrderInfo" value="Thanh toán momo cho @subscription.Name" />
+                        <input type="hidden" name="FullName" value="@ViewBag.userName" />
+                        <button class="subscribe-button" name="PayUrl" type="submit">Đăng Ký</button>
+                    </form>
+                }
+                else
+                {
+                    <!-- Nếu người dùng đã đăng ký một gói khác còn hạn, khóa các gói còn lại -->
+                    <button class="subscribe-button" disabled>Đã đăng ký</button>
+                }
+            }
         </div>
     }
 </div>

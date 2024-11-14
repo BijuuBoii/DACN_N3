@@ -463,6 +463,43 @@ footer {
         background-color: #0056b3;
     }
 
+@keyframes ColorChange {
+    0% {
+        color: #ffffff;
+        background-color: #333333;
+    }
+    /* Chữ trắng, nền đen */
+    20% {
+        color: #ffffff;
+        background-color: #2196f3;
+    }
+    /* Chữ trắng, nền xanh dương sáng */
+    40% {
+        color: #ffffff;
+        background-color: #1976d2;
+    }
+    /* Chữ trắng, nền xanh dương đậm */
+    60% {
+        color: #333333;
+        background-color: #64b5f6;
+    }
+    /* Chữ đen, nền xanh dương nhạt */
+    80% {
+        color: #ffffff;
+        background-color: #2196f3;
+    }
+    /* Chữ trắng, nền xanh dương sáng */
+    100% {
+        color: #ffffff;
+        background-color: #333333;
+    }
+    /* Chữ trắng, nền đen */
+}
+.alreadySubButton {
+    cursor: pointer;
+    animation: ColorChange 9s infinite linear; /* Áp dụng animation cho button */
+    transition: opacity 0.3s ease-in-out; /* Thêm hiệu ứng mờ cho button khi hover */
+}
 /*buy ticket*/
 .carouselTicket {
     display: flex;
