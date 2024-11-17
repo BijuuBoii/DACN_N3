@@ -78,11 +78,20 @@ namespace DACN_N3.Controllers
 			return View();
         }
 
-        public IActionResult selectChair()
+        public IActionResult SelectChair(string date, string time,string cinema)
         {
-			
+            // Kiểm tra nếu có giá trị ngày và giờ
+           /* if (string.IsNullOrEmpty(date) || string.IsNullOrEmpty(time))
+            {
+                return RedirectToAction("Index", "Home");  // Quay lại trang chủ nếu không có thông tin
+            }*/
 
-			return View();
+            // Truyền dữ liệu đến view
+            ViewData["SelectedDate"] = date;
+            ViewData["SelectedTime"] = time;
+            ViewData["SelectedCinema"] = cinema;
+
+            return View();  // Trả về view chọn ghế
         }
 
         public IActionResult selectTime()

@@ -933,6 +933,7 @@ footer {
     border-radius: 5px;
     color: #333;
     cursor: pointer;
+    text-align:center;
 }
 
     .time.disabled {
@@ -954,3 +955,10 @@ footer {
 .hidden {
     display: none;
 }
+
+.time.disabled {
+    pointer-events: none; /* Ngăn click */
+    opacity: 0.5; /* Giảm độ sáng */
+    cursor: not-allowed;
+}
+

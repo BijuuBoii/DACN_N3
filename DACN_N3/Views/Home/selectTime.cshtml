@@ -11,12 +11,12 @@
 
     <!-- Date Selector -->
     <div class="date-selector">
-        <div class="date-item active" onclick="selectDate(this)">14/11 <span>Th 5</span></div>
-        <div class="date-item" onclick="selectDate(this)">15/11 <span>Th 6</span></div>
-        <div class="date-item" onclick="selectDate(this)">16/11 <span>Th 7</span></div>
-        <div class="date-item" onclick="selectDate(this)">17/11 <span>CN</span></div>
-        <div class="date-item" onclick="selectDate(this)">18/11 <span>Th 2</span></div>
-        <div class="date-item" onclick="selectDate(this)">19/11 <span>Th 3</span></div>
+        <div class="date-item active" onclick="selectDate(this)">14/11/2024</div>
+        <div class="date-item" onclick="selectDate(this)">15/11/2024</div>
+        <div class="date-item" onclick="selectDate(this)">16/11/2024</div>
+        <div class="date-item" onclick="selectDate(this)">17/11/2024</div>
+        <div class="date-item" onclick="selectDate(this)">18/11/2024</div>
+        <div class="date-item" onclick="selectDate(this)">19/11/2024 </div>
     </div>
 
     <!-- Cinema List -->
@@ -26,7 +26,6 @@
             <div class="cinema-header" onclick="toggleCinemaDetails(this)">
                 <img src="https://th.bing.com/th/id/OIP.NRXHawT8LFWgl9k5U39EqQHaHa?rs=1&pid=ImgDetMain" alt="Beta Cinemas">
                 <span>Beta Cinemas</span>
-                <span class="cinema-count">3 rạp</span>
             </div>
 
             <!-- Cinema Branch Details -->
@@ -42,14 +41,15 @@
 
                 <div class="showtime">
                     <p class="showtype">2D Phụ Đề Việt</p>
-                    <div class="time">20:00</div>
-                    <div class="time">20:30</div>
-                    <div class="time">21:00</div>
-                    <div class="time">22:10 <span class="price">50K</span></div>
-                    <div class="time">22:40 <span class="price">50K</span></div>
-                    <div class="time">23:10 <span class="price">50K</span></div>
+                    <div onclick="selectTime(this)" class="time">20:00<br /><span class="Rap">Rạp 6</span></div>
+                    <div onclick="selectTime(this)" class="time">20:30<br /><span class="Rap">Rạp 2</span></div>
+                    <div onclick="selectTime(this)" class="time">21:30<br /><span class="Rap">Rạp 4</span></div>
+                    <div onclick="selectTime(this)" class="time">22:10<br /><span class="Rap">Rạp 6</span> </div>
+                    <div onclick="selectTime(this)" class="time">22:40<br /><span class="Rap">Rạp 2</span></div>
+                    <div onclick="selectTime(this)" class="time">23:10<br /><span class="Rap">Rạp 4</span></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+

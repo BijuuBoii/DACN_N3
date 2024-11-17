@@ -48,10 +48,15 @@
 
     document.querySelectorAll('.buy-ticket-button').forEach(button => {
         button.addEventListener('click', function () {
-            window.location.href = '/home/selectChair';
+            window.location.href = '/home/selectTime';
         });
     });
-    
+
+    document.querySelectorAll('.time').forEach(button => {
+        button.addEventListener('click', function () {
+            window.location.href = `/Home/SelectChair?date=${encodeURIComponent(selectedDate)}&time=${encodeURIComponent(selectedTime)}&cinema=${encodeURIComponent(selectedCinema)}`;
+        });
+    });
 
     document.querySelectorAll('.save-btn-movies').forEach(button => {
         button.addEventListener('click', function () {
@@ -60,7 +65,7 @@
         });
     });
 
-
+    
 
     const heartButton = document.getElementById('heartButton');
     const heartIcon = heartButton.querySelector('i'); // Lấy biểu tượng trái tim bên trong
@@ -329,6 +334,10 @@ const condition = true;
 let selectedSeats = [];
 let totalPrice = 0;
 let temp = 0;
+let selectedDate = '19/11/2024';  // Biến lưu trữ ngày chọn
+let selectedTime = '';  // Biến lưu trữ giờ chọn
+let selectedCinema = '';
+
 
 // Tạo ghế ngồi
 for (let i = 1; i <= SEAT_COUNT; i++) {
@@ -407,7 +416,29 @@ function selectDate(element) {
 
     // Thêm lớp 'selected' vào ngày được chọn
     element.classList.add('active');
+    selectedDate = element.innerText.trim();  // Lấy ngày đã chọn
+    console.log('Selected Date: ', selectedDate);
 }
+
+function selectTime(element) {
+    if (!element.classList.contains('disabled')) {
+        selectedTime = element.innerText.split('\n')[0].trim();  // Lấy giờ đã chọn
+        selectedCinema = element.querySelector('.Rap').innerText.trim();
+        
+        console.log('Selected Time: ', selectedTime);
+        console.log('Selected Cinema: ', selectedCinema);
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
