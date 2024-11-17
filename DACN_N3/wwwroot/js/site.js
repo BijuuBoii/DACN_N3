@@ -171,6 +171,26 @@
         });
     });
 
+    document.querySelectorAll('.seat').forEach(seat => {
+        seat.addEventListener('click', function () {
+            if (seat.classList.contains("placed")) return;
+
+            // Kiểm tra nếu số ghế đã chọn ít hơn 8 hoặc nếu đã chọn ghế này thì có thể bỏ chọn
+            if (selectedSeats.length < 8 || seat.classList.contains('selected')) {
+                toggleSeatSelection(seat);
+            } else {
+                showPopup();  // Hiển thị thông báo khi quá 8 ghế
+            }
+            var totalPrice = document.getElementById("total-price").innerText;
+            totalPrice = totalPrice.replace('.', '').replace('đ', '').trim();
+            totalPrice = totalPrice + '000'; // Thêm 3 số 0 vào cuối
+
+            // Gán giá trị vào trường "Amount" trong form Momo
+            document.getElementById("momoAmount").value = totalPrice;
+        });
+    });
+
+
     
 
     // Save settings
@@ -304,6 +324,17 @@ document.addEventListener('click', function (event) {
     }
 });
 
+document.addEventListener('click', function (event) {
+    const suggestions = document.getElementById('suggestions');
+    const genreInput = document.getElementById('genreInput');
+
+    if (!suggestions.contains(event.target) && !genreInput.contains(event.target)) {
+        suggestions.style.display = 'none';
+    }
+});
+
+
+
 let currentIndex = 0;
 const slides = document.querySelectorAll('.carousel-slide');
 
@@ -339,36 +370,26 @@ let selectedTime = '';  // Biến lưu trữ giờ chọn
 let selectedCinema = '';
 
 
-// Tạo ghế ngồi
-for (let i = 1; i <= SEAT_COUNT; i++) {
-    const seat = document.createElement('div');
-    seat.classList.add('seat');
-    seat.textContent = i;
+function selectChair(seat) {
+    if (seat.classList.contains("placed")) return;
 
-    // Xác định ghế VIP
-    if (VIP_SEATS.includes(i)) {
-        seat.classList.add('vip');
-        seat.dataset.price = VIP_PRICE;
+    // Kiểm tra nếu số ghế đã chọn ít hơn 8 hoặc nếu đã chọn ghế này thì có thể bỏ chọn
+    if (selectedSeats.length < 8 || seat.classList.contains('selected')) {
+        toggleSeatSelection(seat);
     } else {
-        seat.dataset.price = REGULAR_PRICE;
+        showPopup();  // Hiển thị thông báo khi quá 8 ghế
     }
+    var totalPrice = document.getElementById("total-price").innerText;
 
-    // Thêm sự kiện khi bấm vào ghế
-    seat.addEventListener('click', () => {
-        // Nếu ghế đã được đặt trước (class 'placed'), không thể chọn lại
-        if (seat.classList.contains("placed")) return;
+    // Làm sạch giá trị tiền, ví dụ: 1000000 -> 1000000
+    totalPrice = totalPrice.replace('.', '').replace('đ', '').trim();
 
-        // Kiểm tra nếu số ghế đã chọn ít hơn 8 hoặc nếu đã chọn ghế này thì có thể bỏ chọn
-        if (selectedSeats.length < 8 || seat.classList.contains('selected')) {
-            toggleSeatSelection(seat);
-        } else {
-            showPopup();  // Hiển thị thông báo khi quá 8 ghế
-        }
-    });
+    // Thêm 3 số 0 vào cuối (ví dụ: 1000 -> 1000000)
+    totalPrice = totalPrice + '000'; // Thêm 3 số 0 vào cuối
 
-    seatsContainer.appendChild(seat);
+    // Gán giá trị vào trường "Amount" trong form Momo
+    document.getElementById("momoAmount").value = totalPrice;
 }
-
 // Chọn hoặc bỏ chọn ghế
 function toggleSeatSelection(seat) {
     const seatNumber = seat.textContent;
@@ -429,17 +450,3 @@ function selectTime(element) {
         console.log('Selected Cinema: ', selectedCinema);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -40,8 +40,6 @@ public partial class Movie
 
     public virtual ICollection<Season> Seasons { get; set; } = new List<Season>();
 
-    public virtual ICollection<ShowTime> ShowTimes { get; set; } = new List<ShowTime>();
-
     public virtual ICollection<ViewHistory> ViewHistories { get; set; } = new List<ViewHistory>();
 
     public virtual ICollection<Watchlist> Watchlists { get; set; } = new List<Watchlist>();

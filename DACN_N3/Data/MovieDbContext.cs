@@ -31,8 +31,6 @@ public partial class MovieDbContext : DbContext
 
     public virtual DbSet<Seat> Seats { get; set; }
 
-    public virtual DbSet<ShowTime> ShowTimes { get; set; }
-
     public virtual DbSet<Subscription> Subscriptions { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -200,24 +198,7 @@ public partial class MovieDbContext : DbContext
                 .HasDefaultValue(false)
                 .HasColumnName("IsVIP");
             entity.Property(e => e.SeatNumber).HasMaxLength(10);
-            entity.Property(e => e.ShowTimeId).HasColumnName("ShowTimeID");
 
-            entity.HasOne(d => d.ShowTime).WithMany(p => p.Seats)
-                .HasForeignKey(d => d.ShowTimeId)
-                .HasConstraintName("FK__Seats__ShowTimeI__66603565");
-        });
-
-        modelBuilder.Entity<ShowTime>(entity =>
-        {
-            entity.HasKey(e => e.ShowTimeId).HasName("PK__ShowTime__DF1BC9FFE40B12FA");
-
-            entity.Property(e => e.ShowTimeId).HasColumnName("ShowTimeID");
-            entity.Property(e => e.CinemaRoom).HasMaxLength(50);
-            entity.Property(e => e.MovieId).HasColumnName("MovieID");
-
-            entity.HasOne(d => d.Movie).WithMany(p => p.ShowTimes)
-                .HasForeignKey(d => d.MovieId)
-                .HasConstraintName("FK__ShowTimes__Movie__619B8048");
         });
 
         modelBuilder.Entity<Subscription>(entity =>
