@@ -27,11 +27,13 @@ public partial class Movie
 
     public string? Trailer { get; set; }
 
-    public DateTime? CreatedDate { get; set; }
-
     public string? HorizontalPoster { get; set; }
 
-    public bool? Screening { get; set; }
+    public bool? TheatricalScreening { get; set; }
+
+    public bool? ScreeningOrComing { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
 
     public virtual ICollection<CinemaTicket> CinemaTickets { get; set; } = new List<CinemaTicket>();
 
