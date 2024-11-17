@@ -171,6 +171,8 @@
         });
     });
 
+
+
     
 
     // Save settings
@@ -304,6 +306,8 @@ document.addEventListener('click', function (event) {
     }
 });
 
+
+
 let currentIndex = 0;
 const slides = document.querySelectorAll('.carousel-slide');
 
@@ -364,6 +368,16 @@ for (let i = 1; i <= SEAT_COUNT; i++) {
         } else {
             showPopup();  // Hiển thị thông báo khi quá 8 ghế
         }
+        var totalPrice = document.getElementById("total-price").innerText;
+
+        // Làm sạch giá trị tiền, ví dụ: 1000000 -> 1000000
+        totalPrice = totalPrice.replace('.', '').replace('đ', '').trim();
+
+        // Thêm 3 số 0 vào cuối (ví dụ: 1000 -> 1000000)
+        totalPrice = totalPrice + '000'; // Thêm 3 số 0 vào cuối
+
+        // Gán giá trị vào trường "Amount" trong form Momo
+        document.getElementById("momoAmount").value = totalPrice;
     });
 
     seatsContainer.appendChild(seat);
@@ -429,17 +443,3 @@ function selectTime(element) {
         console.log('Selected Cinema: ', selectedCinema);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

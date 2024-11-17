@@ -1,53 +1,63 @@
-﻿@{
-    ViewData["Title"] = "selectChair";
+﻿@* @using DACN_N3.Data
+@model List<CinemaTicket> *@
+@{
+	ViewData["Title"] = "selectChair";
 }
 <div style="display:flex">
-    <div style="width:70%">
-        <!-- Màn hình và ghế ngồi -->
-        <div class="screen">
-            <p>Màn Hình</p>
-        </div>
+	<div style="width:70%">
+		<!-- Màn hình và ghế ngồi -->
+		<div class="screen">
+			<p>Màn Hình</p>
+		</div>
 
-        <div class="seat-selection">
-            <div class="seats" id="seats">
-                <!-- Ghế sẽ được tạo bằng JavaScript -->
-            </div>
-        </div>
-        <!-- Thông tin chọn ghế -->
-        <div class="seat-info" style="gap:20px">
-            <div class="d-flex">
-                <div class="seat"></div><p><strong>Ghế thường</strong></p>
-            </div>
-            <div class="d-flex">
-                <div class="seat vip"></div><p><strong>Ghế VIP</strong></p>
-            </div>
-            <div class="d-flex">
-                <div class="seat placed"></div><p><strong>Ghế đã đặt</strong></p>
-            </div>
-        </div>
-    </div>
-    <div class="overlay" id="overlay"></div>
+		<div class="seat-selection">
+			<div class="seats" id="seats">
+				<!-- Ghế sẽ được tạo bằng JavaScript -->
+			</div>
+		</div>
+		<!-- Thông tin chọn ghế -->
+		<div class="seat-info" style="gap:20px">
+			<div class="d-flex">
+				<div class="seat"></div><p><strong>Ghế thường</strong></p>
+			</div>
+			<div class="d-flex">
+				<div class="seat vip"></div><p><strong>Ghế VIP</strong></p>
+			</div>
+			<div class="d-flex">
+				<div class="seat placed"></div><p><strong>Ghế đã đặt</strong></p>
+			</div>
+		</div>
+	</div>
+	<div class="overlay" id="overlay"></div>
 
-    <div class="popup" id="popup">
-        <i class="fa-regular fa-circle-xmark fa-shake" style="color: #d41616; font-size:50px;"></i>
-        <br />
-        <p><strong>Mỗi lần chỉ được đặt tối đa 8 chỗ!</strong></p>
-        <button class="close-btn" onclick="closePopup()">Đóng</button>
-    </div>
-    <div style="background-color:white;width:20%;padding:10px; margin-10px; height:fit-content;border-radius:10px;">
-        <p>Cười Xuyên Biên Giới</p>
-        <p><strong>Beta Trần Quang Khải</strong></p>
-        <p>Suất: <strong>@ViewData["SelectedTime"]</strong> | Ngày: <strong>@ViewData["SelectedDate"]</strong></p>
-        <p>Phòng chiếu: <strong>@ViewData["SelectedCinema"]</strong></p>
-        <div class="d-flex" style="color:black">
-            <p>Ghế đã chọn: <strong id="selected-seats"></strong></p>
-        </div>
-        <div class="d-flex" style="color:black">
-            <p>Tổng tiền: <strong id="total-price">0</strong><strong>.000đ</strong></p>
-        </div>
-        <input type="submit" style="border-radius:5px;margin:10px;margin-left:50px; width:200px; height:50px; font-size:24px; background-color:lightgreen" name="name" value="Đặt vé" />
-    </div>
+	<div class="popup" id="popup">
+		<i class="fa-regular fa-circle-xmark fa-shake" style="color: #d41616; font-size:50px;"></i>
+		<br />
+		<p><strong>Mỗi lần chỉ được đặt tối đa 8 chỗ!</strong></p>
+		<button class="close-btn" onclick="closePopup()">Đóng</button>
+	</div>
+	<div style="background-color:white;padding:10px; margin-10px; height:fit-content;border-radius:10px;">
+		<p>Cười Xuyên Biên Giới</p>
+		<p><strong>Beta Trần Quang Khải</strong></p>
+		<p>Suất: <strong>@ViewData["SelectedTime"]</strong> | Ngày: <strong>@ViewData["SelectedDate"]</strong></p>
+		<p>Phòng chiếu: <strong>@ViewData["SelectedCinema"]</strong></p>
+		<div class="d-flex" style="color:black">
+			<p>Ghế đã chọn: <strong id="selected-seats"></strong></p>
+		</div>
+		<div class="d-flex" style="color:black">
+			<p>Tổng tiền:</p> <strong id="total-price">0</strong><strong>.000đ</strong>
+		</div>
+		<form method="post" asp-action="CreatePaymentMomo" asp-controller="Payment">
+			<input type="hidden" name="Amount" id="momoAmount" value="total-price" />
+			<input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
+			<input type="hidden" name="OrderInfo" value="Thanh toán đặt vé xem phim tại comfyMovies" />
+			<input type="hidden" name="FullName" value="@ViewBag.userName" />
+			<button class="subscribe-button" name="PayUrl" type="submit">Đặt Vé</button>
+		</form>
+	</div>
 </div>
+
+
 
 
 
