@@ -61,8 +61,11 @@
 						<li class="nav-item">
 							<a class="nav-link" href="@Url.Action("buyTicket", "Home")">Xem phim tại rạp</a>
 						</li>
+						
 						<li class="nav-item ms-auto">
-							<input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+							<form action="/" method="post">
+								<input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+							</form>
 						</li>
 						<li class="nav-item dropdown">
 							@if (User.Identity.IsAuthenticated)

@@ -32,22 +32,30 @@ namespace DACN_N3.Controllers
 		{
 			var response = _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
 			var requestQuery = HttpContext.Request.Query;
-			if (requestQuery["resultCode"] != 0)
+			if (requestQuery["errorCode"] == "0")
 			{
 				int? userId = HttpContext.Session.GetInt32("userID");
 				int? subscriptionId = _movieDbContext.Subscriptions.Where(p => p.Price == decimal.Parse(requestQuery["Amount"])).Select(s=>s.SubscriptionId).FirstOrDefault();
 				int duration = _movieDbContext.Subscriptions.Where(p => p.Price == decimal.Parse(requestQuery["Amount"])).Select(s => s.Duration).FirstOrDefault();
 				DateTime startDate = DateTime.Now;
-				UserSubscription userSubscription = new UserSubscription
+				if (requestQuery["extraData"] == "DkGoi")
 				{
-					UserId = userId,
-					SubscriptionId = subscriptionId,
-					StartDate = startDate,
-					EndDate = startDate.AddDays(duration)
-				};
-				_movieDbContext.Add(userSubscription);
-				await _movieDbContext.SaveChangesAsync();
-			}
+                    UserSubscription userSubscription = new UserSubscription
+                    {
+                        UserId = userId,
+                        SubscriptionId = subscriptionId,
+                        StartDate = startDate,
+                        EndDate = startDate.AddDays(duration)
+                    };
+                    _movieDbContext.Add(userSubscription);
+                    
+                }
+				if (requestQuery["extraData"] == "")
+				{
+
+				}
+                await _movieDbContext.SaveChangesAsync();
+            }
 			else
 			{
 				TempData["success"] = "Đã hủy giao dịch Momo.";

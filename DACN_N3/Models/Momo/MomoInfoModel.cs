@@ -10,7 +10,7 @@ namespace DACN_N3.Models.Momo
 		public string OrderInfo { get; set; }
 		public string FullName { get; set; }
 		public decimal Amount { get; set; }
-
-		public DateTime DatePaid { get; set; }
+        public string PaymentType { get; set; }
+        public DateTime DatePaid { get; set; }
 	}
 }

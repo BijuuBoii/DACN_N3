@@ -40,7 +40,7 @@
                         <input type="hidden" name="Amount" value="@subscription.Price" />
                         <input type="hidden" name="OrderId" value="@Guid.NewGuid().ToString()" />
                         <input type="hidden" name="OrderInfo" value="Thanh toán momo cho @subscription.Name" />
-                        <input type="hidden" name="FullName" value="@ViewBag.userName" />
+                        <input type="hidden" name="PaymentType" value="DkGoi" />
                         <button class="subscribe-button" name="PayUrl" type="submit">Đăng Ký</button>
                     </form>
                 }

@@ -20,7 +20,7 @@ namespace DACN_N3.Services.Momo
         public async Task<MomoCreatePaymentResponseModel> CreatePaymentMomo(OrderInfoModel model)
         {
             model.OrderId = DateTime.UtcNow.Ticks.ToString();
-            model.OrderInfo = "Khách hàng: " + model.FullName + ". Nội dung: " + model.OrderInfo;
+            model.OrderInfo =" Nội dung: " + model.OrderInfo;
             var rawData =
                 $"partnerCode={_options.Value.PartnerCode}" +
                 $"&accessKey={_options.Value.AccessKey}" +
@@ -30,7 +30,7 @@ namespace DACN_N3.Services.Momo
                 $"&orderInfo={model.OrderInfo}" +
                 $"&returnUrl={_options.Value.ReturnUrl}" +
                 $"&notifyUrl={_options.Value.NotifyUrl}" +
-                $"&extraData=";
+                $"&extraData={model.PaymentType}";
             var signature = ComputeHmacSha256(rawData, _options.Value.SecretKey); 
             var client = new RestClient(_options.Value.MomoApiUrl);
             var request = new RestRequest() { Method = Method.Post };
@@ -47,7 +47,7 @@ namespace DACN_N3.Services.Momo
                 amount = model.Amount.ToString(),
                 orderInfo = model.OrderInfo,
                 requestId = model.OrderId,
-                extraData = "",
+                extraData = model.PaymentType,
                 signature = signature
             };
 
@@ -60,11 +60,13 @@ namespace DACN_N3.Services.Momo
             var amount = collection.First(s => s.Key == "amount").Value;
             var orderInfo = collection.First(s => s.Key == "orderInfo").Value;
             var orderId = collection.First(s => s.Key == "orderId").Value;
+            
             return new MomoExecuteResponseModel
             {
                 Amount = amount,
                 OrderId = orderId,
-                OrderInfo = orderInfo
+                OrderInfo = orderInfo,
+                
             };
         }
         public string ComputeHmacSha256(string message, string secretKey)

@@ -51,8 +51,6 @@ namespace DACN_N3.Controllers
 
         public IActionResult subscription()
         {
-			
-
 			var subscriptions = _movieDbContext.Subscriptions.ToList();
             ViewBag.Subscription = subscriptions;
 
