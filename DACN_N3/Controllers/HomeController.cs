@@ -44,7 +44,21 @@ namespace DACN_N3.Controllers
             
             return View(movies);
         }
-        public IActionResult Privacy()
+		[HttpGet]
+		public IActionResult Search(string keyword)
+		{
+			var movies = _movieDbContext.Movies
+				.Where(m => m.Title.Contains(keyword) || // Tìm kiếm theo tiêu đề
+				m.Description.Contains(keyword) || // Tìm kiếm theo nội dung
+				m.Director.Contains(keyword) || // Tìm kiếm theo đạo diễn
+				m.Cast.Contains(keyword) || // Tìm kiếm theo dàn diễn viên
+				m.Language.Contains(keyword) || // Tìm kiếm theo ngôn ngữ
+				m.Genres.Any(g => g.Name.Contains(keyword))) // Tìm kiếm theo thể loại
+				.ToList();
+            ViewBag.RelatedFilms = movies;
+			return View("ListFilm");
+		}
+		public IActionResult Privacy()
         {
             return View();
         }
@@ -145,13 +159,21 @@ namespace DACN_N3.Controllers
 
 			var movieFav = _movieDbContext.Watchlists.Where(m => m.MovieId == id && m.UserId == userId).FirstOrDefault();
 
-            ViewBag.MovieFav = movieFav;
+			var selectedGenres = movie?.Genres.Select(g => g.GenreId).ToList();
+
+			var similarMovies = _movieDbContext.Movies
+	        .Where(m => m.Genres.Any(g => selectedGenres.Contains(g.GenreId)) && m.MovieId != id)
+	        .Include(m => m.Genres) // Bao gồm thể loại của các phim
+	        .ToList();
+
+			ViewBag.MovieFav = movieFav;
 			ViewBag.Comments = comments;
 			ViewBag.SeasonNumber = 1;
 			ViewBag.Movie = movie;
 			ViewBag.Seasons = movie.Seasons.ToList();
 			ViewBag.Episodes = movie.Seasons.SelectMany(s => s.Episodes).ToList();
             ViewBag.Genres = movie.Genres.ToList();
+            ViewBag.similarMovies = similarMovies;
 			return View();
         }
 		[HttpPost]

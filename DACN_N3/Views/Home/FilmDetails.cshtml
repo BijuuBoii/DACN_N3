@@ -9,6 +9,7 @@
 	var Seasons = ViewBag.Seasons as List<Season> ?? new List<Season>();
 	var Episodes = ViewBag.Episodes as List<Episode> ?? new List<Episode>();
 	var comments = ViewBag.Comments as List<Review> ?? new List<Review>();
+	var similarMovies = ViewBag.similarMovies as List<Movie> ?? new List<Movie>();
 	// Lấy SeasonId từ ViewBag nếu có
 	var selectedSeasonNumber = ViewBag.SeasonNumber != null ? (int)ViewBag.SeasonNumber : Seasons.FirstOrDefault()?.SeasonNumber;
 	var seasonId = Seasons
@@ -78,8 +79,16 @@
                         <option value="">Chọn mùa</option>
                         @foreach(var season in Seasons)
                         {
-                            <option value="@season.SeasonNumber">@season.SeasonNumber</option>
-                        }    
+							@if(season.SeasonNumber == selectedSeasonNumber)
+							{
+								<option value="@season.SeasonNumber" selected>Mùa @season.SeasonNumber</option>
+							}
+							else
+							{
+								<option value="@season.SeasonNumber" >Mùa @season.SeasonNumber</option>
+							}
+
+						}    
                     </select>
                 </div>
             </form>
@@ -188,6 +197,71 @@
 			</div>
 		</form>
 	</div>
+	<div class="container" style="padding-top:30px">
+	<div class="d-flex align-items-center">
+            <!-- Tiêu đề -->
+            <h2 style="color:white" class="me-3">Các phim liên quan</h2>
+            <!-- Button để mở modal -->
+            <button type="button" style="margin-bottom:10px" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#myModalFullScreen3">
+                Xem thêm
+            </button>
+        </div>
+        <!-- Modal với id mới -->
+        <div class="modal fade" id="myModalFullScreen3" tabindex="-1" aria-labelledby="myModalFullScreenLabel3" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content" style="background:#212529; color:white;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalFullScreenLabel3">Danh sách các phim hoạt hình</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-start">
+                            @foreach (var movie in similarMovies)
+                            {
+                                <div class="me-3" style="height: 300px; width: 200px">
+                                    <img src="~/img/@movie.Poster" class="rounded d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId})'">
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="movieCarousel3" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @for (int i = 0; i < Math.Ceiling((double)similarMovies.Count / 5); i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")" >
+                        <div class="row" style="display:inline-flex">
+                            @for (int j = 0; j < 5; j++)
+                            {
+                                int movieIndex = i * 5 + j;
+                                if (movieIndex < similarMovies.Count)
+                                {
+                                    var movie = similarMovies[movieIndex];
+                                    <div class="col" style="height: 300px; width: 200px">
+                                        <img src="~/img/@movie.Poster" class="d-block w-100 h-100" alt="Phim @movie.MovieId" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = movie.MovieId })'">
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                <!-- Add more items as needed -->
+            </div>
+
+            <!-- Controls -->
+            <button class="carousel-control-prev" style="background-color:#3333; margin-left:-50px;width:50px;" type="button" data-bs-target="#movieCarousel3" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" style="background-color:#3333; margin-right:-50px;width:50px;" type="button" data-bs-target="#movieCarousel3" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+		</div>
 </section>
 
 <script>
@@ -211,7 +285,16 @@
 				titleElement.textContent = `@Movie.Title tập ${episodeNumber}`;
 			});
 		});
-		
+
+		// Kiểm tra khi người dùng gửi bình luận
+		const reviewForm = document.getElementById("Review");
+		reviewForm.addEventListener("submit", function (event) {
+			const rating = document.querySelector('input[name="rating"]:checked');
+			if (!rating) {
+				event.preventDefault(); // Ngừng gửi form
+				alert("Vui lòng chọn đánh giá sao trước khi gửi bình luận!");
+			}
+		});
 	});
 </script>
 
