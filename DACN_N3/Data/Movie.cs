@@ -28,8 +28,6 @@ public partial class Movie
 
     public string? Trailer { get; set; }
 
-    public string? HorizontalPoster { get; set; }
-
     public bool? TheatricalScreening { get; set; }
 
     public bool? ScreeningOrComing { get; set; }
