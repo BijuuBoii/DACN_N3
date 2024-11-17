@@ -1,5 +1,6 @@
-﻿@* @using DACN_N3.Data
-@model List<CinemaTicket> *@
+﻿@using DACN_N3.Data
+@model List<DACN_N3.Data.Seat>
+
 @{
 	ViewData["Title"] = "selectChair";
 }
@@ -12,7 +13,33 @@
 
 		<div class="seat-selection">
 			<div class="seats" id="seats">
-				<!-- Ghế sẽ được tạo bằng JavaScript -->
+				@foreach (var item in Model)
+				{
+					if (item.IsVip == false)
+					{
+						if(item.IsAvailable == true)
+						{
+							<div class="seat" data-price="45" onclick="selectChair(this)">@item.SeatNumber</div>
+						}
+						else
+						{
+							<div class="seat placed">@item.SeatNumber</div>
+						}
+						
+					}
+					if (item.IsVip == true)
+					{
+						if (item.IsAvailable == true)
+						{
+							<div class="seat vip" data-price="60" onclick="selectChair(this)">@item.SeatNumber</div>
+						}
+						else
+						{
+							<div class="seat placed">@item.SeatNumber</div>
+						}
+						
+					}
+				}
 			</div>
 		</div>
 		<!-- Thông tin chọn ghế -->
@@ -56,11 +83,3 @@
 		</form>
 	</div>
 </div>
-
-
-
-
-
-
-
-

@@ -80,18 +80,19 @@ namespace DACN_N3.Controllers
 
         public IActionResult SelectChair(string date, string time,string cinema)
         {
-            // Kiểm tra nếu có giá trị ngày và giờ
-            /* if (string.IsNullOrEmpty(date) || string.IsNullOrEmpty(time))
+			// Kiểm tra nếu có giá trị ngày và giờ
+			/* if (string.IsNullOrEmpty(date) || string.IsNullOrEmpty(time))
              {
                  return RedirectToAction("Index", "Home");  // Quay lại trang chủ nếu không có thông tin
              }*/
-            var CinemaTicket = _movieDbContext.CinemaTickets.Select(d => d.TicketId);
-            // Truyền dữ liệu đến view
-            ViewData["SelectedDate"] = date;
+			var seats = _movieDbContext.Seats
+					.ToList(); // Chuyển thành danh sách
+							   // Truyền dữ liệu đến view
+			ViewData["SelectedDate"] = date;
             ViewData["SelectedTime"] = time;
             ViewData["SelectedCinema"] = cinema;
 
-            return View(CinemaTicket);  // Trả về view chọn ghế
+            return View(seats);  // Trả về view chọn ghế
         }
 
         [HttpPost]
