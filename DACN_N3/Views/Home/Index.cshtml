@@ -8,9 +8,9 @@
 }
 <section class="banner">
 	<div class="container">
-        <img style="height: 650px" src="~/img/@ViewBag.RandomMovies.Poster" alt="Phim Nổi Bật">
+        <img style="height: 650px" src="~/img/@ViewBag.RandomMovies.HorizontalPoster" alt="Phim Nổi Bật">
         <div style="position: absolute; top: 560px; left: 18%; padding: 10px">
-            <button type="submit" class="btn btn-light btn-lg" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = @ViewBag.RandomMovies.MovieId })'">Xem</button>
+            <button type="submit" class="btn btn-light btn-lg" onclick="window.location.href='@Url.Action("FilmDetails", "Home", new { id = @ViewBag.RandomMovies.MovieId})'"><i class="fa-solid fa-play"></i> <strong>Phát</strong></button>
         </div>
 	</div>
 </section>
@@ -235,6 +235,28 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = '@Url.Action("Login", "Authority")';
+                }
+            });
+        }
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        var SubscriptionAlert = '@TempData["SubscriptionAlert"]';
+        if (SubscriptionAlert) {
+            Swal.fire({
+                title: 'Thông báo',
+                text: "Vui lòng đăng ký gói để xem chi tiết phim!",
+                icon: 'warning',
+                confirmButtonText: 'Đăng ký',
+                showCancelButton: true,
+                cancelButtonText: 'Hủy',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '@Url.Action("Subscription", "Home")';
                 }
             });
         }

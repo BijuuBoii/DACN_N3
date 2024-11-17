@@ -1,0 +1,13 @@
+﻿@using DACN_N3.Models.Momo
+ @model MomoExecuteResponseModel
+@{
+	ViewData["title"] = "kết quả giao dịch thành công";
+}
+<div style="color:white;">
+	<h5>Thanh toán MOMO thành công với:</h5>
+	<h6>OrderId: @Model.OrderId</h6>
+	<h6>OrderInfo: @Model.OrderInfo</h6>
+	<h6>Tổng tiền: @Model.Amount</h6>
+	<button class="btn btn-outline-light" onclick="window.location.href='@Url.Action("index", "Home")'">Về trang chủ</button>
+</div>
+

@@ -48,10 +48,15 @@
 
     document.querySelectorAll('.buy-ticket-button').forEach(button => {
         button.addEventListener('click', function () {
-            window.location.href = '/home/selectChair';
+            window.location.href = '/home/selectTime';
         });
     });
-    
+
+    document.querySelectorAll('.time').forEach(button => {
+        button.addEventListener('click', function () {
+            window.location.href = `/Home/SelectChair?date=${encodeURIComponent(selectedDate)}&time=${encodeURIComponent(selectedTime)}&cinema=${encodeURIComponent(selectedCinema)}`;
+        });
+    });
 
     document.querySelectorAll('.save-btn-movies').forEach(button => {
         button.addEventListener('click', function () {
@@ -60,7 +65,7 @@
         });
     });
 
-
+    
 
     const heartButton = document.getElementById('heartButton');
     const heartIcon = heartButton.querySelector('i'); // Lấy biểu tượng trái tim bên trong
@@ -324,9 +329,15 @@ const SEAT_COUNT = 60;
 const VIP_SEATS = [14,15, 16,17,24, 25, 26,27,34,37,44,47, 35, 36,45,46]; // Các ghế VIP
 const REGULAR_PRICE = 45;
 const VIP_PRICE = 60;
+const condition = true;
 
 let selectedSeats = [];
 let totalPrice = 0;
+let temp = 0;
+let selectedDate = '19/11/2024';  // Biến lưu trữ ngày chọn
+let selectedTime = '';  // Biến lưu trữ giờ chọn
+let selectedCinema = '';
+
 
 // Tạo ghế ngồi
 for (let i = 1; i <= SEAT_COUNT; i++) {
@@ -344,7 +355,15 @@ for (let i = 1; i <= SEAT_COUNT; i++) {
 
     // Thêm sự kiện khi bấm vào ghế
     seat.addEventListener('click', () => {
-        toggleSeatSelection(seat);
+        // Nếu ghế đã được đặt trước (class 'placed'), không thể chọn lại
+        if (seat.classList.contains("placed")) return;
+
+        // Kiểm tra nếu số ghế đã chọn ít hơn 8 hoặc nếu đã chọn ghế này thì có thể bỏ chọn
+        if (selectedSeats.length < 8 || seat.classList.contains('selected')) {
+            toggleSeatSelection(seat);
+        } else {
+            showPopup();  // Hiển thị thông báo khi quá 8 ghế
+        }
     });
 
     seatsContainer.appendChild(seat);
@@ -356,10 +375,12 @@ function toggleSeatSelection(seat) {
     const seatPrice = parseInt(seat.dataset.price);
 
     if (seat.classList.contains('selected')) {
+        // Bỏ chọn ghế
         seat.classList.remove('selected');
         selectedSeats = selectedSeats.filter(s => s !== seatNumber);
         totalPrice -= seatPrice;
     } else {
+        // Chọn ghế
         seat.classList.add('selected');
         selectedSeats.push(seatNumber);
         totalPrice += seatPrice;
@@ -367,12 +388,57 @@ function toggleSeatSelection(seat) {
 
     updateSeatInfo();
 }
-
 // Cập nhật thông tin ghế và tổng tiền
 function updateSeatInfo() {
     selectedSeatsElement.textContent = selectedSeats.join(', ') || 'Chưa chọn';
     totalPriceElement.textContent = totalPrice;
 }
+
+function showPopup() {
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+function toggleCinemaDetails(header) {
+    const details = header.nextElementSibling;
+    details.classList.toggle('hidden');
+}
+
+function selectDate(element) {
+    // Xóa lớp 'selected' khỏi tất cả các ngày
+    const dates = document.querySelectorAll('.date-item');
+    dates.forEach(date => date.classList.remove('active'));
+
+    // Thêm lớp 'selected' vào ngày được chọn
+    element.classList.add('active');
+    selectedDate = element.innerText.trim();  // Lấy ngày đã chọn
+    console.log('Selected Date: ', selectedDate);
+}
+
+function selectTime(element) {
+    if (!element.classList.contains('disabled')) {
+        selectedTime = element.innerText.split('\n')[0].trim();  // Lấy giờ đã chọn
+        selectedCinema = element.querySelector('.Rap').innerText.trim();
+        
+        console.log('Selected Time: ', selectedTime);
+        console.log('Selected Cinema: ', selectedCinema);
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

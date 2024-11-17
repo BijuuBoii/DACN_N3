@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "selectTime";
+}
+<div class="container">
+    <h2>Mua vé trực tuyến</h2>
+
+    <!-- Input Location -->
+    <div class="location-input">
+        <input type="text" placeholder="Tp. Hồ Chí Minh">
+    </div>
+
+    <!-- Date Selector -->
+    <div class="date-selector">
+        <div class="date-item active" onclick="selectDate(this)">14/11/2024</div>
+        <div class="date-item" onclick="selectDate(this)">15/11/2024</div>
+        <div class="date-item" onclick="selectDate(this)">16/11/2024</div>
+        <div class="date-item" onclick="selectDate(this)">17/11/2024</div>
+        <div class="date-item" onclick="selectDate(this)">18/11/2024</div>
+        <div class="date-item" onclick="selectDate(this)">19/11/2024 </div>
+    </div>
+
+    <!-- Cinema List -->
+    <div class="cinema-list">
+        <!-- Cinema Group 1 -->
+        <div class="cinema-group">
+            <div class="cinema-header" onclick="toggleCinemaDetails(this)">
+                <img src="https://th.bing.com/th/id/OIP.NRXHawT8LFWgl9k5U39EqQHaHa?rs=1&pid=ImgDetMain" alt="Beta Cinemas">
+                <span>Beta Cinemas</span>
+            </div>
+
+            <!-- Cinema Branch Details -->
+            <div class="cinema-details hidden">
+                <p class="branch-name">Beta Trần Quang Khải</p>
+                <p class="branch-address">Tầng 2 & 3, Tòa nhà IMC, 62 Đường Trần Quang Khải, Phường Tân Định, Quận 1, TP. Hồ Chí Minh – <a href="#">Thông tin rạp</a> – <a href="#">Bản đồ</a></p>
+
+                <!-- Showtimes -->
+                <div class="showtime">
+                    <p class="showtype">2D Lồng Tiếng</p>
+                    <div class="time disabled">18:50</div>
+                </div>
+
+                <div class="showtime">
+                    <p class="showtype">2D Phụ Đề Việt</p>
+                    <div onclick="selectTime(this)" class="time">20:00<br /><span class="Rap">Rạp 6</span></div>
+                    <div onclick="selectTime(this)" class="time">20:30<br /><span class="Rap">Rạp 2</span></div>
+                    <div onclick="selectTime(this)" class="time">21:30<br /><span class="Rap">Rạp 4</span></div>
+                    <div onclick="selectTime(this)" class="time">22:10<br /><span class="Rap">Rạp 6</span> </div>
+                    <div onclick="selectTime(this)" class="time">22:40<br /><span class="Rap">Rạp 2</span></div>
+                    <div onclick="selectTime(this)" class="time">23:10<br /><span class="Rap">Rạp 4</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

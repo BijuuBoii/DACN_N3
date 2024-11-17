@@ -4,10 +4,11 @@
 @using DACN_N3.Data
 @{
 	ViewData["Title"] = "Film details";
+	var MovieFav = ViewBag.MovieFav;
 	var Movie = ViewBag.Movie as Movie ?? new Movie();
 	var Seasons = ViewBag.Seasons as List<Season> ?? new List<Season>();
 	var Episodes = ViewBag.Episodes as List<Episode> ?? new List<Episode>();
-
+	var comments = ViewBag.Comments as List<Review> ?? new List<Review>();
 	// Lấy SeasonId từ ViewBag nếu có
 	var selectedSeasonNumber = ViewBag.SeasonNumber != null ? (int)ViewBag.SeasonNumber : Seasons.FirstOrDefault()?.SeasonNumber;
 	var seasonId = Seasons
@@ -28,6 +29,8 @@
 	var genres = ViewBag.Genres as List<Genre>; 
 	int count = genres.Count;
 	int index = 0;
+
+	
 }
 
 <section class="banner">
@@ -40,12 +43,26 @@
 		
 	</div>
 	<div class="container" style="padding-top: 20px; color:white;">
-		<div style="display:flex; gap:65%">
+		<div style="display:flex; gap:65%" class="d-flex justify-content-between">
 			<h2>@Movie.Title tập 1</h2>
 			<div style=" display:flex; gap:10px">
-				<button id="heartButton" class="heart" style="background-color:#343a40; width:50px; height:50px">
-					<i class="fa-regular fa-heart fa-lg"></i>
-				</button>
+				<form id="Favorite" asp-action="Favorite" method="post">
+					<input type="hidden" name="movieId" value="@Movie.MovieId" />
+					@if (MovieFav == null)
+					{
+						<button id="heartButton" class="heart" style="background-color:#343a40; width:50px; height:50px" type="submit">
+							<i class="fa-regular fa-heart fa-lg"></i>
+						</button>
+					}
+					else
+					{
+						<button id="heartButton" class="heart active" style="background-color:#343a40; width:50px; height:50px" type="submit">
+							<i class="fa-heart fa-lg fa-solid"></i>
+						</button>
+					}
+				</form>
+						
+					
 				<button style="background-color:#343a40; width:50px; height:50px"><i class="fa-solid fa-triangle-exclamation" style="color: #FFD43B;font-size:30px"></i></button>
 			</div>
 		</div>
@@ -86,12 +103,16 @@
 		</div>
 	</div>
 	<div class="container" style="padding-top: 20px;">
-		<div class="border border-light rounded bg-dark bg-gradient" style="height: 400px;">
-			<div class="row align-self-center" style="padding: 50px;">
-				<div class="col-4" style="height: 300px; width 100px">
+		<div class="border border-light rounded" style="height: 400px;">
+			<div class="row align-self-center" style="padding: 50px; position: relative; height: 400px;">
+				<!-- Phần tử img làm nền, đặt phía dưới -->
+				<img class="rounded d-block w-100 h-100" src="~/img/@Movie.HorizontalPoster" alt="@Movie.Title poster" style="position: absolute; top: 0; left: 0; z-index: 1; object-fit: cover; width: 100%; height: 100%; opacity: 0.4;" />
+
+				<!-- Nội dung (ở trên ảnh) -->
+				<div class="col-4" style="height: 300px; width: 200px; position: relative; z-index: 2;">
 					<img class="rounded d-block w-100 h-100" src="~/img/@Movie.Poster" alt="@Movie.Title poster" />
 				</div>
-				<div class="col-8" style="color:white;">
+				<div class="col-8" style="color:white; position: relative; z-index: 2;">
 					<h1>@Movie.Title</h1>
 					<span><b>Nội dung:</b> @Movie.Description</span>
 					<h6><b>Ngôn ngữ: </b>@Movie.Language</h6>
@@ -99,29 +120,72 @@
 					<h6><b>Đánh giá độ tuổi: </b>@Movie.AgeRating</h6>
 					<h6><b>Thời lượng phim: </b>@Movie.Duration</h6>
 					<h6><b>Đạo diễn: </b>@Movie.Director</h6>
-					<h6><b>Thể loại: </b>
+					<h6>
+						<b>Thể loại: </b>
 						@foreach (var theloai in genres)
 						{
-							<a href="#" style="text-decoration:none;">@theloai.Name</a>
+							<a href="@Url.Action("listFilm", "Home", new { id = theloai.GenreId })" style="text-decoration:none; color:white">@theloai.Name</a>
 							@if (index < count - 1)
 							{
 								@: ,
-									}
+							}
 							index++;
 						}
 					</h6>
 				</div>
 			</div>
+
 		</div>
 		
 	</div>
+
 	<div class="container" style="padding-top:30px">
-		<div class="py-2 px-4 mb-4 rounded-lg border bg-zinc-800 border-zinc-700">
-			<label for="comment" class="form-label text-white">Bình luận</label>
-			<textarea id="comment" rows="2" class="form-control border-0 text-black placeholder-zinc-400 bg-zinc-800" placeholder="Để lại bình luận..." required></textarea>
-			<button type="submit" class="inline-flex items-center mt-2 py-2 px-3 text-xs font-medium text-center text-black bg-zinc-700 rounded-lg hover:opacity-90">Bình Luận</button>
-		</div>
-		
+		<form id="Review" asp-action="Review" method="post">
+			<input type="hidden" name="movieId" value="@Movie.MovieId" />
+			<div class="py-2 px-4 mb-4 rounded-lg border bg-zinc-800 border-zinc-700">
+				<label for="comment" class="form-label text-white">Bình luận</label><br />
+				<div class="rating">
+					<input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+					<input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+					<input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+					<input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+					<input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+				</div>
+				<textarea id="comment" name="content" rows="2" class="form-control border-0 text-black placeholder-zinc-400 bg-zinc-800" placeholder="Để lại bình luận..." required></textarea>
+
+				<button type="submit" class="inline-flex items-center mt-2 py-2 px-3 text-xs font-medium text-center text-black bg-zinc-700 rounded-lg hover:opacity-90">Bình Luận</button>
+				<br/>
+				<br/>
+				@if (comments.Any())
+				{
+					<div class="list-group">
+						@foreach (var comment in comments)
+						{
+							<div class="list-group-item bg-secondary" style="color:white">
+								<div class="d-flex justify-content-between">
+								
+									<strong>@comment.User.Username</strong> <!-- Bạn có thể thay thế UserId bằng tên người dùng -->
+									<span>@comment.CreatedDate</span>
+								</div>
+								<p class="mt-2">@comment.Comment</p>
+								@for (int i = 1; i <= 5; i++)
+								{
+									if (i <= comment.Rating)
+									{
+
+										<i class="fa-solid fa-star" style="color:yellow"></i>
+									}
+									else
+									{
+										<i class="fa-regular fa-star" style="color:yellow"></i>
+									}
+								}
+							</div>
+						}
+					</div>
+				}
+			</div>
+		</form>
 	</div>
 </section>
 

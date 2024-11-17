@@ -22,7 +22,7 @@
 			</div>
 		</form>
 		<form asp-action="Login" method="post">
-			<div class="login ">
+			<div class="login">
 				<div class="center">
 					<h2 class="form-title" id="login">Đăng nhập</h2>
 					<div class="form-holder">
@@ -38,28 +38,30 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    // document.getElementById('signUp').addEventListener('submit', function (e) {
-    //     e.preventDefault();  // Prevent the form from submitting immediately
-    //     // Display SweetAlert2 notification with custom icon size
-    //     Swal.fire({
-    //         position: 'top-end',
-    //         icon: 'success',
-    //         title: 'Đăng ký thành công',
-    //         showConfirmButton: false,
-    //         timer: 1500,
-    //         width: '200px',
-    //         height: '10px',
-    //         padding: '2em',  // Adjust padding inside the alert (optional)
-    //         customClass: {
-    //             popup: 'custom-swal-popup',  // Custom popup styling
-    //             icon: 'custom-icon-size',
-    //             title: 'custom-front-size'
-    //         }
-    //     }).then(function () {
-    //         // After the SweetAlert closes, submit the form
-    //         document.getElementById('signUp').submit();
-    //     });
-    // });
+    document.addEventListener("DOMContentLoaded", function () {
+        var loginAlert = '@TempData["SignUpFailAlert"]';
+        if (loginAlert) {
+            Swal.fire({
+			  position: "top-end",
+			  icon: "error",
+			  title: "Đăng ký không thành công",
+			  showConfirmButton: false,
+			  timer: 1500
+			});
+        }
+    });
+	document.addEventListener("DOMContentLoaded", function () {
+		var loginAlert = '@TempData["SignUpSuccessAlert"]';
+		if (loginAlert) {
+			Swal.fire({
+				position: "top-end",
+				icon: "success",
+				title: "Đăng ký thành công",
+				showConfirmButton: false,
+				timer: 1500
+			});
+		}
+	});
 </script>
 
 <style>

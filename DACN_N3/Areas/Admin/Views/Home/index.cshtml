@@ -11,41 +11,187 @@
     <!-- Main Content -->
     <div class="main-content">
         <header>
-            <h1>Welcome to Admin Panel</h1>
+            <h1>chào mừng đến với Admin Panel</h1>
         </header>
 
-        <div class="dt">
-            <section id="dashboard">
-                <h2>Dashboard</h2>
-                <p>Overview of activities and site statistics.</p>
-                
+        <div class="dt" style="display:flex; justify-content:space-between">
+            <section id="revenue" style="width: 800px">
+                <h2>Doanh Thu Đăng Ký Gói (Năm nay)</h2>
+                <div class="revenue-chart">
+                    <!-- Placeholder for Revenue Chart -->
+                    <img src="~/img/statistic.png" alt="Biểu đồ doanh thu" />
+                </div>
             </section>
 
-            <section id="dashboard">
-                <h2>Dashboard</h2>
-                <p>Overview of activities and site statistics.</p>
+            <!-- Tổng số người dùng -->
+            <section id="movies-stat" class="small-stat">
+                <h2>Tổng Số Doanh thu</h2>
+                <p><strong>2</strong></p>
+            </section>
+            <section id="users-stat" class="small-stat">
+                <h2>Tổng Số Người Dùng</h2>
+                <p><strong>5</strong></p>
+            </section>
+            <section id="movies-stat" class="small-stat">
+                <h2>Tổng Số Phim</h2>
+                <p><strong>2</strong></p>
             </section>
         </div>
+        <div class="dt1" style="display:flex; justify-content:space-between">
+            <section id="genres">
+                <h2>Thể Loại Phim</h2>
+                <p>Quản lý các thể loại phim hiện có trên website.</p>
+                <div class="genre-stats">
+                    <ul>
+                        <li><strong>Hành Động:</strong> 1 phim</li>
+                        <li><strong>anime:</strong> 2 phim</li>
+                        <li><strong>Tội phạm:</strong> 1 phim</li>
+                    </ul>
+                </div>
+            </section>
 
-        <section id="movies">
-            <h2>Movies</h2>
-            <p>Manage movies available on the website.</p>
-        </section>
-
-        <section id="genres">
-            <h2>Genres</h2>
-            <p>Manage different genres for movies.</p>
-        </section>
-
-        <section id="users">
-            <h2>Users</h2>
-            <p>Manage registered users and their activities.</p>
-        </section>
-
+            <!-- Quản lý người dùng -->
+            <section id="users">
+                <h2>Quản Lý Người Dùng</h2>
+                <p>Thông tin về người dùng và các hoạt động của họ trên website.</p>
+                <div class="user-stats">
+                    <div class="stat">
+                        <h3>Người Dùng Đang Hoạt Động</h3>
+                        <p><strong>1</strong> người dùng đang online hiện tại.</p>
+                    </div>
+                    <div class="stat">
+                        <h3>Người Dùng Mới</h3>
+                        <p><strong>0</strong> người dùng mới đã đăng ký trong tháng này.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- Cài đặt -->
         <section id="settings">
-            <h2>Settings</h2>
-            <p>Configure website settings.</p>
+            <h2>Cài Đặt</h2>
+            <p>Quản lý các thiết lập của website, bao gồm bảo mật, ngôn ngữ, và thông báo.</p>
         </section>
     </div>
 </div>
+<style>
+    .dt .small-stat {
+        width: 20%; /* Giảm chiều rộng phần tử này để chiếm ít không gian hơn */
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        justify-content: center; /* Căn giữa nội dung theo chiều dọc */
+        align-items: center; /* Căn giữa nội dung theo chiều ngang */
+        text-align: center; /* Căn giữa các phần tử con */
+        align-content:center;
+    }
 
+        .dt .small-stat h2 {
+            
+            font-size: 1.1rem; /* Giảm kích thước tiêu đề */
+            margin-bottom: 8px;
+        }
+
+        .dt .small-stat p {
+            font-size: 3.1rem;
+            font-weight: bold;
+        }
+
+    .revenue-chart {
+        max-width: 100%; /* Đảm bảo biểu đồ chiếm phần lớn không gian */
+        margin-top: 10px;
+    }
+
+        .revenue-chart img {
+            width: 100%;
+            border-radius: 8px;
+        }
+    .dt1 {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px; /* Khoảng cách nhỏ giữa các phần tử */
+    }
+
+        /* Đảm bảo các section có chiều rộng cố định và phù hợp */
+        .dt1 section {
+            width: 48%; /* Chỉnh lại width để các phần tử nằm sát nhau */
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+            /* Tùy chỉnh padding/margin để giảm khoảng cách */
+            .dt1 section h2 {
+                font-size: 1.25rem;
+                margin-bottom: 10px;
+            }
+
+    .genre-stats ul,
+    .user-stats ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .genre-stats li,
+    .user-stats li {
+        background-color: #ffffff;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+        margin: 8px 0;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+   
+
+    /* Sắp xếp các phần bên trong row */
+    .dt {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+        .dt section {
+            width: 30%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+            .dt section h2 {
+                font-size: 1.25rem;
+                margin-bottom: 10px;
+            }
+
+    /* Section cho Quản lý người dùng */
+    .user-stats .stat {
+        background-color: #ffffff;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+        margin: 10px 0;
+        padding: 20px;
+        text-align: center;
+    }
+
+        .user-stats .stat h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .user-stats .stat p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+    /* Cài đặt */
+    #settings {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>

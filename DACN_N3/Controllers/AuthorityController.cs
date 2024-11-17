@@ -5,31 +5,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Scripting;
 using System.Security.Claims;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using DACN_N3.Services.Email;
 
 namespace DACN_N3.Controllers
 {
     public class AuthorityController : Controller
     {
 		private MovieDbContext _movieDbContext;
-		
-		public AuthorityController(MovieDbContext movieDbContext)
+        public AuthorityController( MovieDbContext movieDbContext)
 		{
 			_movieDbContext = movieDbContext;
-			
-		}
+
+        }
 		public IActionResult Index()
         {
 			
             return View();
 
         }
-		public IActionResult Login()
+		public async Task<IActionResult> Login()
 		{
-			
-
 			var genres = _movieDbContext.Genres.ToList(); // Lấy danh sách thể loại
 			ViewBag.AllGenres = genres; // Gửi danh sách thể loại vào ViewBag
-			return View();
+            return View();
 		}
 		[HttpPost]
 		public async Task<IActionResult> Login(User user)
@@ -52,7 +50,7 @@ namespace DACN_N3.Controllers
 				var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 				var authProperties = new AuthenticationProperties
 				{
-					IsPersistent = true // Cookie tồn tại sau khi đóng trình duyệt
+					
 				};
 
 				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
@@ -67,7 +65,7 @@ namespace DACN_N3.Controllers
 					return RedirectToAction("Home", "Admin");
 			}
 			// Xử lý đăng nhập không thành công
-			ModelState.AddModelError(string.Empty, "Đăng nhập không hợp lệ.");
+			
 			return View(user);
 		}
 		[HttpPost]
@@ -82,9 +80,12 @@ namespace DACN_N3.Controllers
 				user.Role = "User";
 				_movieDbContext.Users.Add(user);
 				_movieDbContext.SaveChanges();
-				
+				TempData["SignUpSuccessAlert"] = "Đăng ký thành công";
 			}
-			ModelState.AddModelError(string.Empty, "Đăng ký không hợp lệ.");
+			else
+			{
+				TempData["SignUpFailAlert"] = "Đăng ký không thành công";
+			}
 			return RedirectToAction("Login");
 
 		}
