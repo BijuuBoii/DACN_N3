@@ -63,8 +63,9 @@
 						</li>
 						
 						<li class="nav-item ms-auto">
-							<form action="/" method="post">
-								<input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+							<form action="/Home/Search" method="get" class="d-flex">
+								<input class="form-control me-2" type="search" name="keyword" placeholder="Tìm kiếm" aria-label="Search">
+								<button class="btn btn-dark" type="submit">Tìm</button>
 							</form>
 						</li>
 						<li class="nav-item dropdown">
