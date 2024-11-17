@@ -12,10 +12,11 @@ namespace DACN_N3.Controllers
     public class AuthorityController : Controller
     {
 		private MovieDbContext _movieDbContext;
-        public AuthorityController( MovieDbContext movieDbContext)
+		private readonly IEmailSender _emailSender;
+        public AuthorityController( MovieDbContext movieDbContext, IEmailSender emailSender)
 		{
 			_movieDbContext = movieDbContext;
-
+			_emailSender = emailSender;
         }
 		public IActionResult Index()
         {
@@ -69,7 +70,7 @@ namespace DACN_N3.Controllers
 			return View(user);
 		}
 		[HttpPost]
-		public IActionResult SignUp(User user)
+		public async Task<IActionResult> SignUp(User user)
 		{
 			var existingUser = _movieDbContext.Users.SingleOrDefault(u => u.Email == user.Email);
 
@@ -87,7 +88,7 @@ namespace DACN_N3.Controllers
 				TempData["SignUpFailAlert"] = "Đăng ký không thành công";
 			}
 			return RedirectToAction("Login");
-
+			
 		}
 		public async Task<IActionResult> Logout()
 		{

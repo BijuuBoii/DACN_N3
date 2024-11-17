@@ -2,6 +2,12 @@
  @model MomoExecuteResponseModel
 @{
 	ViewData["title"] = "kết quả giao dịch thành công";
+
+
+	var receiver = "Datcopw123@gmail.com";
+	var subject = "Thanh toán gói tháng ComfyMovie";
+	var message = "Thanh toán đặt vé thành công, chúc bạn có những phút giây xem phim thư giản";
+	await _emailSender.SendEmailAsync(receiver, subject, message);
 }
 <div style="color:white;">
 	<h5>Thanh toán MOMO thành công với:</h5>

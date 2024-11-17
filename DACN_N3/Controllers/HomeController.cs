@@ -86,6 +86,10 @@ namespace DACN_N3.Controllers
 			var seats = _movieDbContext.Seats
 					.ToList(); // Chuyển thành danh sách
 							   // Truyền dữ liệu đến view
+			HttpContext.Session.SetString("SelectedDate", date);
+			HttpContext.Session.SetString("SelectedTime", time);
+			HttpContext.Session.SetString("SelectedCinema", cinema);
+
 			ViewData["SelectedDate"] = date;
             ViewData["SelectedTime"] = time;
             ViewData["SelectedCinema"] = cinema;

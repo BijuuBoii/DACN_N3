@@ -333,6 +333,11 @@ document.addEventListener('click', function (event) {
     }
 });
 
+document.querySelector('form').addEventListener('submit', function () {
+    const selectedSeatsList = JSON.parse(sessionStorage.getItem('selectedSeats'));
+    document.getElementById('selected-seats-input').value = selectedSeatsList.join(',');
+});
+
 
 
 let currentIndex = 0;
@@ -367,8 +372,8 @@ let totalPrice = 0;
 let temp = 0;
 let selectedDate = '19/11/2024';  // Biến lưu trữ ngày chọn
 let selectedTime = '';  // Biến lưu trữ giờ chọn
-let selectedCinema = '';
 
+/*let selectedSeats = [];*/
 
 function selectChair(seat) {
     if (seat.classList.contains("placed")) return;
@@ -379,6 +384,9 @@ function selectChair(seat) {
     } else {
         showPopup();  // Hiển thị thông báo khi quá 8 ghế
     }
+
+    sessionStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+
     var totalPrice = document.getElementById("total-price").innerText;
 
     // Làm sạch giá trị tiền, ví dụ: 1000000 -> 1000000

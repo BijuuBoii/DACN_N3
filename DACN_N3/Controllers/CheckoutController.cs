@@ -4,16 +4,19 @@ using DACN_N3.Services.Momo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using DACN_N3.Data;
+using DACN_N3.Services.Email;
 namespace DACN_N3.Controllers
 {
 	public class CheckoutController : Controller
 	{
 		private IMomoService _momoService;
 		private MovieDbContext _movieDbContext;
-		public CheckoutController(IMomoService momoService, MovieDbContext movieDbContext)
+		private readonly IEmailSender _emailSender;
+		public CheckoutController(IMomoService momoService, MovieDbContext movieDbContext, IEmailSender emailSender)
 		{
 			_momoService = momoService;
 			_movieDbContext = movieDbContext;
+			emailSender = emailSender;
 		}
 		//phương thức gọi khi chạy bất kì action nào
 		public override void OnActionExecuting(ActionExecutingContext context)
@@ -38,9 +41,13 @@ namespace DACN_N3.Controllers
 				int? subscriptionId = _movieDbContext.Subscriptions.Where(p => p.Price == decimal.Parse(requestQuery["Amount"])).Select(s=>s.SubscriptionId).FirstOrDefault();
 				int duration = _movieDbContext.Subscriptions.Where(p => p.Price == decimal.Parse(requestQuery["Amount"])).Select(s => s.Duration).FirstOrDefault();
 				DateTime startDate = DateTime.Now;
+
+				
 				if (requestQuery["extraData"] == "DkGoi")
 				{
-                    UserSubscription userSubscription = new UserSubscription
+					
+					
+					UserSubscription userSubscription = new UserSubscription
                     {
                         UserId = userId,
                         SubscriptionId = subscriptionId,
@@ -48,13 +55,58 @@ namespace DACN_N3.Controllers
                         EndDate = startDate.AddDays(duration)
                     };
                     _movieDbContext.Add(userSubscription);
-                    
-                }
-				if (requestQuery["extraData"] == "")
-				{
 
+					var receiver = "Datcopw123@gmail.com";
+					var subject = "Thanh toán gói tháng ComfyMovie";
+					var message = "Thanh toán thành công gói tháng, chúc bạn có những phút giây xem phim thư giản";
+					await _emailSender.SendEmailAsync(receiver, subject, message);
 				}
-                await _movieDbContext.SaveChangesAsync();
+				string selectedDate = HttpContext.Session.GetString("SelectedDate");
+				string selectedTime = HttpContext.Session.GetString("SelectedTime");
+				string selectedCinema = HttpContext.Session.GetString("SelectedCinema");
+				DateTime selectedDateTime;
+				if (!string.IsNullOrEmpty(selectedDate) && !string.IsNullOrEmpty(selectedTime))
+				{
+					string combinedDateTime = selectedDate + " " + selectedTime;
+					if (DateTime.TryParse(combinedDateTime, out selectedDateTime))
+					{
+						// Tiến hành lưu thông tin vé vào cơ sở dữ liệu
+						if (requestQuery["extraData"] == "MuaVe")
+						{
+							
+							// Lấy số ghế từ request hoặc từ thông tin khác
+							decimal ticketPrice = decimal.Parse(requestQuery["Amount"]);
+							DateTime bookingDate = DateTime.Now;
+							string selectedSeats = HttpContext.Request.Form["SelectedSeats"];
+							string[] seatNumbers = selectedSeats.Split(',');
+							foreach (var seatNumber in seatNumbers)
+							{
+								CinemaTicket cinemaTicket = new CinemaTicket
+								{
+									UserId = userId,
+									SeatNumber = seatNumber,
+									TicketPrice = decimal.Parse(requestQuery["Amount"]),
+									BookingDate = DateTime.Now,
+									// Lưu các thông tin khác vào database nếu cần
+								};
+								_movieDbContext.Add(cinemaTicket);
+							}
+							await _movieDbContext.SaveChangesAsync();
+
+							// Thông báo thành công hoặc thực hiện các hành động khác
+							TempData["SuccessMessage"] = "Thanh toán và đặt vé thành công!";
+							var receiver = "Datcopw123@gmail.com";
+							var subject = "Thanh toán gói tháng ComfyMovie";
+							var message = "Thanh toán đặt vé thành công, chúc bạn có những phút giây xem phim thư giản";
+							await _emailSender.SendEmailAsync(receiver, subject, message);
+						}
+					}
+					else
+					{
+						ViewData["ErrorMessage"] = "Ngày và giờ không hợp lệ.";
+					}
+				}
+				await _movieDbContext.SaveChangesAsync();
             }
 			else
 			{
