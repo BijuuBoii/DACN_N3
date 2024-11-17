@@ -1,4 +1,4 @@
-using DACN_N3.Data;
+﻿using DACN_N3.Data;
 using Microsoft.EntityFrameworkCore;
 /*using DACN_N3.Data;*/
 
@@ -7,6 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MovieDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=DESKTOP-GI0R0OL;Initial Catalog=MovieDB;Integrated Security=True;Trust Server Certificate=True")));
 
+
+// Thêm dịch vụ session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian session hết hạn
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; // Bắt buộc với GDPR
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
