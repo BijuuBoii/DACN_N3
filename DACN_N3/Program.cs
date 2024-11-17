@@ -1,7 +1,12 @@
+using DACN_N3.Data;
 using Microsoft.EntityFrameworkCore;
 /*using DACN_N3.Data;*/
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<MovieDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=DESKTOP-GI0R0OL;Initial Catalog=MovieDB;Integrated Security=True;Trust Server Certificate=True")));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
