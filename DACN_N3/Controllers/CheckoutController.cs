@@ -95,16 +95,28 @@ namespace DACN_N3.Controllers
 
                             // Lấy số ghế từ request hoặc từ thông tin khác
                             decimal ticketPrice = decimal.Parse(requestQuery["Amount"]);
+                            
+
                             DateTime bookingDate = DateTime.Now;
                             string selectedSeats = selectedSeat;
                             string[] seatNumbers = selectedSeats.Split(',');
+
                             foreach (var seatNumber in seatNumbers)
                             {
-                                CinemaTicket cinemaTicket = new CinemaTicket
+								bool ticketPrice1 = bool.Parse(_movieDbContext.Seats.Where(s => s.SeatNumber == selectedSeat).Select(s => s.IsVip).ToString());
+                                if(ticketPrice1 == true)
+                                {
+                                    ticketPrice = 60000;
+                                }
+                                else
+                                {
+									ticketPrice = 45000;
+								}
+								CinemaTicket cinemaTicket = new CinemaTicket
                                 {
                                     UserId = userId,
                                     SeatNumber = seatNumber,
-                                    TicketPrice = decimal.Parse(requestQuery["Amount"]),
+                                    TicketPrice = ticketPrice,
                                     ShowTime = selectedDateTime,
                                     BookingDate = DateTime.Now,
                                     // Lưu các thông tin khác vào database nếu cần
