@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using NuGet.Packaging.Signing;
 using Microsoft.AspNetCore.Hosting;
+using DACN_N3.Areas.Admin.Models.editMovie;
 
 namespace DACN_N3.Areas.Admin.Controllers
 {
@@ -35,12 +36,35 @@ namespace DACN_N3.Areas.Admin.Controllers
 			return View();
 		}
         [HttpPost]
-        public IActionResult EditMovie(Movie movie, string action, IFormFile HPoster, IFormFile VPoster)
+        public IActionResult EditMovie(Movie movie, string action, IFormFile HPoster, IFormFile VPoster, MovieViewModel listURL)
         {
             if (action == "save")
             {
-                // Xử lý lưu dữ liệu (sửa)
-                // Cập nhật thông tin của movie trong database
+                // lấy phim cần sửa
+                var selectedMovie = _movieDbContext.Movies.Include(m=>m.Seasons).ThenInclude(m=>m.Episodes).FirstOrDefault(m => m.MovieId == movie.MovieId);
+               selectedMovie.Title = movie.Title;
+               selectedMovie.Description = movie.Description;
+               selectedMovie.Duration = movie.Duration;
+                foreach (var phanEntry in listURL.Phan)
+                {
+                    foreach (var tapEntry in phanEntry.Value.Tap)
+                    {
+                        // Tìm Season tương ứng trong Movie
+                        var season = selectedMovie.Seasons.FirstOrDefault(s => s.SeasonNumber == phanEntry.Key);
+                        if (season != null)
+                        {
+                            // Tìm Episode tương ứng trong Season
+                            var episode = season.Episodes.FirstOrDefault(e => e.EpisodeNumber == tapEntry.Key);
+                            if (episode != null)
+                            {
+                                // Cập nhật VideoUrl cho Episode
+                                episode.VideoUrl = tapEntry.Value.VideoUrl;
+                            }
+                        }
+                    }
+                }
+                _movieDbContext.SaveChanges();
+
             }
             else if (action == "delete")
             {
@@ -120,6 +144,7 @@ namespace DACN_N3.Areas.Admin.Controllers
                 .Where(u => u.Role != "Admin") // Loại bỏ Admin
                 .Select(u => new
                 {
+                    u.UserId,
                     u.Username,
                     u.Email,
                     Subscriptions = u.UserSubscriptions

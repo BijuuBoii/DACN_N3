@@ -57,17 +57,17 @@
                                     @foreach (var season in movie.Seasons)
                                     {
                                     <div class="season">
-                                        <h4>Phần @season.SeasonNumber</h4>
+                                        <h4>Mùa @season.SeasonNumber</h4>
                                         <div class="episode-list">
                                             <ul>
                                                     @foreach (var ep in season.Episodes)
                                                     {
                                                     <li class="episode">
-                                                        Tập @ep.EpisodeNumber: <input type="url" placeholder="Episode Link" name="VideoUrl" value="@ep.VideoUrl">
+                                                        Tập @ep.EpisodeNumber:
+                                                        <input type="url" name="Phan[@season.SeasonNumber].Tap[@ep.EpisodeNumber].VideoUrl" value="@ep.VideoUrl">
                                                         <button class="delete-episode-btn">Xóa Tập</button>
                                                     </li>
                                                     }
-                                                <!-- Tập sẽ được thêm vào đây -->
                                             </ul>
                                         </div>
                                         <button class="add-episode-btn">Thêm Tập</button>
@@ -90,9 +90,8 @@
                             </label>
                         </td>
                     </tr>
-                    <!-- Additional rows as needed -->
                 </form>
-                
+                    <!-- Additional rows as needed -->
             }
                 
             </tbody>
