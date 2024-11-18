@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using DACN_N3.Data;
 using DACN_N3.Services.Email;
 using System.Globalization;
+using System.Linq;
 namespace DACN_N3.Controllers
 {
     public class CheckoutController : Controller
@@ -38,9 +39,9 @@ namespace DACN_N3.Controllers
         {
             if (!string.IsNullOrEmpty(SelectedSeats))
             {
-                // Tách chuỗi thành mảng
-                seatArray = SelectedSeats.Split(',');
-            }
+				// Tách chuỗi thành mảng
+				var seatArray = SelectedSeats.Replace(" ", "").Split(',');
+			}
             else
             {
                 ViewBag.Message = "Vui lòng nhập ghế!";
@@ -59,7 +60,7 @@ namespace DACN_N3.Controllers
                 int? subscriptionId = _movieDbContext.Subscriptions.Where(p => p.Price == decimal.Parse(requestQuery["Amount"])).Select(s => s.SubscriptionId).FirstOrDefault();
                 int duration = _movieDbContext.Subscriptions.Where(p => p.Price == decimal.Parse(requestQuery["Amount"])).Select(s => s.Duration).FirstOrDefault();
                 DateTime startDate = DateTime.Now;
-
+                
 
                 if (requestQuery["extraData"] == "DkGoi")
                 {
@@ -100,7 +101,9 @@ namespace DACN_N3.Controllers
                             string[] seatNumbers = selectedSeats.Split(',');
                             foreach (var seatNumber in seatNumbers)
                             {
-                                CinemaTicket cinemaTicket = new CinemaTicket
+								int? seatId = _movieDbContext.Seats.Where(s=>s.SeatNumber == seatNumber).Select(s => s.SeatId).FirstOrDefault();
+
+								CinemaTicket cinemaTicket = new CinemaTicket
                                 {
                                     UserId = userId,
                                     SeatNumber = seatNumber,

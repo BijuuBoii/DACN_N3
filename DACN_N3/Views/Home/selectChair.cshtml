@@ -1,8 +1,9 @@
 ﻿@using DACN_N3.Data
-@model List<DACN_N3.Data.Seat>
+@model List<DACN_N3.Data.CinemaTicket>
 
 @{
 	ViewData["Title"] = "selectChair";
+	var bookedSeats = ViewData["BookedSeats"] as List<string>;
 }
 <div style="display:flex">
 	<div style="width:70%">
@@ -13,31 +14,29 @@
 
 		<div class="seat-selection">
 			<div class="seats" id="seats">
-				@foreach (var item in Model)
+				@for(char row = 'A'; row <= 'K'; row++)
 				{
-					if (item.IsVip == false)
+					for (int i = 1; i <= 10; i++)
 					{
-						if(item.IsAvailable == true)
+						string seatNumber = row.ToString() + i;
+						bool isBooked = bookedSeats != null && bookedSeats.Contains(seatNumber);
+						bool isVip = row >= 'E' && row <= 'G';
+						int price = isVip ? 60 : 45;
+
+						if (isBooked)
 						{
-							<div class="seat" data-price="45" onclick="selectChair(this)">@item.SeatNumber</div>
+							<div class="seat placed" data-price="@price">
+								@seatNumber
+							</div>
 						}
 						else
 						{
-							<div class="seat placed">@item.SeatNumber</div>
+							<div class="seat @(isVip ? "vip" : "")"
+								 data-price="@price"
+								 onclick="selectChair(this)">
+								@seatNumber
+							</div>
 						}
-						
-					}
-					if (item.IsVip == true)
-					{
-						if (item.IsAvailable == true)
-						{
-							<div class="seat vip" data-price="60" onclick="selectChair(this)">@item.SeatNumber</div>
-						}
-						else
-						{
-							<div class="seat placed">@item.SeatNumber</div>
-						}
-						
 					}
 				}
 			</div>
