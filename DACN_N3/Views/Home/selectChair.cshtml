@@ -80,8 +80,8 @@
 			<input type="hidden" name="OrderInfo" value="Thanh toán đặt vé xem phim tại comfyMovies" />
 			<input type="hidden" name="FullName" value="@ViewBag.userName" />
 			<input type="hidden" name="PaymentType" value="MuaVe" />
-			<input type="hidden" name="SelectedSeat" id="selected-seats-input" />
-			<button class="subscribe-button" name="PayUrl" type="submit">Đặt Vé</button>
+			<input type="hidden" name="seat" id="selected-seats-input" />
+			<button class="subscribe-button" name="PayUrl" type="submit" onclick="updateSelectedSeats()">Đặt Vé</button>
 		</form>
 	</div>
 </div>

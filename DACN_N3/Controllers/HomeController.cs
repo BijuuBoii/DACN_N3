@@ -79,7 +79,11 @@ namespace DACN_N3.Controllers
 
         public IActionResult buyTicket()
         {
-			
+			if (!User.Identity.IsAuthenticated)
+			{
+				TempData["buyAlert"] = "Vui lòng đăng nhập để đặt vé xem phim";
+				return RedirectToAction("Index", "Home");
+			}
 			return View();
         }
 
@@ -90,7 +94,7 @@ namespace DACN_N3.Controllers
 			return View();
         }
 
-        public IActionResult SelectChair(string date, string time,string cinema, string seat)
+        public IActionResult SelectChair(string date, string time,string cinema)
         {
 			// Kiểm tra nếu có giá trị ngày và giờ
 			/* if (string.IsNullOrEmpty(date) || string.IsNullOrEmpty(time))
@@ -108,7 +112,6 @@ namespace DACN_N3.Controllers
 			ViewData["SelectedDate"] = date;
             ViewData["SelectedTime"] = time;
             ViewData["SelectedCinema"] = cinema;
-			ViewData["SelectedSeat"] = seat;
 
 			return View(seats);  // Trả về view chọn ghế
         }

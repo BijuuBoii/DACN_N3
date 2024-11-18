@@ -2,6 +2,7 @@
 using DACN_N3.Services.Email;
 using DACN_N3.Services.Momo;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DACN_N3.Controllers
 {
@@ -15,9 +16,10 @@ namespace DACN_N3.Controllers
             _emailSender = emailSender;
         }
         [HttpPost]
-        public async Task<IActionResult> CreatePaymentMomo(OrderInfoModel model)
+        public async Task<IActionResult> CreatePaymentMomo(OrderInfoModel model,string seat)
         {
             var response = await _momoService.CreatePaymentMomo(model);
+			HttpContext.Session.SetString("SelectedSeat", seat);
 			return Redirect(response.PayUrl);
 
         }

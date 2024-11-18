@@ -261,5 +261,27 @@
             });
         }
     });
+    document.addEventListener("DOMContentLoaded", function () {
+        var loginAlert = '@TempData["buyAlert"]';
+        if (loginAlert) {
+            Swal.fire({
+                title: 'Thông báo',
+                text: "Vui lòng đăng nhập để mua vé xem phim!",
+                icon: 'warning',
+                confirmButtonText: 'Đăng nhập',
+                showCancelButton: true,
+                cancelButtonText: 'Hủy',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '@Url.Action("Login", "Authority")';
+                }
+            });
+        }
+    });
 </script>
 
