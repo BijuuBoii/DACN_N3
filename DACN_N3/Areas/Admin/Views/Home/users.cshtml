@@ -28,7 +28,6 @@
                         <td>@user.Email</td>
                         <td>@if (user.Subscriptions.Count > 0)
                             {
-                               
                                 @foreach (var sub in user.Subscriptions)
                                 {
                                     @sub
@@ -37,13 +36,7 @@
                             else
                             {
                                 <span>Không có gói</span>
-                            }</td>
-                        <td>
-                            <form>
-                                <input type="hidden" value="@user.UserId"/>
-                                <button class="delete-btn">Delete</button>
-                            </form>
-                            
+                            }
                         </td>
                     </tr>
                 }
