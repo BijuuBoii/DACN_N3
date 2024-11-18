@@ -103,7 +103,7 @@ namespace DACN_N3.Controllers
 			HttpContext.Session.SetString("SelectedDate", date);
 			HttpContext.Session.SetString("SelectedTime", time);
 			HttpContext.Session.SetString("SelectedCinema", cinema);
-			HttpContext.Session.SetString("SelectSeat", seat);
+			/*HttpContext.Session.SetString("SelectSeat", seat);*/
 
 			ViewData["SelectedDate"] = date;
             ViewData["SelectedTime"] = time;
