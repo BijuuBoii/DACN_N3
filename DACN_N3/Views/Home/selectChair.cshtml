@@ -39,33 +39,6 @@
 						}
 					}
 				}
-				@foreach (var item in Model)
-				{
-					if (item.IsVip == false)
-					{
-						if(item.IsAvailable == true)
-						{
-							<div class="seat" data-price="45" onclick="selectChair(this)">@item.SeatNumber</div>
-						}
-						else
-						{
-							<div class="seat placed">@item.SeatNumber</div>
-						}
-						
-					}
-					if (item.IsVip == true)
-					{
-						if (item.IsAvailable == true)
-						{
-							<div class="seat vip" data-price="60" onclick="selectChair(this)">@item.SeatNumber</div>
-						}
-						else
-						{
-							<div class="seat placed">@item.SeatNumber</div>
-						}
-						
-					}
-				}
 			</div>
 		</div>
 		<!-- Thông tin chọn ghế -->

@@ -34,8 +34,8 @@ namespace DACN_N3.Areas.Admin.Controllers
         public IActionResult Index()
         {
             // Truyền dữ liệu vào ViewBag
-
             ViewBag.TotalRevenueTicket = 0 + " VND";
+            
             // Lấy danh sách tất cả các UserSubscription từ cơ sở dữ liệu
             var userSubscriptions = _movieDbContext.UserSubscriptions.Include(us => us.Subscription).ToList();
 
@@ -90,7 +90,14 @@ namespace DACN_N3.Areas.Admin.Controllers
 
 			// Lưu vào ViewBag
 			ViewBag.RevenueData = revenueData;
-			return View();
+            decimal totalTicketRevenue = _movieDbContext.CinemaTickets
+                                .Sum(ct => ct.TicketPrice); // Cộng tất cả giá trị trong cột Price
+            ViewBag.TotalTicketRevenue = totalTicketRevenue.ToString("N0", new System.Globalization.CultureInfo("vi-VN")) + " VND";
+
+            // Tổng số vé đã bán
+            var totalTicketsSold = _movieDbContext.CinemaTickets.Count();
+            ViewBag.TotalTicketsSold = totalTicketsSold;
+            return View();
             
         }
 

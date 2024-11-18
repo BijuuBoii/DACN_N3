@@ -100,18 +100,19 @@ namespace DACN_N3.Controllers
                             DateTime bookingDate = DateTime.Now;
                             string selectedSeats = selectedSeat;
                             string[] seatNumbers = selectedSeats.Split(',');
-
-                            foreach (var seatNumber in seatNumbers)
+							string ticketPrice1 = _movieDbContext.Seats.Where(s => s.SeatNumber == selectedSeat).Select(s => s.IsVip).FirstOrDefault().ToString();
+							if (ticketPrice1 == "True")
+							{
+								ticketPrice = 60000;
+							}
+							else
+							{
+								ticketPrice = 45000;
+							}
+							foreach (var seatNumber in seatNumbers)
                             {
-								bool ticketPrice1 = bool.Parse(_movieDbContext.Seats.Where(s => s.SeatNumber == selectedSeat).Select(s => s.IsVip).ToString());
-                                if(ticketPrice1 == true)
-                                {
-                                    ticketPrice = 60000;
-                                }
-                                else
-                                {
-									ticketPrice = 45000;
-								}
+								
+                               
 								CinemaTicket cinemaTicket = new CinemaTicket
                                 {
                                     UserId = userId,
