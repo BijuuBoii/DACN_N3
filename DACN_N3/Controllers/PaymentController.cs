@@ -15,7 +15,7 @@ namespace DACN_N3.Controllers
             _emailSender = emailSender;
         }
         [HttpPost]
-        public async Task<IActionResult> CreatePaymentMomo(OrderInfoModel model)
+        public async Task<IActionResult> CreatePaymentMomo(OrderInfoModel model, string seats)
         {
             var response = await _momoService.CreatePaymentMomo(model);
 			return Redirect(response.PayUrl);

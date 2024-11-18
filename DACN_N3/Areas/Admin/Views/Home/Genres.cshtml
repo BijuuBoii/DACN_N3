@@ -1,40 +1,49 @@
-﻿@{
-	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-}
+﻿@using DACN_N3.Data;
 @{
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
+@model List<Genre>
 <div class="main-content">
     <section id="genres">
         <h2>Quản lý Thể Loại</h2>
 
         <!-- Button to add a new genre -->
-        <button class="add-genre-btn" onclick="addGenre()">Thêm Thể Loại</button>
+        <button class="add-genre-btn" onclick="showAddGenreForm()">Thêm Thể Loại</button>
+
+        <!-- Add Genre Form -->
+        <div id="addGenreForm" style="display:none;">
+            <form method="post" asp-controller="Home" asp-action="AddGenre">
+                <label for="newGenreName">Tên thể loại mới:</label>
+                <input type="text" id="newGenreName" name="Name" required />
+                <button type="submit">Thêm Thể Loại</button>
+                <button type="button" onclick="hideAddGenreForm()">Hủy</button>
+            </form>
+        </div>
 
         <!-- Genre List -->
         <ul id="genreList" class="genre-list">
-            <li>Hành Động <button onclick="deleteGenre(this)">Xóa</button></li>
-            <li>Kinh Dị <button onclick="deleteGenre(this)">Xóa</button></li>
-            <li>Hài <button onclick="deleteGenre(this)">Xóa</button></li>
-            <li>Tình Cảm <button onclick="deleteGenre(this)">Xóa</button></li>
-            <li>Khoa Học Viễn Tưởng <button onclick="deleteGenre(this)">Xóa</button></li>
+            @foreach (var theloai in Model)
+            {
+                <li>
+                    @theloai.Name
+                    <form method="post" asp-controller="Home" asp-action="DeleteGenre" style="display:inline;">
+                        <input type="hidden" name="id" value="@theloai.GenreId" />
+                        <button type="submit">Xóa</button>
+                    </form>
+                </li>
+            }
         </ul>
     </section>
 </div>
 
 <script>
-    function addGenre() {
-        let genreName = prompt("Nhập tên thể loại mới:");
-        if (genreName) {
-            let genreList = document.getElementById('genreList');
-            let newItem = document.createElement('li');
-            newItem.innerHTML = genreName + ' <button onclick="deleteGenre(this)">Xóa</button>';
-            genreList.appendChild(newItem);
-        }
+    // Hiện form thêm thể loại
+    function showAddGenreForm() {
+        document.getElementById('addGenreForm').style.display = 'block';
     }
 
-    function deleteGenre(button) {
-        button.parentElement.remove();
+    // Ẩn form thêm thể loại
+    function hideAddGenreForm() {
+        document.getElementById('addGenreForm').style.display = 'none';
     }
 </script>
-
