@@ -58,6 +58,7 @@
                                     {
                                     <div class="season">
                                         <h4>Mùa @season.SeasonNumber</h4>
+                                        <input type="hidden" name="SeasonNumber" value="@season.SeasonNumber">
                                         <div class="episode-list">
                                             <ul>
                                                     @foreach (var ep in season.Episodes)
@@ -65,19 +66,18 @@
                                                     <li class="episode">
                                                         Tập @ep.EpisodeNumber:
                                                         <input type="url" name="Phan[@season.SeasonNumber].Tap[@ep.EpisodeNumber].VideoUrl" value="@ep.VideoUrl">
-                                                        <button class="delete-episode-btn">Xóa Tập</button>
+                                                        <button type="submit" name="action" value="deleteEp @season.SeasonNumber @ep.EpisodeNumber" class="delete-episode-btn">Xóa Tập</button>
                                                     </li>
                                                     }
                                             </ul>
                                         </div>
-                                        <button class="add-episode-btn">Thêm Tập</button>
-                                        <button class="delete-season-btn">Xóa Mùa</button>
+                                        <button type="submit" name="action" value="addEp @season.SeasonNumber" class="add-episode-btn">Thêm Tập</button>
+                                        <button type="submit" name="action" value="deleteSeason @season.SeasonNumber" class="delete-season-btn">Xóa Mùa</button>
                                     </div>
                                     }
                             </div>
-                            <button class="add-season-btn">Thêm Mùa</button>
+                            <button type="submit" name="action" value="addSeason" class="add-season-btn">Thêm Mùa</button>
                         </td>
-
 
                         <td style="display:flex;gap:10px;">
                             <button type="submit" name="action" value="save" class="save-btn-movies">Lưu</button>

@@ -38,10 +38,11 @@ namespace DACN_N3.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult EditMovie(Movie movie, string action, IFormFile HPoster, IFormFile VPoster, MovieViewModel listURL)
         {
+            var selectedMovie = _movieDbContext.Movies.Include(m => m.Seasons).ThenInclude(m => m.Episodes).FirstOrDefault(m => m.MovieId == movie.MovieId);
             if (action == "save")
             {
                 // lấy phim cần sửa
-                var selectedMovie = _movieDbContext.Movies.Include(m=>m.Seasons).ThenInclude(m=>m.Episodes).FirstOrDefault(m => m.MovieId == movie.MovieId);
+                
                selectedMovie.Title = movie.Title;
                selectedMovie.Description = movie.Description;
                selectedMovie.Duration = movie.Duration;
@@ -66,6 +67,76 @@ namespace DACN_N3.Areas.Admin.Controllers
                 _movieDbContext.SaveChanges();
 
             }
+            else if (action.Contains("addSeason"))
+            {
+                // Tạo season mới
+                var newSeason = new Season
+                {
+                    SeasonNumber = (selectedMovie.Seasons.Max(s => (int?)s.SeasonNumber) ?? 0) + 1,
+                    Episodes = new List<Episode>()
+                };
+                selectedMovie.Seasons.Add(newSeason);
+                _movieDbContext.SaveChanges();
+
+            }
+            else if (action.Contains("addEp"))
+            {
+                // Tách action thành một mảng các phần tử
+                var parts = action.Split(' ');
+                // Lấy số mùa từ phần tử đầu tiên
+                int seasonNumber = int.Parse(parts[1]);
+                // Tìm season cần thêm tập
+                var season = selectedMovie.Seasons.FirstOrDefault(s => s.SeasonNumber == seasonNumber);
+                if (season != null)
+                {
+                    var newEpisode = new Episode
+                    {
+                        EpisodeNumber = (season.Episodes.Max(e => (int?)e.EpisodeNumber) ?? 0) + 1,
+                        VideoUrl = "",
+                        Title = "Tập " + (season.Episodes.Max(e => (int?)e.EpisodeNumber) ?? 0) + 1
+
+                    };
+                    season.Episodes.Add(newEpisode);
+                    _movieDbContext.SaveChanges();
+                }
+            }
+            else if (action.StartsWith("deleteEp"))
+            {
+                // Tách action thành một mảng các phần tử
+                var parts = action.Split(' ');
+
+                // Lấy số mùa từ phần tử đầu tiên
+                int seasonNumber = int.Parse(parts[1]);
+
+                // Lấy số tập từ phần tử thứ hai
+                int episodeNumber = int.Parse(parts[2]);
+
+                // Tìm season cần xóa tập
+                var season = selectedMovie.Seasons.FirstOrDefault(s => s.SeasonNumber == seasonNumber);
+                if (season != null)
+                {
+                    var episodeToDelete = season.Episodes.FirstOrDefault(e => e.EpisodeNumber == episodeNumber);
+                    if (episodeToDelete != null)
+                    {
+                        season.Episodes.Remove(episodeToDelete); // Xóa tập
+                        _movieDbContext.SaveChanges();
+                    }
+                }
+            }
+            else if (action.StartsWith("deleteSeason"))
+            {
+                // Lấy số từ cuối của action (ví dụ: "deleteSeason 2")
+                int seasonNumber = int.Parse(action.Split(' ').Last()); // Lấy số cuối của action (season number)
+
+                // Tìm và xóa season
+                var season = selectedMovie.Seasons.FirstOrDefault(s => s.SeasonNumber == seasonNumber);
+                if (season != null)
+                {
+                    selectedMovie.Seasons.Remove(season); // Xóa mùa
+                    _movieDbContext.SaveChanges();
+                }
+            }
+
             else if (action == "delete")
             {
                 var deleteMovie = _movieDbContext.Movies.Where(m => m.MovieId == movie.MovieId).Include(m=>m.Genres).FirstOrDefault();
@@ -93,6 +164,7 @@ namespace DACN_N3.Areas.Admin.Controllers
                 _movieDbContext.Movies.Remove(deleteMovie);
                 _movieDbContext.SaveChanges();
             }
+            
 
             // Sau khi xử lý, có thể chuyển hướng về một trang khác hoặc trả về kết quả
             return RedirectToAction("movies");

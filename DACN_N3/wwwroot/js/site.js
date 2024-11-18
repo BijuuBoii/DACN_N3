@@ -66,51 +66,51 @@
     });
 
     // Function to add new episodes
-    document.querySelectorAll('.add-season-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            const seasonList = this.previousElementSibling;
-            const seasonCount = seasonList.querySelectorAll('.season').length + 1;
-            const newSeasonDiv = document.createElement('div');
-            newSeasonDiv.className = 'season';
-            newSeasonDiv.innerHTML = `
-            <h4>Mùa ${seasonCount}</h4>
-            <div class="episode-list">
-                <ul>
-                    <!-- Tập sẽ được thêm vào đây -->
-                </ul>
-            </div>
-            <button class="add-episode-btn">Thêm Tập</button>
-            <button class="delete-season-btn">Xóa Mùa</button>
-        `;
-            seasonList.appendChild(newSeasonDiv);
+    //document.querySelectorAll('.add-season-btn').forEach(button => {
+    //    button.addEventListener('click', function () {
+    //        const seasonList = this.previousElementSibling;
+    //        const seasonCount = seasonList.querySelectorAll('.season').length + 1;
+    //        const newSeasonDiv = document.createElement('div');
+    //        newSeasonDiv.className = 'season';
+    //        newSeasonDiv.innerHTML = `
+    //        <h4>Mùa ${seasonCount}</h4>
+    //        <div class="episode-list">
+    //            <ul>
+    //                <!-- Tập sẽ được thêm vào đây -->
+    //            </ul>
+    //        </div>
+    //        <button class="add-episode-btn">Thêm Tập</button>
+    //        <button class="delete-season-btn">Xóa Mùa</button>
+    //    `;
+    //        seasonList.appendChild(newSeasonDiv);
 
-            // Thêm sự kiện cho nút thêm tập
-            newSeasonDiv.querySelector('.add-episode-btn').addEventListener('click', function () {
-                const episodeList = this.previousElementSibling.querySelector('ul');
-                const episodeCount = episodeList.querySelectorAll('.episode').length + 1; // Đếm số tập hiện tại
-                const newEpisodeItem = document.createElement('li');
-                newEpisodeItem.className = 'episode';
-                newEpisodeItem.innerHTML = `
-                Tập ${episodeCount}: <input type="url" placeholder="Episode Link">
-                <button class="delete-episode-btn">Xóa Tập</button>
-            `;
-                episodeList.appendChild(newEpisodeItem);
-            });
-        });
-    });
+    //        // Thêm sự kiện cho nút thêm tập
+    //        newSeasonDiv.querySelector('.add-episode-btn').addEventListener('click', function () {
+    //            const episodeList = this.previousElementSibling.querySelector('ul');
+    //            const episodeCount = episodeList.querySelectorAll('.episode').length + 1; // Đếm số tập hiện tại
+    //            const newEpisodeItem = document.createElement('li');
+    //            newEpisodeItem.className = 'episode';
+    //            newEpisodeItem.innerHTML = `
+    //            Tập ${episodeCount}: <input type="url" placeholder="Episode Link">
+    //            <button class="delete-episode-btn">Xóa Tập</button>
+    //        `;
+    //            episodeList.appendChild(newEpisodeItem);
+    //        });
+    //    });
+    //});
 
-    // Xóa tập phim hoặc mùa phim
-    document.addEventListener('click', function (e) {
-        // Xóa mùa phim
-        if (e.target.classList.contains('delete-season-btn')) {
-            e.target.closest('.season').remove();
-        }
+    //// Xóa tập phim hoặc mùa phim
+    //document.addEventListener('click', function (e) {
+    //    // Xóa mùa phim
+    //    if (e.target.classList.contains('delete-season-btn')) {
+    //        e.target.closest('.season').remove();
+    //    }
 
-        // Xóa tập phim
-        if (e.target.classList.contains('delete-episode-btn')) {
-            e.target.closest('li').remove();
-        }
-    });
+    //    // Xóa tập phim
+    //    if (e.target.classList.contains('delete-episode-btn')) {
+    //        e.target.closest('li').remove();
+    //    }
+    //});
     
 
     const heartButton = document.getElementById('heartButton');
