@@ -42,7 +42,34 @@ namespace DACN_N3.Controllers
             ViewBag.CrimeMovies = crimeMovies;
             ViewBag.RandomMovies = randomMovies;
 
-            
+            var topMovies = _movieDbContext.Movies
+                            .Include(m => m.Reviews)
+                            .Where(m => m.Reviews.Any(r => r.Rating.HasValue))  // Lọc phim có đánh giá
+                            .Select(m => new
+                            {
+                                MovieId = m.MovieId,
+                                Title = m.Title,
+                                Poster = m.Poster,
+                                Reviews = m.Reviews
+                            })
+                            .AsEnumerable()  // Chuyển về client để tính toán trung bình
+                            .Select(m => new
+                            {
+                                m.MovieId,
+                                m.Title,
+                                m.Poster,
+                                AverageRating = m.Reviews
+                                                    .Where(r => r.Rating.HasValue)
+                                                    .GroupBy(r => r.UserId)
+                                                    .Average(g => g.Average(r => r.Rating.Value))  // Tính trung bình cho mỗi user
+                            })
+                            .OrderByDescending(m => m.AverageRating)  // Sắp xếp theo điểm trung bình
+                            .Take(10)  // Lấy top 10 phim
+                            .ToList();
+
+            // Chuyển dữ liệu sang ViewModel hoặc ViewBag
+            ViewBag.TopMovies = topMovies;
+
             return View(movies);
         }
 		[HttpGet]
