@@ -1,6 +1,12 @@
 ﻿@{
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
+@using DACN_N3.Data;
+@{
+    var movies = ViewBag.Movies as List<Movie> ?? new List<Movie>();
+}
+
+
 <div class="main-content">
     <section id="movies">
         <h2>Phim</h2>
@@ -11,48 +17,84 @@
         <table>
             <thead>
                 <tr>
-                    <th>Hình Ảnh</th>
+                    <th>Hình Ảnh Ngang</th>
+                    <th>Hình Ảnh Dọc</th>
                     <th>Tên Phim</th>
                     <th>Thông Tin Phim</th>
+                    <th>Thời lượng phim</th>
                     <th>Link Phim</th>
                     <th>Chức Năng</th>
                     <th>Ẩn/Hiện</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Movie Row -->
-                <tr>
-                    <td>
-                        <div class="image-wrapper">
-                            <img src="image.jpg" alt="Movie Image">
-                            <input type="file" accept="image/*">
-                        </div>
-                    </td>
-                    <td><input type="text" value="Tên Phim"></td>
-                    <td>
-                        <p>Thể loại</p>
-                        <h5>kinh dị</h5>
-                        <textarea>Thông Tin Phim</textarea>
-                    </td>
-                    <td class="seasons">
-                        <!-- Seasons List -->
-                        <div class="season-list">
-                            
-                        </div>
-                        <button class="add-season-btn">Thêm Mùa</button>
-                    </td>
-                    <td style="display:flex;gap:10px;">
-                        <button class="save-btn-movies">Lưu</button>
-                        <button class="delete-btn">Xóa</button>
-                    </td>
-                    <td>
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <span class="slider round"></span>
-                        </label>
-                    </td>
-                </tr>
-                <!-- Additional rows as needed -->
+            @foreach(var movie in movies)
+            {
+                    <form method="post" enctype="multipart/form-data" asp-action="EditMovie">
+                        <!-- Movie Row -->
+                    <input type="hidden" name="MovieId" value="@movie.MovieId">
+                    <tr>
+                        <td>
+                            <div class="image-wrapper">
+                                <img src="/img/@movie.HorizontalPoster" alt="Movie Image">
+                                <input type="hidden" name="HorizontalPoster" value="@movie.HorizontalPoster" />
+                                <input name="HPoster" type="file" accept="image/*">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="image-wrapper">
+                                <img src="/img/@movie.Poster" alt="Movie Image">
+                                <input type="hidden" name="Poster" value="@movie.Poster" />
+                                <input name="VPoster" type="file" accept="image/*">
+                            </div>
+                        </td>
+                        <td><input type="text" name="Title" value="@movie.Title"></td>
+                        <td><textarea name="Description">@movie.Description</textarea></td>
+                        <td><input name="Duration" type="number" value="@movie.Duration"></td>
+                        <td class="seasons">
+                            <!-- Seasons List -->
+                            <div class="season-list">
+                                    @foreach (var season in movie.Seasons)
+                                    {
+                                    <div class="season">
+                                        <h4>Phần @season.SeasonNumber</h4>
+                                        <div class="episode-list">
+                                            <ul>
+                                                    @foreach (var ep in season.Episodes)
+                                                    {
+                                                    <li class="episode">
+                                                        Tập @ep.EpisodeNumber: <input type="url" placeholder="Episode Link" name="VideoUrl" value="@ep.VideoUrl">
+                                                        <button class="delete-episode-btn">Xóa Tập</button>
+                                                    </li>
+                                                    }
+                                                <!-- Tập sẽ được thêm vào đây -->
+                                            </ul>
+                                        </div>
+                                        <button class="add-episode-btn">Thêm Tập</button>
+                                        <button class="delete-season-btn">Xóa Mùa</button>
+                                    </div>
+                                    }
+                            </div>
+                            <button class="add-season-btn">Thêm Mùa</button>
+                        </td>
+
+
+                        <td style="display:flex;gap:10px;">
+                            <button type="submit" name="action" value="save" class="save-btn-movies">Lưu</button>
+                            <button type="submit" name="action" value="delete" class="delete-btn">Xóa</button>
+                        </td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </td>
+                    </tr>
+                    <!-- Additional rows as needed -->
+                </form>
+                
+            }
+                
             </tbody>
         </table>
     </section>

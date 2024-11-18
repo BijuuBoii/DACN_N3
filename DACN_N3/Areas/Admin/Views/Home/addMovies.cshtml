@@ -1,67 +1,92 @@
 ﻿@{
 	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
+@using DACN_N3.Data;
+@{
+	var genres = ViewBag.genres as List<Genre> ?? new List<Genre>();
+}
 <div class="main-content">
 	<div style="display:flex;gap:10px;">
 		<div id="addMovieModal" style="padding-top:20px;">
 			<div class="modal-content" >
 
 				<h2>Thêm Phim Mới</h2>
+				<form id="genreForm" method="post" enctype="multipart/form-data" asp-action="addMovie">
+					<label for="VImage">Hình dọc:</label>
+					<input type="file" id="VImage" name="VImage" accept="image/*">
 
-				<label for="movieImage">Movie Image:</label>
-				<input type="file" id="movieImage" accept="image/*">
+					<label for="HImage">Hình Ngang:</label>
+					<input type="file" id="HImage" name="HImage" accept="image/*">
 
-				<label for="movieTitle">Movie Name:</label>
-				<input type="text" id="movieTitle" placeholder="Enter movie name">
+					<label for="Title">Tên phim:</label>
+					<input type="text" id="Title" name="Title" placeholder="Nhập tên phim">
 
-				<label for="movieInfo">Movie Info:</label>
-				<textarea id="movieInfo" placeholder="Enter movie info"></textarea>
+					<label for="Duration">Thời lượng:</label>
+					<input type="number" id="Duration" name="Duration" placeholder="Nhập thời lượng phim">
 
-				<label for="movieCategory">Thể loại:</label>
-				<section id="genres">
-					<h2>Chọn Thể Loại</h2>
+					<label for="movieInfo">Thông tin phim:</label>
+					<textarea id="Description" name="Description" placeholder="Enter movie info"></textarea>
+
+					<label for="Languague">Ngôn ngữ:</label>
+					<input type="text" id="languague" name="languague" placeholder="Nhập ngôn ngữ">
+
+					<label for="Languague">Độ tuổi:</label>
+					<input type="text" id="AgeRating" name="AgeRating" placeholder="Nhập giới hạn độ tuổi">
+
+					<label for="Director">Đạo diễn:</label>
+					<input type="text" id="Director" name="Director"  placeholder="Nhập tên đạo diễn">
+
+					<label for="Cast">Diễn viên:</label>
+					<input type="text" id="Cast" name="Cast" placeholder="Nhập tên các diễn viên">
+					<label for="movieCategory">Thể loại:</label>
+					<section id="genres">
+						<h2>Chọn Thể Loại</h2>
 
 
-					<!-- Input để chọn thể loại -->
-					<div class="genre-select">
-						<input type="text" id="genreInput" placeholder="Chọn thể loại" onfocus="showSuggestions()" oninput="filterSuggestions()">
-						<ul id="suggestions" class="suggestion-list" style="z-index:1;">
+						<!-- Input để chọn thể loại -->
+						<div class="genre-select">
+							<input type="text" id="genreInput" placeholder="Chọn thể loại" onfocus="showSuggestions()" oninput="filterSuggestions()">
+							<ul id="suggestions" class="suggestion-list" style="z-index:1;">
+								@foreach(var theloai in genres)
+								{
+									<li onclick="selectGenre('@theloai.Name')">@theloai.Name</li>
+								}
+							</ul>
+						</div>
+						<br />
+						<!-- Khu vực để hiển thị các thể loại đã chọn -->
+						<div id="selectedGenres" class="selected-genres">
 							
-							<li onclick="selectGenre('Hành Động')">Hành Động</li>
-							<li onclick="selectGenre('Kinh Dị')">Kinh Dị</li>
-							<li onclick="selectGenre('Hài')">Hài</li>
-							<li onclick="selectGenre('Tình Cảm')">Tình Cảm</li>
-							<li onclick="selectGenre('Khoa Học Viễn Tưởng')">Khoa Học Viễn Tưởng</li>
-						</ul>
+						</div>
+						<input type="hidden" id="selectedGenresList" name="genres" />
+					</section>
+
+
+					<div class="modal-actions">
+						<button type="submit" class="save-btn-movies" onclick="saveMovie()">Save</button>
 					</div>
-					<br />
-					<button id="addGenreBtn" onclick="addNewGenre()">Thêm Thể Loại</button>
-					<!-- Khu vực để hiển thị các thể loại đã chọn -->
-					<div id="selectedGenres" class="selected-genres"></div>
-
-				</section>
-
-
-				<div class="modal-actions">
-					<button type="button" class="save-btn-movies" onclick="saveMovie()">Save</button>
-				</div>
+				</form>
 			</div>
 		</div>
-		<section id="genres" style="width:500px; margin-left:10px;">
-			<h2>Quản lý Thể Loại</h2>
-
-			<!-- Button to add a new genre -->
-			<button class="add-genre-btn" onclick="addGenre()">Thêm Thể Loại</button>
-
-			<!-- Genre List -->
-			<ul id="genreList" class="genre-list">
-				<li class="li-genres">Hành Động <button class="delete-btn" onclick="deleteGenre(this)">Xóa</button></li>
-				<li class="li-genres">Kinh Dị <button class="delete-btn" onclick="deleteGenre(this)">Xóa</button></li>
-				<li class="li-genres">Hài <button class="delete-btn" onclick="deleteGenre(this)">Xóa</button></li>
-				<li class="li-genres">Tình Cảm <button class="delete-btn" onclick="deleteGenre(this)">Xóa</button></li>
-				<li class="li-genres">Khoa Học Viễn Tưởng <button class="delete-btn" onclick="deleteGenre(this)">Xóa</button></li>
-			</ul>
-		</section>
+		
 	</div>
 		
 </div>
+<script>
+	function updateSelectedGenres() {
+        // Lấy tất cả các thẻ span có lớp 'genre-tag' trong #selectedGenres
+        const genreTags = document.querySelectorAll('#selectedGenres .genre-tag');
+        
+        // Lưu tên thể loại vào mảng
+        const genres = [];
+        genreTags.forEach(tag => {
+            genres.push(tag.id); // Lấy giá trị của thuộc tính id của từng thẻ span
+        });
+
+        // Cập nhật giá trị của input ẩn với danh sách thể loại
+        document.getElementById('selectedGenresList').value = genres.join(','); // Nối các tên thể loại bằng dấu phẩy
+    }
+	document.getElementById('genreForm').addEventListener('submit', function(event) {
+    updateSelectedGenres(); // Gọi hàm updateSelectedGenres khi submit
+});
+</script>

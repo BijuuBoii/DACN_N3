@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DACN_N3.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using NuGet.Packaging.Signing;
+using Microsoft.AspNetCore.Hosting;
 
 namespace DACN_N3.Areas.Admin.Controllers
 {
@@ -8,11 +11,13 @@ namespace DACN_N3.Areas.Admin.Controllers
     public class HomeController : Controller
     {
 		private MovieDbContext _movieDbContext;
-		public HomeController( MovieDbContext movieDbContext)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public HomeController( MovieDbContext movieDbContext, IWebHostEnvironment webHostEnvironment)
 		{
 			_movieDbContext = movieDbContext;
+            _webHostEnvironment = webHostEnvironment;
 
-		}
+        }
 		public IActionResult Index()
         {
             return View();
@@ -20,11 +25,55 @@ namespace DACN_N3.Areas.Admin.Controllers
 
 		public IActionResult movies()
 		{
-			
+            var movies = _movieDbContext.Movies
+                       .Include(m => m.Seasons) // Bao gồm các mùa
+                       .ThenInclude(s => s.Episodes) // Bao gồm các tập
+                       .Include(g => g.Genres)
+                       .ToList();
+
+            ViewBag.Movies = movies;
 			return View();
 		}
+        [HttpPost]
+        public IActionResult EditMovie(Movie movie, string action, IFormFile HPoster, IFormFile VPoster)
+        {
+            if (action == "save")
+            {
+                // Xử lý lưu dữ liệu (sửa)
+                // Cập nhật thông tin của movie trong database
+            }
+            else if (action == "delete")
+            {
+                var deleteMovie = _movieDbContext.Movies.Where(m => m.MovieId == movie.MovieId).Include(m=>m.Genres).FirstOrDefault();
+                var relatedGenres = deleteMovie.Genres.Where(m=>m.Movies.Any(g => g.MovieId == movie.MovieId)).ToList();
+                var favorite = _movieDbContext.Watchlists.Where(w => w.MovieId == movie.MovieId).ToList();
+                var comment = _movieDbContext.Reviews.Where(w => w.MovieId == movie.MovieId).ToList();
+                foreach(var c in comment)
+                {
+                    _movieDbContext.Reviews.Remove(c);
+                }
+                foreach (var f in favorite)
+                {
+                    _movieDbContext.Watchlists.Remove(f);
+                }
+                foreach (var g in relatedGenres)
+                {
+                    deleteMovie.Genres.Remove(g);
+                }
+                var HimagePath = Path.Combine(_webHostEnvironment.WebRootPath, "img", deleteMovie.HorizontalPoster);
+                var VimagePath = Path.Combine(_webHostEnvironment.WebRootPath, "img", deleteMovie.Poster);
+                // Xóa tệp hình ảnh
+                System.IO.File.Delete(HimagePath);
+                System.IO.File.Delete(VimagePath);
 
-		public IActionResult genres()
+                _movieDbContext.Movies.Remove(deleteMovie);
+                _movieDbContext.SaveChanges();
+            }
+
+            // Sau khi xử lý, có thể chuyển hướng về một trang khác hoặc trả về kết quả
+            return RedirectToAction("movies");
+        }
+        public IActionResult genres()
 		{
 			var genres = _movieDbContext.Genres.ToList();
 			return View(genres);
@@ -66,7 +115,20 @@ namespace DACN_N3.Areas.Admin.Controllers
         }
         public IActionResult users()
 		{
-			return View();
+            // Lấy danh sách người dùng không phải Admin và gói đăng ký của họ
+            var usersWithSubscriptions = _movieDbContext.Users
+                .Where(u => u.Role != "Admin") // Loại bỏ Admin
+                .Select(u => new
+                {
+                    u.Username,
+                    u.Email,
+                    Subscriptions = u.UserSubscriptions
+                        .Where(us => us.EndDate > DateTime.Now) // Chỉ gói còn hiệu lực
+                        .Select(us => us.Subscription.Name)
+                        .ToList()
+                })
+                .ToList();
+            return View(usersWithSubscriptions);
 		}
 
 		public IActionResult settings()
@@ -76,7 +138,67 @@ namespace DACN_N3.Areas.Admin.Controllers
 
         public IActionResult addMovies()
         {
+            var genres = _movieDbContext.Genres.ToList();
+            ViewBag.genres = genres;
             return View();
         }
-    }
+		[HttpPost]
+		public async Task<IActionResult> addMovie(IFormFile VImage, IFormFile HImage, Movie movie, string genres)
+		{
+			if (ModelState.IsValid)
+			{
+				string sanitizedTitle = movie.Title.Replace(" ", "");
+				// Kiểm tra và lưu hình ảnh
+				if (VImage != null)
+				{
+					var extension = Path.GetExtension(VImage.FileName).ToLower();
+					var vImageFileName = $"{sanitizedTitle}{extension}"; // Kết hợp tiêu đề với định dạng gốc
+					var vImagePath = Path.Combine("wwwroot/img/", vImageFileName);
+
+					using (var stream = new FileStream(vImagePath, FileMode.Create))
+					{
+						await VImage.CopyToAsync(stream);
+					}
+
+					movie.Poster = vImageFileName; // Lưu đường dẫn hình ảnh vào cơ sở dữ liệu
+				}
+
+				if (HImage != null)
+				{
+					var hImageExtension = Path.GetExtension(HImage.FileName).ToLower(); // Lấy định dạng gốc
+					var hImageFileName = $"{sanitizedTitle}H{hImageExtension}"; // Thêm 'H' để phân biệt hình ngang
+					var hImagePath = Path.Combine("wwwroot/img/", hImageFileName);
+
+					using (var stream = new FileStream(hImagePath, FileMode.Create))
+					{
+						await HImage.CopyToAsync(stream);
+					}
+
+					movie.HorizontalPoster = hImageFileName; // Lưu đường dẫn hình ảnh vào cơ sở dữ liệu
+				}
+
+				// Lưu phim vào cơ sở dữ liệu
+				_movieDbContext.Movies.Add(movie);
+				await _movieDbContext.SaveChangesAsync();
+
+                // Lưu thể loại
+                // Phân tách danh sách genres đã chọn
+                var selectedGenres = genres.Split(',').ToList();
+
+                // Lưu các thể loại vào cơ sở dữ liệu
+                foreach (var genreName in selectedGenres)
+                {
+                    var genre = await _movieDbContext.Genres.FirstOrDefaultAsync(g => g.Name == genreName);
+                    if (genre != null)
+                    {
+                        movie.Genres.Add(genre);
+                    }
+                }
+                await _movieDbContext.SaveChangesAsync();
+
+				return RedirectToAction("movies"); // Hoặc hành động khác
+			}
+			return View("addMovies");
+		}
+	}
 }

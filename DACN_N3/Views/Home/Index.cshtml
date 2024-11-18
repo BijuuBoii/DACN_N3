@@ -282,6 +282,25 @@
                 }
             });
         }
+    }); document.addEventListener("DOMContentLoaded", function () {
+        var loginAlert = '@TempData["NoEpAlert"]';
+        if (loginAlert) {
+            Swal.fire({
+                title: 'Thông báo',
+                text: "Phim này hiện tại chưa có tập nào, vui lòng quay lại sau!!",
+                icon: 'warning',
+                confirmButtonText: 'Đồng ý',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '@Url.Action("Index", "Home")';
+                }
+            });
+        }
     });
 </script>
 

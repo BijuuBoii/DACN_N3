@@ -150,12 +150,19 @@ namespace DACN_N3.Controllers
                 return RedirectToAction("Index", "Home"); // Giả sử trang đăng ký gói là "Subscription"
             }
 
+			
             var movie = _movieDbContext.Movies
 		    .Include(m => m.Seasons) // Bao gồm các mùa
 			.ThenInclude(s => s.Episodes) // Bao gồm các tập
 			.Include(g => g.Genres)
 			.FirstOrDefault(m => m.MovieId == id);
 
+			var hasEpisodes = movie.Seasons.Any(s => s.Episodes.Any());
+			if (!hasEpisodes)
+            {
+				TempData["NoEpAlert"] = "phim này hiện tại chưa có tập nào, vui lòng quay lại sau!";
+				return RedirectToAction("Index", "Home"); // Giả sử trang đăng ký gói là "Subscription"
+			}
             var comments = _movieDbContext.Reviews.Where(s=>s.MovieId == id).Include(s=>s.User).ToList();
 
 			var movieFav = _movieDbContext.Watchlists.Where(m => m.MovieId == id && m.UserId == userId).FirstOrDefault();
