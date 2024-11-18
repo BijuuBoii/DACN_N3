@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using DACN_N3.Data;
 using DACN_N3.Services.Email;
+using System.Globalization;
 namespace DACN_N3.Controllers
 {
 	public class CheckoutController : Controller
 	{
+		
 		private IMomoService _momoService;
 		private MovieDbContext _movieDbContext;
 		private readonly IEmailSender _emailSender;
@@ -16,7 +18,7 @@ namespace DACN_N3.Controllers
 		{
 			_momoService = momoService;
 			_movieDbContext = movieDbContext;
-			emailSender = emailSender;
+			_emailSender = emailSender;
 		}
 		//phương thức gọi khi chạy bất kì action nào
 		public override void OnActionExecuting(ActionExecutingContext context)
@@ -30,6 +32,20 @@ namespace DACN_N3.Controllers
 		{
 			return View();
 		}
+		private string[] seatArray;
+		[HttpPost]
+		public IActionResult SaveSeats(string SelectedSeats) {
+			if (!string.IsNullOrEmpty(SelectedSeats))
+			{
+				// Tách chuỗi thành mảng
+				seatArray = SelectedSeats.Split(',');
+			}
+			else
+			{
+				ViewBag.Message = "Vui lòng nhập ghế!";
+			}
+			return View();
+		}
 		[HttpGet]
 		public async Task<IActionResult> PaymentCallBack()
 		{
@@ -38,6 +54,7 @@ namespace DACN_N3.Controllers
 			if (requestQuery["errorCode"] == "0")
 			{
 				int? userId = HttpContext.Session.GetInt32("userID");
+				
 				int? subscriptionId = _movieDbContext.Subscriptions.Where(p => p.Price == decimal.Parse(requestQuery["Amount"])).Select(s=>s.SubscriptionId).FirstOrDefault();
 				int duration = _movieDbContext.Subscriptions.Where(p => p.Price == decimal.Parse(requestQuery["Amount"])).Select(s => s.Duration).FirstOrDefault();
 				DateTime startDate = DateTime.Now;
@@ -45,16 +62,16 @@ namespace DACN_N3.Controllers
 				
 				if (requestQuery["extraData"] == "DkGoi")
 				{
-					
-					
+
+
 					UserSubscription userSubscription = new UserSubscription
-                    {
-                        UserId = userId,
-                        SubscriptionId = subscriptionId,
-                        StartDate = startDate,
-                        EndDate = startDate.AddDays(duration)
-                    };
-                    _movieDbContext.Add(userSubscription);
+					{
+						UserId = userId,
+						SubscriptionId = subscriptionId,
+						StartDate = startDate,
+						EndDate = startDate.AddDays(duration)
+					};
+					_movieDbContext.Add(userSubscription);
 
 					var receiver = "Datcopw123@gmail.com";
 					var subject = "Thanh toán gói tháng ComfyMovie";
@@ -64,11 +81,12 @@ namespace DACN_N3.Controllers
 				string selectedDate = HttpContext.Session.GetString("SelectedDate");
 				string selectedTime = HttpContext.Session.GetString("SelectedTime");
 				string selectedCinema = HttpContext.Session.GetString("SelectedCinema");
+				string selectedSeat = HttpContext.Session.GetString("SelectedSeat");
 				DateTime selectedDateTime;
-				if (!string.IsNullOrEmpty(selectedDate) && !string.IsNullOrEmpty(selectedTime))
+			if (!string.IsNullOrEmpty(selectedDate) && !string.IsNullOrEmpty(selectedTime))
 				{
 					string combinedDateTime = selectedDate + " " + selectedTime;
-					if (DateTime.TryParse(combinedDateTime, out selectedDateTime))
+					if (DateTime.TryParseExact(combinedDateTime, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out selectedDateTime))
 					{
 						// Tiến hành lưu thông tin vé vào cơ sở dữ liệu
 						if (requestQuery["extraData"] == "MuaVe")
@@ -77,7 +95,7 @@ namespace DACN_N3.Controllers
 							// Lấy số ghế từ request hoặc từ thông tin khác
 							decimal ticketPrice = decimal.Parse(requestQuery["Amount"]);
 							DateTime bookingDate = DateTime.Now;
-							string selectedSeats = HttpContext.Request.Form["SelectedSeats"];
+							string selectedSeats = selectedSeat;
 							string[] seatNumbers = selectedSeats.Split(',');
 							foreach (var seatNumber in seatNumbers)
 							{

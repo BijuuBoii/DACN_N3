@@ -90,7 +90,7 @@ namespace DACN_N3.Controllers
 			return View();
         }
 
-        public IActionResult SelectChair(string date, string time,string cinema)
+        public IActionResult SelectChair(string date, string time,string cinema, string seat)
         {
 			// Kiểm tra nếu có giá trị ngày và giờ
 			/* if (string.IsNullOrEmpty(date) || string.IsNullOrEmpty(time))
@@ -103,27 +103,25 @@ namespace DACN_N3.Controllers
 			HttpContext.Session.SetString("SelectedDate", date);
 			HttpContext.Session.SetString("SelectedTime", time);
 			HttpContext.Session.SetString("SelectedCinema", cinema);
+			HttpContext.Session.SetString("SelectSeat", seat);
 
 			ViewData["SelectedDate"] = date;
             ViewData["SelectedTime"] = time;
             ViewData["SelectedCinema"] = cinema;
+			ViewData["SelectedSeat"] = seat;
 
-            return View(seats);  // Trả về view chọn ghế
+			return View(seats);  // Trả về view chọn ghế
         }
 
-        [HttpPost]
-        public IActionResult SelectChair(CinemaTicket cinemaTicket)
-        {
-            if (ModelState.IsValid)
-            {
-                _movieDbContext.Add(cinemaTicket); // Thêm người dùng mới vào DbContext
-                _movieDbContext.SaveChanges(); // Lưu thay đổi vào cơ sở dữ liệu
-                return RedirectToAction(nameof(Index));
-            }
-            return View(cinemaTicket);
-        }
+		[HttpPost]
+		public IActionResult SaveSelectedSeatsToSession(string selectedSeats)
+		{
+			HttpContext.Session.SetString("SelectedSeats", selectedSeats);
+			return Ok();
+		}
 
-        public IActionResult selectTime()
+
+		public IActionResult selectTime()
         {
             return View();
         }

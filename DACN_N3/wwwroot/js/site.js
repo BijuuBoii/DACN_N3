@@ -30,78 +30,6 @@
             });
         });
     }
-
-   
-
-    //Function to add new movies
-    document.querySelectorAll('.add-movie-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            window.location.href = '/Admin/home/addMovies';
-        });
-    });
-
-    document.querySelectorAll('.movie').forEach(button => {
-        button.addEventListener('click', function () {
-            window.location.href = '/home/movieDetails';
-        });
-    });
-
-    document.querySelectorAll('.buy-ticket-button').forEach(button => {
-        button.addEventListener('click', function () {
-            window.location.href = '/home/selectTime';
-        });
-    });
-
-    document.querySelectorAll('.time').forEach(button => {
-        button.addEventListener('click', function () {
-            window.location.href = `/Home/SelectChair?date=${encodeURIComponent(selectedDate)}&time=${encodeURIComponent(selectedTime)}&cinema=${encodeURIComponent(selectedCinema)}`;
-        });
-    });
-
-    document.querySelectorAll('.save-btn-movies').forEach(button => {
-        button.addEventListener('click', function () {
-            alert("Movie saved successfully!");
-            window.location.href = '/Admin/home/Movies';
-        });
-    });
-
-    
-
-    const heartButton = document.getElementById('heartButton');
-    const heartIcon = heartButton.querySelector('i'); // Lấy biểu tượng trái tim bên trong
-
-    // Thêm sự kiện click để toggle lớp 'active' và đổi từ regular sang solid
-    heartButton.addEventListener('click', function () {
-        heartButton.classList.toggle('active');
-
-        // Toggle giữa các lớp 'fa-regular' và 'fa-solid' cho biểu tượng
-        heartIcon.classList.toggle('fa-regular');
-        heartIcon.classList.toggle('fa-solid');
-    });
-
-
-    let selectedCategories = [];
-
-
-    function selectCategory(element) {
-        const category = element.textContent;
-
-        // Kiểm tra nếu thể loại đã được chọn, bỏ chọn nếu đã được chọn trước
-        if (selectedCategories.includes(category)) {
-            selectedCategories = selectedCategories.filter(item => item !== category);
-            element.classList.remove('selected');
-        } else {
-            // Nếu chưa chọn, thêm vào danh sách thể loại được chọn
-            selectedCategories.push(category);
-            element.classList.add('selected');
-        }
-
-        console.log("Selected categories:", selectedCategories);
-    }
-
-    
-
-    // Function to add new episodes
     document.querySelectorAll('.add-season-btn').forEach(button => {
         button.addEventListener('click', function () {
             const seasonList = this.previousElementSibling;
@@ -148,6 +76,97 @@
             e.target.closest('li').remove();
         }
     });
+   
+
+    //Function to add new movies
+    document.querySelectorAll('.add-movie-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            window.location.href = '/Admin/home/addMovies';
+        });
+    });
+
+    document.querySelectorAll('.movie').forEach(button => {
+        button.addEventListener('click', function () {
+            window.location.href = '/home/movieDetails';
+        });
+    });
+
+    document.querySelectorAll('.buy-ticket-button').forEach(button => {
+        button.addEventListener('click', function () {
+            window.location.href = '/home/selectTime';
+        });
+    });
+
+    document.querySelectorAll('.time').forEach(button => {
+        button.addEventListener('click', function () {
+            window.location.href = `/Home/SelectChair?date=${encodeURIComponent(selectedDate)}&time=${encodeURIComponent(selectedTime)}&cinema=${encodeURIComponent(selectedCinema)}`;
+        });
+    });
+
+    document.querySelectorAll('.save-btn-movies').forEach(button => {
+        button.addEventListener('click', function () {
+            alert("Movie saved successfully!");
+            window.location.href = '/Admin/home/Movies';
+        });
+    });
+
+    document.querySelector("form").addEventListener("submit", async function (e) {
+        e.preventDefault(); // Ngăn form submit ngay lập tức
+
+        // Lấy giá trị ghế đã chọn từ input
+        const selectedSeats = document.getElementById("selected-seats-input").value;
+
+        // Gửi AJAX để lưu vào session
+        await fetch('/Payment/SaveSelectedSeatsToSession', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value // CSRF token
+            },
+            body: JSON.stringify({ selectedSeats: selectedSeats })
+        });
+
+        // Sau khi lưu session xong, submit form
+        this.submit();
+    });
+    
+
+    const heartButton = document.getElementById('heartButton');
+    const heartIcon = heartButton.querySelector('i'); // Lấy biểu tượng trái tim bên trong
+
+    // Thêm sự kiện click để toggle lớp 'active' và đổi từ regular sang solid
+    heartButton.addEventListener('click', function () {
+        heartButton.classList.toggle('active');
+
+        // Toggle giữa các lớp 'fa-regular' và 'fa-solid' cho biểu tượng
+        heartIcon.classList.toggle('fa-regular');
+        heartIcon.classList.toggle('fa-solid');
+    });
+
+
+    let selectedCategories = [];
+
+
+    function selectCategory(element) {
+        const category = element.textContent;
+
+        // Kiểm tra nếu thể loại đã được chọn, bỏ chọn nếu đã được chọn trước
+        if (selectedCategories.includes(category)) {
+            selectedCategories = selectedCategories.filter(item => item !== category);
+            element.classList.remove('selected');
+        } else {
+            // Nếu chưa chọn, thêm vào danh sách thể loại được chọn
+            selectedCategories.push(category);
+            element.classList.add('selected');
+        }
+
+        console.log("Selected categories:", selectedCategories);
+    }
+
+    
+
+    // Function to add new episodes
+    
 
     //Function to close Add Movie Modal
     function closeAddMovieModal() {
