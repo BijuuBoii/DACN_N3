@@ -462,3 +462,11 @@ function selectTime(element) {
         console.log('Selected Cinema: ', selectedCinema);
     }
 }
+
+function updateSelectedSeats() {
+    // Lấy giá trị ghế đã chọn từ #selected-seats
+    var selectedSeats = document.getElementById("selected-seats").innerText;
+
+    // Gán giá trị ghế đã chọn vào input hidden #selected-seats-input
+    document.getElementById("selected-seats-input").value = selectedSeats;
+}
