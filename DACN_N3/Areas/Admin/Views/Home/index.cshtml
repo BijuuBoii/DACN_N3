@@ -4,75 +4,90 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div class="admin-panel">
-    <!-- Sidebar -->
-    
+<div class="main-content">
+    <header>
+        <h1>chào mừng đến với Admin Panel</h1>
+    </header>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <header>
-            <h1>chào mừng đến với Admin Panel</h1>
-        </header>
+    <div class="dt" style="display:flex; justify-content:space-between">
+        <section id="revenue" style="width: 800px">
+            <h2>Doanh Thu Đăng Ký Gói (Năm nay)</h2>
+            <div class="revenue-chart">
+                <!-- Placeholder for Revenue Chart -->
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </section>
 
-        <div class="dt" style="display:flex; justify-content:space-between">
-            <section id="revenue" style="width: 800px">
-                <h2>Doanh Thu Đăng Ký Gói (Năm nay)</h2>
-                <div class="revenue-chart">
-                    <!-- Placeholder for Revenue Chart -->
-                    <img src="~/img/statistic.png" alt="Biểu đồ doanh thu" />
-                </div>
-            </section>
+        <!-- Tổng số doanh thu -->
+        <section id="movies-stat" class="small-stat">
+            <h2>Tổng Số Doanh thu đăng ký gói</h2>
+            <p><strong>@ViewBag.TotalRevenueSub</strong></p>
+        </section>
+        <!-- Tổng số doanh thu -->
+        <section id="movies-stat" class="small-stat">
+            <h2>Tổng Số Doanh thu Bán Vé</h2>
+            <p><strong>@ViewBag.TotalRevenueTicket</strong></p>
+        </section>
+        <!-- Tổng số người dùng -->
+        <section id="users-stat" class="small-stat">
+            <h2>Tổng Số Người Dùng</h2>
+            <p><strong>@ViewBag.TotalUsers</strong></p>
+        </section>
 
-            <!-- Tổng số người dùng -->
-            <section id="movies-stat" class="small-stat">
-                <h2>Tổng Số Doanh thu</h2>
-                <p><strong>2</strong></p>
-            </section>
-            <section id="users-stat" class="small-stat">
-                <h2>Tổng Số Người Dùng</h2>
-                <p><strong>5</strong></p>
-            </section>
-            <section id="movies-stat" class="small-stat">
-                <h2>Tổng Số Phim</h2>
-                <p><strong>2</strong></p>
-            </section>
-        </div>
-        <div class="dt1" style="display:flex; justify-content:space-between">
-            <section id="genres">
-                <h2>Thể Loại Phim</h2>
-                <p>Quản lý các thể loại phim hiện có trên website.</p>
-                <div class="genre-stats">
-                    <ul>
-                        <li><strong>Hành Động:</strong> 1 phim</li>
-                        <li><strong>anime:</strong> 2 phim</li>
-                        <li><strong>Tội phạm:</strong> 1 phim</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Quản lý người dùng -->
-            <section id="users">
-                <h2>Quản Lý Người Dùng</h2>
-                <p>Thông tin về người dùng và các hoạt động của họ trên website.</p>
-                <div class="user-stats">
-                    <div class="stat">
-                        <h3>Người Dùng Đang Hoạt Động</h3>
-                        <p><strong>1</strong> người dùng đang online hiện tại.</p>
-                    </div>
-                    <div class="stat">
-                        <h3>Người Dùng Mới</h3>
-                        <p><strong>0</strong> người dùng mới đã đăng ký trong tháng này.</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-        <!-- Cài đặt -->
-        <section id="settings">
-            <h2>Cài Đặt</h2>
-            <p>Quản lý các thiết lập của website, bao gồm bảo mật, ngôn ngữ, và thông báo.</p>
+        <!-- Tổng số phim -->
+        <section id="movies-stat" class="small-stat">
+            <h2>Tổng Số Phim</h2>
+            <p><strong>@ViewBag.TotalMovies</strong></p>
         </section>
     </div>
+
+    <div class="dt1" style="display:flex; justify-content:space-between">
+        <section id="genres">
+            <h2>Thể Loại Phim</h2>
+            <p>Quản lý các thể loại phim hiện có trên website.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Thể loại</th>
+                        <th>số lượng phim</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var genre in ViewBag.GenresWithMovieCount)
+                    {
+                        <tr>
+                            <td>@genre.GenreName</td>
+                            <td>@genre.MovieCount</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Quản lý người dùng -->
+        <section id="users">
+            <h2>Quản Lý Người Dùng</h2>
+            <p>Thông tin về người dùng và các hoạt động của họ trên website.</p>
+            <div class="user-stats">
+                <div class="stat">
+                    <h3>Người Dùng Đang Hoạt Động</h3>
+                    <p><strong>@ViewBag.ActiveUsers</strong> người dùng đang online hiện tại.</p>
+                </div>
+                <div class="stat">
+                    <h3>Người Dùng Mới</h3>
+                    <p><strong>@ViewBag.NewUsers</strong> người dùng mới đã đăng ký trong tháng này.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Cài đặt -->
+    <section id="settings">
+        <h2>Cài Đặt</h2>
+        <p>Quản lý các thiết lập của website, bao gồm bảo mật, ngôn ngữ, và thông báo.</p>
+    </section>
 </div>
+
 <style>
     .dt .small-stat {
         width: 20%; /* Giảm chiều rộng phần tử này để chiếm ít không gian hơn */
@@ -93,7 +108,7 @@
         }
 
         .dt .small-stat p {
-            font-size: 3.1rem;
+            font-size: 2.1rem;
             font-weight: bold;
         }
 
@@ -195,3 +210,45 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 </style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Lấy dữ liệu từ ViewBag
+        var revenueData = @Html.Raw(Json.Serialize(ViewBag.RevenueData));
+
+        // Kiểm tra dữ liệu
+        console.log(revenueData);
+
+        // Lấy tháng và doanh thu từ dữ liệu
+        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var months = revenueData.map(function (item) { return monthNames[item.Month - 1]; });
+        var revenues = revenueData.map(function (item) { return item.Revenue; });
+
+        // Tạo biểu đồ bằng Chart.js
+        var ctx = document.getElementById('revenueChart').getContext('2d');
+        var revenueChart = new Chart(ctx, {
+            type: 'bar', // Loại biểu đồ (cột)
+            data: {
+                labels: months, // Nhãn tháng
+                datasets: [{
+                    label: 'Revenue (VND)', // Nhãn cho biểu đồ
+                    data: revenues, // Dữ liệu doanh thu theo tháng
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)', // Màu nền cho cột
+                    borderColor: 'rgba(54, 162, 235, 1)', // Màu viền cho cột
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                return value.toLocaleString('vi-VN'); // Định dạng số với dấu phân cách hàng nghìn
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

@@ -19,9 +19,79 @@ namespace DACN_N3.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
 
         }
-		public IActionResult Index()
+        public int GetNewUsersThisMonth()
         {
-            return View();
+            var startOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+
+            var newUsersCount = _movieDbContext.Users
+                .Where(u => u.CreatedDate >= startOfMonth && u.CreatedDate <= endOfMonth)
+                .Count();
+
+            return newUsersCount;
+        }
+        
+        public IActionResult Index()
+        {
+            // Truyền dữ liệu vào ViewBag
+
+            ViewBag.TotalRevenueTicket = 0 + " VND";
+            // Lấy danh sách tất cả các UserSubscription từ cơ sở dữ liệu
+            var userSubscriptions = _movieDbContext.UserSubscriptions.Include(us => us.Subscription).ToList();
+
+            // Tính tổng tiền của tất cả các Subscription
+            decimal totalAmount = 0;
+            foreach (var userSubscription in userSubscriptions)
+            {
+                if (userSubscription.Subscription != null)
+                {
+                    totalAmount += userSubscription.Subscription.Price * (userSubscription.Subscription.Duration);
+                }
+            }
+            string formattedTotalRevenue = totalAmount.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
+            ViewBag.TotalRevenueSub = formattedTotalRevenue + " VND"; // Tổng doanh thu
+            var UserAmount = _movieDbContext.Users.Count();
+            ViewBag.TotalUsers =UserAmount; // Tổng số người dùng
+
+            var MovieAmount = _movieDbContext.Movies.Count();
+            ViewBag.TotalMovies = MovieAmount; // Tổng số phim
+
+            var genresWithMovieCount = _movieDbContext.Genres
+                                       .Select(g => new
+                                       {
+                                           GenreName = g.Name,
+                                           MovieCount = g.Movies.Count()
+                                       })
+                                       .ToList();
+
+            // Lưu vào ViewBag để truyền dữ liệu ra View
+            ViewBag.GenresWithMovieCount = genresWithMovieCount;
+
+
+            // Thông tin người dùng
+            ViewBag.ActiveUsers = 1; // Số người dùng đang hoạt động
+                                     // Lấy số người dùng mới trong tháng
+            var newUsers = GetNewUsersThisMonth();
+            ViewBag.NewUsers = newUsers;
+
+			// Lấy doanh thu từ subscription trong năm nay
+			var currentYear = DateTime.Now.Year;
+
+			var revenueData = _movieDbContext.UserSubscriptions
+									  .Where(us => us.StartDate.HasValue && us.StartDate.Value.Year == currentYear)
+									  .GroupBy(us => us.StartDate.Value.Month) // Nhóm theo tháng
+									  .Select(g => new
+									  {
+										  Month = g.Key,
+										  Revenue = g.Sum(us => us.Subscription.Price) // Tổng doanh thu cho từng tháng
+									  })
+									  .OrderBy(x => x.Month)
+									  .ToList();
+
+			// Lưu vào ViewBag
+			ViewBag.RevenueData = revenueData;
+			return View();
+            
         }
 
 		public IActionResult movies()
