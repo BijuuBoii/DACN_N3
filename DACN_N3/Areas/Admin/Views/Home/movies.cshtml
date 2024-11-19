@@ -6,7 +6,85 @@
     var movies = ViewBag.Movies as List<Movie> ?? new List<Movie>();
 }
 
+<style>
+    table {
+        width: 100%;
+        table-layout: fixed; /* Ensures equal column width */
+    }
 
+    th, td {
+        padding: 10px;
+        text-align: center;
+        word-wrap: break-word;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+        /* Specific column width adjustments */
+        td:nth-child(5), th:nth-child(5) {
+            width: 150px; /* Adjust this value as needed */
+        }
+
+    .image-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+    }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 34px;
+        height: 20px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+        input:checked + .slider:before {
+            transform: translateX(14px);
+        }
+</style>
 <div class="main-content">
     <section id="movies">
         <h2>Phim</h2>
@@ -24,7 +102,7 @@
                     <th>Thời lượng phim</th>
                     <th>Link Phim</th>
                     <th>Chức Năng</th>
-                    <th>Ẩn/Hiện</th>
+                    @*<th>Ẩn/Hiện</th>*@
                 </tr>
             </thead>
             <tbody>
@@ -50,18 +128,18 @@
                         </td>
                         <td><input type="text" name="Title" value="@movie.Title"></td>
                         <td><textarea name="Description">@movie.Description</textarea></td>
-                        <td><input name="Duration" type="number" value="@movie.Duration"></td>
+                        <td><input name="Duration" type="number" value="@movie.Duration" style="width:100px"></td>
                         <td class="seasons">
                             <!-- Seasons List -->
                             <div class="season-list">
-                                    @foreach (var season in movie.Seasons)
+                                    @foreach (var season in movie.Seasons.OrderBy(s=>s.SeasonNumber))
                                     {
                                     <div class="season">
                                         <h4>Mùa @season.SeasonNumber</h4>
                                         <input type="hidden" name="SeasonNumber" value="@season.SeasonNumber">
                                         <div class="episode-list">
                                             <ul>
-                                                    @foreach (var ep in season.Episodes)
+                                                    @foreach (var ep in season.Episodes.OrderBy(e => e.EpisodeNumber))
                                                     {
                                                     <li class="episode">
                                                         Tập @ep.EpisodeNumber:
@@ -83,12 +161,12 @@
                             <button type="submit" name="action" value="save" class="save-btn-movies">Lưu</button>
                             <button type="submit" name="action" value="delete" class="delete-btn">Xóa</button>
                         </td>
-                        <td>
+                        @*<td>
                             <label class="switch">
                                 <input type="checkbox" checked>
                                 <span class="slider round"></span>
                             </label>
-                        </td>
+                        </td>*@
                     </tr>
                 </form>
                     <!-- Additional rows as needed -->

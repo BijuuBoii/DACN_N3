@@ -19,7 +19,11 @@ namespace DACN_N3.Controllers
         public async Task<IActionResult> CreatePaymentMomo(OrderInfoModel model,string seat)
         {
             var response = await _momoService.CreatePaymentMomo(model);
-			HttpContext.Session.SetString("SelectedSeat", seat);
+            if(seat != null)
+            {
+				HttpContext.Session.SetString("SelectedSeat", seat);
+			}
+			
 			return Redirect(response.PayUrl);
 
         }

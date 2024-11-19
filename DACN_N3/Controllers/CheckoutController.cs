@@ -52,7 +52,8 @@ namespace DACN_N3.Controllers
         {
             var response = _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
             var requestQuery = HttpContext.Request.Query;
-            if (requestQuery["errorCode"] == "0")
+			
+			if (requestQuery["errorCode"] != "0")
             {
                 int? userId = HttpContext.Session.GetInt32("userID");
                 string userMail = _movieDbContext.Users.Where(s => s.UserId == userId).Select(s => s.Email).FirstOrDefault().ToString();
@@ -82,8 +83,8 @@ namespace DACN_N3.Controllers
                 string selectedDate = HttpContext.Session.GetString("SelectedDate");
                 string selectedTime = HttpContext.Session.GetString("SelectedTime");
                 string selectedCinema = HttpContext.Session.GetString("SelectedCinema");
-                string selectedSeat = HttpContext.Session.GetString("SelectedSeat");
-                DateTime selectedDateTime;
+				string selectedSeat = HttpContext.Session.GetString("SelectedSeat");
+				DateTime selectedDateTime;
                 if (!string.IsNullOrEmpty(selectedDate) && !string.IsNullOrEmpty(selectedTime))
                 {
                     string combinedDateTime = selectedDate + " " + selectedTime;
@@ -95,9 +96,10 @@ namespace DACN_N3.Controllers
 
                             // Lấy số ghế từ request hoặc từ thông tin khác
                             decimal ticketPrice = decimal.Parse(requestQuery["Amount"]);
+
                             
 
-                            DateTime bookingDate = DateTime.Now;
+							DateTime bookingDate = DateTime.Now;
                             string selectedSeats = selectedSeat;
                             string[] seatNumbers = selectedSeats.Split(',');
 							string ticketPrice1 = _movieDbContext.Seats.Where(s => s.SeatNumber == selectedSeat).Select(s => s.IsVip).FirstOrDefault().ToString();

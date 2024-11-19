@@ -123,20 +123,23 @@ namespace DACN_N3.Areas.Admin.Controllers
                selectedMovie.Title = movie.Title;
                selectedMovie.Description = movie.Description;
                selectedMovie.Duration = movie.Duration;
-                foreach (var phanEntry in listURL.Phan)
+                if(listURL.Phan != null)
                 {
-                    foreach (var tapEntry in phanEntry.Value.Tap)
+                    foreach (var phanEntry in listURL.Phan)
                     {
-                        // Tìm Season tương ứng trong Movie
-                        var season = selectedMovie.Seasons.FirstOrDefault(s => s.SeasonNumber == phanEntry.Key);
-                        if (season != null)
+                        foreach (var tapEntry in phanEntry.Value.Tap)
                         {
-                            // Tìm Episode tương ứng trong Season
-                            var episode = season.Episodes.FirstOrDefault(e => e.EpisodeNumber == tapEntry.Key);
-                            if (episode != null)
+                            // Tìm Season tương ứng trong Movie
+                            var season = selectedMovie.Seasons.FirstOrDefault(s => s.SeasonNumber == phanEntry.Key);
+                            if (season != null)
                             {
-                                // Cập nhật VideoUrl cho Episode
-                                episode.VideoUrl = tapEntry.Value.VideoUrl;
+                                // Tìm Episode tương ứng trong Season
+                                var episode = season.Episodes.FirstOrDefault(e => e.EpisodeNumber == tapEntry.Key);
+                                if (episode != null)
+                                {
+                                    // Cập nhật VideoUrl cho Episode
+                                    episode.VideoUrl = tapEntry.Value.VideoUrl;
+                                }
                             }
                         }
                     }
@@ -156,28 +159,70 @@ namespace DACN_N3.Areas.Admin.Controllers
                 _movieDbContext.SaveChanges();
 
             }
-            else if (action.Contains("addEp"))
-            {
-                // Tách action thành một mảng các phần tử
-                var parts = action.Split(' ');
-                // Lấy số mùa từ phần tử đầu tiên
-                int seasonNumber = int.Parse(parts[1]);
-                // Tìm season cần thêm tập
-                var season = selectedMovie.Seasons.FirstOrDefault(s => s.SeasonNumber == seasonNumber);
-                if (season != null)
-                {
-                    var newEpisode = new Episode
-                    {
-                        EpisodeNumber = (season.Episodes.Max(e => (int?)e.EpisodeNumber) ?? 0) + 1,
-                        VideoUrl = "",
-                        Title = "Tập " + (season.Episodes.Max(e => (int?)e.EpisodeNumber) ?? 0) + 1
+			else if (action.Contains("addEp"))
+			{
+				// Tách action thành một mảng các phần tử
+				var parts = action.Split(' ');
+				// Lấy số mùa từ phần tử đầu tiên
+				int seasonNumber = int.Parse(parts[1]);
+				// Tìm season cần thêm tập
+				var season = selectedMovie.Seasons.FirstOrDefault(s => s.SeasonNumber == seasonNumber);
+				if (season != null)
+				{
+					// Tìm số tập bị thiếu
+					var existingEpisodes = season.Episodes.Select(e => e.EpisodeNumber).OrderBy(e => e).ToList();
+                    int missingEpisodeNumber;
+					if (!existingEpisodes.Any())
+					{
+						missingEpisodeNumber = 1; // Tập đầu tiên
+					}
+					else
+					{
+						missingEpisodeNumber = Enumerable.Range(1, existingEpisodes.Max())
+							.Except(existingEpisodes)
+							.FirstOrDefault();
 
-                    };
-                    season.Episodes.Add(newEpisode);
-                    _movieDbContext.SaveChanges();
-                }
-            }
-            else if (action.StartsWith("deleteEp"))
+						if (missingEpisodeNumber == 0)
+						{
+							missingEpisodeNumber = existingEpisodes.Max() + 1;
+						}
+					}
+					if (missingEpisodeNumber == 0)
+					{
+						// Nếu không có tập nào bị thiếu, gán giá trị mặc định (ví dụ: tập tiếp theo)
+						missingEpisodeNumber = existingEpisodes.Max() + 1;
+					}
+
+					// Nếu có tập bị thiếu, thêm tập đó
+					if (missingEpisodeNumber != 0)
+					{
+						var newEpisode = new Episode
+						{
+							EpisodeNumber = missingEpisodeNumber,
+							VideoUrl = "",
+							Title = "Tập " + missingEpisodeNumber
+						};
+						season.Episodes.Add(newEpisode);
+					}
+					else
+					{
+						// Nếu không có tập bị thiếu, thêm tập kế tiếp
+						var newEpisode = new Episode
+						{
+							EpisodeNumber = existingEpisodes.Max() + 1,
+							VideoUrl = "",
+							Title = "Tập " + (existingEpisodes.Max() + 1)
+						};
+						season.Episodes.Add(newEpisode);
+					}
+
+					// Sắp xếp lại danh sách tập theo số thứ tự
+					season.Episodes = season.Episodes.OrderBy(e => e.EpisodeNumber).ToList();
+					// Lưu thay đổi
+					_movieDbContext.SaveChanges();
+				}
+			}
+			else if (action.StartsWith("deleteEp"))
             {
                 // Tách action thành một mảng các phần tử
                 var parts = action.Split(' ');

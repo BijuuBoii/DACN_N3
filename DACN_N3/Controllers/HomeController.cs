@@ -43,34 +43,35 @@ namespace DACN_N3.Controllers
             ViewBag.RandomMovies = randomMovies;
 
             var topMovies = _movieDbContext.Movies
-                            .Include(m => m.Reviews)
-                            .Where(m => m.Reviews.Any(r => r.Rating.HasValue))  // Lọc phim có đánh giá
-                            .Select(m => new
-                            {
-                                MovieId = m.MovieId,
-                                Title = m.Title,
-                                Poster = m.Poster,
-                                Reviews = m.Reviews
-                            })
-                            .AsEnumerable()  // Chuyển về client để tính toán trung bình
-                            .Select(m => new
-                            {
-                                m.MovieId,
-                                m.Title,
-                                m.Poster,
-                                AverageRating = m.Reviews
-                                                    .Where(r => r.Rating.HasValue)
-                                                    .GroupBy(r => r.UserId)
-                                                    .Average(g => g.Average(r => r.Rating.Value))  // Tính trung bình cho mỗi user
-                            })
-                            .OrderByDescending(m => m.AverageRating)  // Sắp xếp theo điểm trung bình
-                            .Take(10)  // Lấy top 10 phim
-                            .ToList();
+     .Include(m => m.Reviews)
+     .Select(m => new
+     {
+         MovieId = m.MovieId,
+         Title = m.Title,
+         Poster = m.Poster,
+         Reviews = m.Reviews  // Include reviews data for client-side calculation
+     })
+     .AsEnumerable()  // Switch to client-side execution
+     .Select(m => new
+     {
+         m.MovieId,
+         m.Title,
+         m.Poster,
+         AverageRating = m.Reviews
+             .Where(r => r.Rating.HasValue)
+             .GroupBy(r => r.UserId)
+             .Select(g => g.Average(r => r.Rating.Value))
+             .DefaultIfEmpty(0)  // Default to 0 if no ratings
+             .Average()  // Compute the average of the group averages (or 0 if no ratings)
+     })
+     .OrderByDescending(m => m.AverageRating)  // Sort by the average rating (or 0 if no reviews)
+     .Take(10)  // Take top 10 movies
+     .ToList();
 
             // Chuyển dữ liệu sang ViewModel hoặc ViewBag
             ViewBag.TopMovies = topMovies;
 
-            return View(movies);
+			return View(movies);
         }
 		[HttpGet]
 		public IActionResult Search(string keyword)

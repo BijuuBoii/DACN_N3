@@ -77,8 +77,8 @@
                 <div class="btn-group">
                     <select name="seasonNumber" class="form-select" onchange="this.form.submit()">
                         <option value="">Chọn mùa</option>
-                        @foreach(var season in Seasons)
-                        {
+						@foreach (var season in Seasons.OrderBy(s => s.SeasonNumber))
+						{
 							@if(season.SeasonNumber == selectedSeasonNumber)
 							{
 								<option value="@season.SeasonNumber" selected>Mùa @season.SeasonNumber</option>
@@ -100,6 +100,7 @@
 					.Where(i => i.SeasonNumber == ViewBag.SeasonNumber)
 					.Select(i => i.SeasonId)
 					.FirstOrDefault())
+					.OrderBy(e => e.EpisodeNumber)
 					.ToList())
 			{
 				<button type="button" class="btn btn-light ep"
